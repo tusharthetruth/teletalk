@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/non_zangi_button_invite_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2.0"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/call_button_circle_transp"
+            android:contentDescription="Globus Tech Call"
+            android:scaleType="centerCrop"
+            android:src="@drawable/free_call_btn"
+            android:tint="#99ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minLines="2"
+            android:text="Globus Tech Call"
+            android:textColor="#ffcccccc"
+            android:textSize="12.0sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2.0"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/call_button_circle_transp"
+            android:contentDescription="Video"
+            android:scaleType="centerCrop"
+            android:src="@drawable/free_video_btn"
+            android:tint="#99ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="Video"
+            android:textColor="#ffcccccc"
+            android:textSize="12.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/short_number_invite_chat"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2.0"
+        android:background="@drawable/list_item_or_button_click_riple_hover"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/call_button_circle_transp"
+            android:contentDescription="Chat"
+            android:scaleType="centerCrop"
+            android:src="@drawable/free_message_btn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minLines="2"
+            android:text="Chat Now"
+            android:textColor="#ff4f5460"
+            android:textSize="12.0sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="2.0"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="Globus Tech Out"
+            android:scaleType="centerCrop"
+            android:src="@drawable/zangi_out_btn"
+            android:tint="#99ffffff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minLines="2"
+            android:text="Globus Tech Out"
+            android:textColor="#ffcccccc"
+            android:textSize="12.0sp" />
+    </LinearLayout>
+</LinearLayout>

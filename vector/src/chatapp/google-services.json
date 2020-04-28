@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "478891785126",
+    "firebase_url": "https://call-home-bf3ee.firebaseio.com",
+    "project_id": "call-home-bf3ee",
+    "storage_bucket": "call-home-bf3ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478891785126:android:d25f9a9892eaaddb6c6d67",
+        "android_client_info": {
+          "package_name": "fr.callhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478891785126-gaqlkmphmmjpbm65qgkk29qe8itiqgar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_xRX5P7K6TjaLvjNWoY6hj9NIpnXdzrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478891785126-gaqlkmphmmjpbm65qgkk29qe8itiqgar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
