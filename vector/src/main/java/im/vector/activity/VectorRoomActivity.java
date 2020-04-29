@@ -1507,7 +1507,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 searchInRoomMenuItem.setVisible(!mRoom.isEncrypted());
             }
             if (useMatrixAppsMenuItem != null) {
-                useMatrixAppsMenuItem.setVisible(hasIntegrationManager && TextUtils.isEmpty(mEventId) && null == sRoomPreviewData);
+//                useMatrixAppsMenuItem.setVisible(hasIntegrationManager && TextUtils.isEmpty(mEventId) && null == sRoomPreviewData);
+                useMatrixAppsMenuItem.setVisible(false);
             }
             if (resendUnsentMenuItem != null) {
                 resendUnsentMenuItem.setVisible(mHasUnsentEvents);
@@ -3185,7 +3186,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
 
         mActionBarHeaderActiveMembersTextView.setText(text);
-        mActionBarHeaderActiveMembersLayout.setVisibility(View.VISIBLE);
+        mActionBarHeaderActiveMembersLayout.setVisibility(View.GONE);
+//        mActionBarHeaderActiveMembersLayout.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -4034,7 +4036,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
     }
 
-    // notifications area
+    // notifications areaanchor_fragment_messages
     // increase the clickable area to open the keyboard.
     // when there is no text, it is quite small and some user thought the edition was disabled.
     @OnClick(R.id.room_sending_message_layout)

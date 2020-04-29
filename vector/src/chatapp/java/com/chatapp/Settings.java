@@ -29,20 +29,20 @@ public class Settings {
     public static boolean useJitsiConfCall = true;
     public static boolean useBatteryOptimisation = true;
 
-    public static final String SIPServer = "billing.teletalkapps.com:5060";
-    public static final String CHECK_DEVICE_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/check_device.php";
-    public static final String UPDATE_DEVICE_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/update_device.php";
-    public static final String TRACK_GET_DEVICELIST_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/get_device_list.php";
-    public static final String GET_DEVICEINFO_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/get_device_location.php";
-    public static final String OTP_REQUEST_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/otp_send_message.php";
-    public static final String OTP_VERIFY_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/otp_secure_msg.php";
-    public static final String CONTACTS_SYNC_API = "http://billing.teletalkapps.com/vibgyor_im/billing_auto_register/sync_contacts.php";
-    public static final String BALANCE_API = "http://billing.teletalkapps.com/vibgyor_im/billing_balance/get_balance.php";
-    public static final String RATES_API = "http://billing.teletalkapps.com/vibgyor_im/billing_rates/get_rates.php";
-    public static final String BALANCE_TRANSFER_API = "http://billing.teletalkapps.com/vibgyor_im/billing_balance_transfer_balance/balance_transfer.php";
-    public static final String BALANCE_TRANSFER_HISTORY = "http://billing.teletalkapps.com/vibgyor_im/billing_balance_transfer_balance/balance_transfer_report.php";
-    public static final String VOUCHER_RECHARGE = "http://billing.teletalkapps.com/vibgyor_im/billing_voucher_recharge/refill_dialer_voucher.php";
-    public static final String ENC_KEY = "r1$%&gsh*167gh78";
+    public static final String SIPServer = "51.178.79.179";
+    public static final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
+    public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
+    public static final String TRACK_GET_DEVICELIST_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_list.php";
+    public static final String GET_DEVICEINFO_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_location.php";
+    public static final String OTP_REQUEST_API = "https://billing.viido.it/crm/viido_api/billing_auto_register/otp_send.php";
+    public static final String OTP_VERIFY_API = "https://billing.viido.it/crm/viido_api/billing_auto_register/otp_secure.php";
+    public static final String CONTACTS_SYNC_API = "https://billing.viido.it/crm/viido_api/billing_auto_register/sync_contacts.php";
+    public static final String BALANCE_API = "https://billing.viido.it/crm/viido_api/billing_balance/get_balance.php";
+    public static final String RATES_API = "https://billing.viido.it/crm/viido_api/billing_rates/get_rates.php";
+    public static final String BALANCE_TRANSFER_API = "https://billing.viido.it/crm/viido_api/billing_balance_transfer_balance/balance_transfer_org.php";
+    public static final String BALANCE_TRANSFER_HISTORY = "https://billing.viido.it/crm/viido_api/billing_balance_transfer_balance/balance_transfer_report.php";
+    public static final String VOUCHER_RECHARGE = "https://billing.viido.it/crm/viido_api/billing_voucher_recharge/refill_dialer_voucher.php";
+    public static final String ENC_KEY = "hrm@rm7$#ueqdstj";
 
     public static String encrypt(String input, String key) {
         byte[] crypted = null;

@@ -63,7 +63,7 @@
     <string name="local_address_book_header">دفتر العناوين المحلي</string>
     <string name="matrix_only_filter">متراسلو «ماترِكس» فقط</string>
     <string name="no_conversation_placeholder">لا محادثات</string>
-    <string name="no_contact_access_placeholder">لم تسمح لِ‍ Riot بمطالعة متراسليك المحليين</string>
+    <string name="no_contact_access_placeholder">لم تسمح لِ‍ Viido بمطالعة متراسليك المحليين</string>
     <string name="no_result_placeholder">لا نتائج</string>
 
     <string name="rooms_header">الغرف</string>
@@ -558,20 +558,20 @@
     <string name="call_error_ice_failed">فشل اتصال الوسائط</string>
     <string name="call_error_answered_elsewhere">رُدّ على المكالة في مكان آخر</string>
 
-    <string name="permissions_rationale_msg_storage">يحتاج Riot تصريحا منك للوصول إلى مكتبتي الصور والفديو لإرسال المرفقات وحفظها.
+    <string name="permissions_rationale_msg_storage">يحتاج Viido تصريحا منك للوصول إلى مكتبتي الصور والفديو لإرسال المرفقات وحفظها.
 
 رجاءً اسمح بالوصول في المنبثقة التالية لتقدر على إرسال الملفات من هاتفك.</string>
-    <string name="permissions_rationale_msg_camera">يحتاج Riot تصريحا منك للوصول إلى الكمرة لأخذ الصور وللمكالمات الصورية.</string>
-    <string name="permissions_rationale_msg_record_audio">يحتاج Riot تصريحا منك للوصول إلى المِكرفون لإجراء المكالمات الصوتية.</string>
+    <string name="permissions_rationale_msg_camera">يحتاج Viido تصريحا منك للوصول إلى الكمرة لأخذ الصور وللمكالمات الصورية.</string>
+    <string name="permissions_rationale_msg_record_audio">يحتاج Viido تصريحا منك للوصول إلى المِكرفون لإجراء المكالمات الصوتية.</string>
     <string name="permissions_rationale_msg_record_audio_explanation">
 
 رجاءً اسمح بالنفاذ في المنبثقة الآتية لتتمكن من إجراء محادثة.</string>
-    <string name="permissions_rationale_msg_camera_and_audio">يحتاج Riot تصريحا منك للوصول إلى الكمرة والمِكرفون لإجراء المكالمات الصورية.
+    <string name="permissions_rationale_msg_camera_and_audio">يحتاج Viido تصريحا منك للوصول إلى الكمرة والمِكرفون لإجراء المكالمات الصورية.
 
 رجاءً اسمح بالوصول في المنبثقة التالية لتقدر على إرسال إجراء المكالمات الصورية.</string>
-    <string name="permissions_rationale_msg_contacts">يحتاج Riot تصريحا منك للوصول إلى دفتر العناوين للعثور على مستخدمي ماترِكس الآخرين وذلك حسب البريد الإلكتروني ورقم الهاتف.
+    <string name="permissions_rationale_msg_contacts">يحتاج Viido تصريحا منك للوصول إلى دفتر العناوين للعثور على مستخدمي ماترِكس الآخرين وذلك حسب البريد الإلكتروني ورقم الهاتف.
 
-رجاءً اسمح بالوصول في المنبثقة التالية لتستكشف مستخدميك في دفتر العناوين من Riot.</string>
+رجاءً اسمح بالوصول في المنبثقة التالية لتستكشف مستخدميك في دفتر العناوين من Viido.</string>
     <string name="media_slider_saved">حُفظت</string>
     <string name="preview">عايِن</string>
     <string name="room_sync_in_progress">يُزامن…</string>

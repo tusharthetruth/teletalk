@@ -853,7 +853,7 @@
 
     <string name="settings_opt_in_of_analytics">Изпращане на статистически данни</string>
     <string name="settings_opt_in_of_analytics_summary">Riot събира анонимни статистики за да ни помогне да подобрим приложението.</string>
-    <string name="settings_opt_in_of_analytics_prompt">Моля, включете изпращането на статистики за да ни помогнете да подобрим Riot.</string>
+    <string name="settings_opt_in_of_analytics_prompt">Моля, включете изпращането на статистики за да ни помогнете да подобрим Viido.</string>
     <string name="settings_opt_in_of_analytics_ok">Да, искам да помогна!</string>
 
     <string name="widget_integration_missing_parameter">Липсва задължителен параметър.</string>
@@ -1011,7 +1011,7 @@
     <string name="auth_accept_policies">Моля прегледайте и приемете политиките на сървъра:</string>
 
     <string name="settings_call_category">Обаждания</string>
-    <string name="settings_call_ringtone_use_riot_ringtone">Използвай мелодията по подразбиране на Riot за входящи повиквания</string>
+    <string name="settings_call_ringtone_use_riot_ringtone">Използвай мелодията по подразбиране на Viido за входящи повиквания</string>
     <string name="settings_call_ringtone_title">Мелодия за входящо повикване</string>
     <string name="settings_call_ringtone_dialog_title">Избор на мелодия за обаждания:</string>
 
@@ -1066,12 +1066,12 @@
     <string name="settings_troubleshoot_test_device_settings_title">Настройки на устройството.</string>
     <string name="settings_troubleshoot_test_device_settings_success">Уведомленията са разрешени за това устройство.</string>
     <string name="settings_troubleshoot_test_device_settings_failed">Уведомленията са забранени за това устройство.
-Моля, проверете настройките на Riot.</string>
+Моля, проверете настройките на Viido.</string>
     <string name="settings_troubleshoot_test_device_settings_quickfix">Разреши</string>
 
     <string name="settings_troubleshoot_test_play_services_title">Проверка на Google Play услугите</string>
     <string name="settings_troubleshoot_test_play_services_success">APK пакет за Google Play услугите е наличен и с актуална версия.</string>
-    <string name="settings_troubleshoot_test_play_services_failed">Riot използва Google Play услугите за да доставя известия за съобщения, но изглежда те не са конфигурирани правилно:
+    <string name="settings_troubleshoot_test_play_services_failed">Viido използва Google Play услугите за да доставя известия за съобщения, но изглежда те не са конфигурирани правилно:
 %1$s</string>
     <string name="settings_troubleshoot_test_play_services_quickfix">Поправи Google Play услугите</string>
 

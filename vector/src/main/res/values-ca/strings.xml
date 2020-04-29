@@ -954,8 +954,8 @@ Tingueu en compte que aquesta acció reiniciarà l\'aplicació i pot trigar una 
     <string name="startup_notification_privacy_button_other">Escolliu una altra opció</string>
 
     <string name="settings_opt_in_of_analytics">Envia dades d\'anàlisi</string>
-    <string name="settings_opt_in_of_analytics_summary">Riot recopila dades d\'anàlisi anònimes per tal de permetre\'ns millorar l\'aplicació.</string>
-    <string name="settings_opt_in_of_analytics_prompt">Si us plau, activeu les dades d\'anàlisi per ajudar-nos a millorar Riot.</string>
+    <string name="settings_opt_in_of_analytics_summary">Viido recopila dades d\'anàlisi anònimes per tal de permetre\'ns millorar l\'aplicació.</string>
+    <string name="settings_opt_in_of_analytics_prompt">Si us plau, activeu les dades d\'anàlisi per ajudar-nos a millorar Viido.</string>
     <string name="settings_opt_in_of_analytics_ok">Sí, vull ajudar!</string>
 
     <string name="settings_without_flair">No sou ara mateix membre de cap comunitat.</string>
@@ -1040,7 +1040,7 @@ Tingueu en compte que aquesta acció reiniciarà l\'aplicació i pot trigar una 
     <string name="accept">Acceptar</string>
 
     <string name="settings_call_category">Trucada</string>
-    <string name="settings_call_ringtone_use_riot_ringtone">Useu el to de Riot per defecte per les trucades entrants</string>
+    <string name="settings_call_ringtone_use_riot_ringtone">Useu el to de Viido per defecte per les trucades entrants</string>
     <string name="settings_call_ringtone_title">To de trucada entrant</string>
     <string name="settings_call_ringtone_dialog_title">Escolliu el to per les trucades:</string>
 

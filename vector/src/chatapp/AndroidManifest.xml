@@ -2,10 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="im.vector"
-    android:installLocation="auto">
+    android:installLocation="auto"
+    tools:ignore="LockedOrientationActivity">
 
     <application>
-        <!-- Firebase components -->
+        <activity android:name="com.chatapp.ShowDeviceInMap"/>
+        <activity android:name="com.chatapp.TrackDeviceList" />
+        <activity android:name="com.chatapp.SettingsWebActivity" />
+        <activity android:name="com.chatapp.TransferHistoryAcitivty" />
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
             android:value="true" />
@@ -15,7 +19,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
 
         <activity
             android:name="com.chatapp.ChatMainActivity"
@@ -42,6 +45,7 @@
             android:name="com.chatapp.RoomCreationActivity"
             android:label=""
             android:screenOrientation="portrait" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

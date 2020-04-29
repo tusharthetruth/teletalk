@@ -97,13 +97,14 @@
                                 android:id="@+id/messagesAdapter_body"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="start"
+                                android:layout_gravity="end"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginLeft="4dp"
                                 android:layout_toEndOf="@id/message_adapter_e2e_icon"
                                 android:layout_toRightOf="@id/message_adapter_e2e_icon"
                                 android:textIsSelectable="false"
                                 android:textSize="14sp"
+                                android:gravity="end"
                                 tools:text="A body www.example.org" />
 
                             <TextView
@@ -113,8 +114,8 @@
                                 android:layout_below="@+id/messagesAdapter_body"
                                 android:layout_alignStart="@+id/messagesAdapter_body"
                                 android:layout_alignLeft="@+id/messagesAdapter_body"
-                                android:layout_gravity="start"
-                                android:gravity="start"
+                                android:layout_gravity="end"
+                                android:gravity="end"
                                 android:text="@string/e2e_re_request_encryption_key"
                                 android:textIsSelectable="false"
                                 android:textSize="14sp" />

@@ -16,24 +16,44 @@
 
 package com.chatapp;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.TypedValue;
+import android.os.Environment;
+import android.provider.ContactsContract;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavArgument;
+import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -54,31 +74,15 @@ import com.chatapp.util.ContactsSync;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavArgument;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavGraph;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
-
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.IMXCall;
-import org.matrix.androidsdk.core.Log;
 import org.matrix.androidsdk.crypto.data.MXDeviceInfo;
 import org.matrix.androidsdk.crypto.data.MXUsersDevicesMap;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.HashMap;
@@ -94,16 +98,8 @@ import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.MXCActionBarActivity;
 import im.vector.activity.VectorAppCompatActivity;
 import im.vector.activity.VectorCallViewActivity;
-import im.vector.activity.VectorGroupDetailsActivity;
-import im.vector.activity.VectorHomeActivity;
-import im.vector.activity.VectorMemberDetailsActivity;
 import im.vector.activity.VectorSettingsActivity;
-import im.vector.fragments.VectorRecentsListFragment;
-import im.vector.fragments.signout.SignOutViewModel;
 import im.vector.push.PushManager;
-import im.vector.receiver.VectorUniversalLinkReceiver;
-import im.vector.tools.VectorUncaughtExceptionHandler;
-import im.vector.util.BugReporter;
 import im.vector.util.CallsManager;
 import im.vector.util.PermissionsToolsKt;
 import im.vector.util.PreferencesManager;
@@ -111,10 +107,11 @@ import im.vector.util.VectorUtils;
 import im.vector.view.VectorCircularImageView;
 import im.vector.view.VectorPendingCallView;
 
-import static im.vector.activity.VectorHomeActivity.BROADCAST_ACTION_STOP_WAITING_VIEW;
+import static com.chatapp.Settings.asHex;
+import static com.chatapp.Settings.encrypt;
 
 
-public class ChatMainActivity extends VectorAppCompatActivity {
+public class ChatMainActivity extends VectorAppCompatActivity implements View.OnClickListener {
     public static String RegStatus;
     public static String Username;
     public static String SipUsername;
@@ -125,6 +122,7 @@ public class ChatMainActivity extends VectorAppCompatActivity {
     private static final String ARG_MATRIX_ID = "MatrixMessageListFragment.ARG_MATRIX_ID";
     MXSession mSession;
     Bundle bundle;
+    private Context context;
 
     TextView txtbalance;
     String UserCurrency;
@@ -133,15 +131,19 @@ public class ChatMainActivity extends VectorAppCompatActivity {
 
     VectorPendingCallView mVectorPendingCallView;
     private static ChatMainActivity sharedInstance = null;
+    ProgressBar progressBar;
+
+    private ProgressBar balancePg;
 
     @Override
     public int getLayoutRes() {
         return R.layout.activity_chat_main;
     }
+
     @Override
     public void initUiAndData() {
         //super.initUiAndData();
-
+        context = this;
         if (CommonActivityUtils.shouldRestartApp(this)) {
             CommonActivityUtils.restartApp(this);
             return;
@@ -151,7 +153,7 @@ public class ChatMainActivity extends VectorAppCompatActivity {
             return;
         }
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sharedInstance = this;
         mVectorPendingCallView = findViewById(R.id.listView_pending_callview);
@@ -179,20 +181,19 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         mSession = Matrix.getInstance(this).getDefaultSession();
         bundle = new Bundle();
         bundle.putString(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
-        bundle.putString(ARG_MATRIX_ID,mSession.getMyUserId());
+        bundle.putString(ARG_MATRIX_ID, mSession.getMyUserId());
 
-        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this,PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
             new AsyncTask<Void, Void, Void>() {
 
                 @Override
-                protected Void doInBackground( Void... voids ) {
+                protected Void doInBackground(Void... voids) {
                     ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
                     contactsSync.SyncContacts(true);
                     return null;
                 }
             }.execute();
         }
-
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -206,13 +207,13 @@ public class ChatMainActivity extends VectorAppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.drawer_menu);
-        NavigationUI.setupWithNavController(toolbar,navController,drawer);
+        NavigationUI.setupWithNavController(toolbar, navController, drawer);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId()==R.id.nav_profile){
-                    startActivity(new Intent(ChatMainActivity.this, VectorSettingsActivity.class));
-                }
+//                if (item.getItemId()==R.id.nav_profile){
+//                    startActivity(new Intent(ChatMainActivity.this, VectorSettingsActivity.class));
+//                }
                 return false;
             }
         });
@@ -220,7 +221,7 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         NavGraph navGraph = navController.getGraph();
         navGraph.addArgument(MXCActionBarActivity.EXTRA_MATRIX_ID, new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
         navGraph.addArgument(ARG_MATRIX_ID, new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
-        navGraph.addArgument("VectorRecentsListFragment.ARG_MATRIX_ID",new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
+        navGraph.addArgument("VectorRecentsListFragment.ARG_MATRIX_ID", new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
         navGraph.addArgument("VectorRecentsListFragment.ARG_LAYOUT_ID", new NavArgument.Builder().setDefaultValue(R.layout.fragment_vector_recents_list).build());
         navController.setGraph(navGraph);
 
@@ -232,19 +233,25 @@ public class ChatMainActivity extends VectorAppCompatActivity {
 
         View header = navigationView.getHeaderView(0);
 
-        txtbalance = (TextView)header.findViewById(R.id.txtBalance);
-        txtDisplayName = (TextView)header.findViewById(R.id.txtDisplayName);
-        profileImge = header.findViewById(R.id.imgProfile);
-        VectorUtils.loadUserAvatar(this, mSession,profileImge,mSession.getMyUser());
+        balancePg = findViewById(R.id.progress_balance);
+        progressBar = findViewById(R.id.progress_balance);
+        txtbalance = (TextView) findViewById(R.id.balance);
+        txtDisplayName = (TextView) findViewById(R.id.txtDisplayName);
+        profileImge = findViewById(R.id.imgProfile);
+        VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
         txtDisplayName.setText(mSession.getMyUser().displayname);
-        TextView txtPhoneNo = header.findViewById(R.id.txtPhoneNo);
+        TextView txtPhoneNo = findViewById(R.id.txtPhoneNo);
         String[] tmp = mSession.getMyUserId().split("@");
         tmp = tmp[1].split(":");
         txtPhoneNo.setText(tmp[0]);
 
+
         GetBalance();
+        txtbalance.setOnClickListener(this);
+        setMenuClick();
 
     }
+
 
     public static ChatMainActivity getInstance() {
         return sharedInstance;
@@ -316,8 +323,10 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         mVectorPendingCallView.checkPendingCall();
 
         checkNotificationPrivacySetting();
+        VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -361,57 +370,6 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         }
     }
 
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_main);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        mSession = Matrix.getInstance(this).getDefaultSession();
-        bundle = new Bundle();
-        bundle.putString(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
-        bundle.putString(ARG_MATRIX_ID,mSession.getMyUserId());
-
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_recent, R.id.navigation_contacts)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.drawer_menu);
-        NavigationUI.setupWithNavController(toolbar,navController,drawer);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Toast.makeText(ChatMainActivity.this, item.getTitle().toString(), Toast.LENGTH_SHORT).show();
-                drawer.closeDrawer(GravityCompat.START);
-                return false;
-            }
-        });
-
-       NavGraph navGraph = navController.getGraph();
-       navGraph.addArgument(MXCActionBarActivity.EXTRA_MATRIX_ID, new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
-       navGraph.addArgument(ARG_MATRIX_ID, new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
-        navGraph.addArgument("VectorRecentsListFragment.ARG_MATRIX_ID",new NavArgument.Builder().setDefaultValue(mSession.getMyUserId()).build());
-        navGraph.addArgument("VectorRecentsListFragment.ARG_LAYOUT_ID", new NavArgument.Builder().setDefaultValue(R.layout.fragment_vector_recents_list).build());
-       navController.setGraph(navGraph);
-
-        setWizardId();
-        startSipService();
-        long accountId = 1;
-        account = SipProfile.getProfileFromDbId(this, accountId, DBProvider.ACCOUNT_FULL_PROJECTION);
-        saveAccount(wizardId);
-
-    }
-    */
 
     private void startSipService() {
         Thread t = new Thread("StartSip") {
@@ -420,8 +378,7 @@ public class ChatMainActivity extends VectorAppCompatActivity {
                 serviceIntent.putExtra(SipManager.EXTRA_OUTGOING_ACTIVITY, new ComponentName(ChatMainActivity.this, ChatMainActivity.class));
                 try {
                     startService(serviceIntent);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -451,8 +408,8 @@ public class ChatMainActivity extends VectorAppCompatActivity {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        SipUsername = settings.getString("Username","");
-        SipPassword = settings.getString("Password","");
+        SipUsername = settings.getString("Username", "");
+        SipPassword = settings.getString("Password", "");
         Username = SipUsername;
 
         PreferencesWrapper prefs = new PreferencesWrapper(
@@ -506,8 +463,8 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         try {
             SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(ChatMainActivity.this);
 
-            final String cust_id = Settings.asHex(Settings.encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
-            final String cust_pass = Settings.asHex(Settings.encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
+            final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
+            final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
 
 
             String url = Settings.BALANCE_API;
@@ -517,15 +474,15 @@ public class ChatMainActivity extends VectorAppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     try {
-
+                        balancePg.setVisibility(View.GONE);
                         response = response.trim();
                         JSONObject json = new JSONObject(response);
                         if (!json.isNull("credit")) {
                             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-                            UserCurrency = json.getString("currency").substring(0,3);
+                            UserCurrency = json.getString("currency").substring(0, 3);
                             format.setCurrency(Currency.getInstance(UserCurrency));
                             final String balance = format.format(json.getLong("credit"));
-                            if (ChatMainActivity.this!=null) {
+                            if (ChatMainActivity.this != null) {
                                 ChatMainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -534,7 +491,7 @@ public class ChatMainActivity extends VectorAppCompatActivity {
                                 });
                             }
                         } else {
-                            if (ChatMainActivity.this!=null) {
+                            if (ChatMainActivity.this != null) {
                                 ChatMainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -544,8 +501,9 @@ public class ChatMainActivity extends VectorAppCompatActivity {
                             }
                         }
                     } catch (Exception e) {
+                        balancePg.setVisibility(View.GONE);
                         e.printStackTrace();
-                        if (ChatMainActivity.this!=null) {
+                        if (ChatMainActivity.this != null) {
                             ChatMainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -558,8 +516,9 @@ public class ChatMainActivity extends VectorAppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    balancePg.setVisibility(View.GONE);
                     final VolleyError error1 = error;
-                    if (ChatMainActivity.this!=null) {
+                    if (ChatMainActivity.this != null) {
                         ChatMainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -591,6 +550,582 @@ public class ChatMainActivity extends VectorAppCompatActivity {
         }
 
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.balance: {
+                txtbalance.setText("");
+                balancePg.setVisibility(View.VISIBLE);
+                GetBalance();
+            }
+        }
+    }
+
+
+    private void setMenuClick() {
+        findViewById(R.id.why).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent myIntent = new Intent(ChatMainActivity.this, SettingsWebActivity.class);
+                    myIntent.putExtra("Bundle", "Why");
+                    startActivity(myIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(ChatMainActivity.this, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+                dialogBuilder.setTitle("Logout");
+                dialogBuilder.setMessage("Are you sure to Logout the app");
+                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        CommonActivityUtils.logout(ChatMainActivity.this, true);
+                    }
+                });
+                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+            }
+        });
+
+      findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String shareBody = "Join me on Viido, this free video chat and messaging app is amazing. I like it! https://viido.it";
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Viido Invite");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
+            }
+        });
+
+
+      findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, VectorSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+//      findViewById(R.id.track_device).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                CharSequence options[] = new CharSequence[]{"View My Devices", "Track Other Phone"};
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setTitle(R.string.title_tracking);
+//                builder.setItems(options, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if (which == 0) {
+//                            final Intent intent = new Intent(context, TrackDeviceList.class);
+//                            context.startActivity(intent);
+//                        } else {
+//                            LayoutInflater factory = LayoutInflater.from(context);
+//
+//                            final View textEntryView = factory.inflate(R.layout.dialog_track_phone, null);
+//
+//                            final EditText track_phone = (EditText) textEntryView.findViewById(R.id.track_phone);
+//                            final EditText track_code = (EditText) textEntryView.findViewById(R.id.track_code);
+//
+//                            final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+//                            alert.setIcon(R.drawable.viido_logo_transparent).setTitle("Tracking").setView(textEntryView).setPositiveButton("Track",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog,
+//                                                            int whichButton) {
+//                                            String Username = track_phone.getText().toString();
+//                                            String TrackCode = track_code.getText().toString();
+//                                            if (Username.length() > 7 && TrackCode.length() > 5) {
+//                                                Intent intent = new Intent(context, ShowDeviceInMap.class);
+//                                                intent.putExtra("Username", Username);
+//                                                intent.putExtra("TrackCode", TrackCode);
+//                                                startActivity(intent);
+//                                            } else {
+//                                                Toast.makeText(context, "Enter correct values", Toast.LENGTH_LONG).show();
+//                                            }
+//                                        }
+//                                    }).setNegativeButton("Cancel",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog,
+//                                                            int whichButton) {
+//                                            /*
+//                                             * User clicked cancel so do some stuff
+//                                             */
+//                                        }
+//                                    });
+//                            alert.show();
+//                        }
+//                    }
+//                });
+//                builder.show();
+//            }
+//        });
+      findViewById(R.id.contact_backup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //if (Settings.hasContactPermission) {
+                if (context != null) {
+                    if (CommonActivityUtils.checkPermissions(CommonActivityUtils.REQUEST_CODE_PERMISSION_MEMBERS_SEARCH, ChatMainActivity.this)) {
+                        CharSequence colors[] = new CharSequence[]{"Backup", "Restore"};
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Contacts");
+                        builder.setItems(colors, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == 0) {
+                                    new AttemptContactBackup().execute();
+                                } else {
+                                    final String vfile = "Contacts.vcf";
+
+                                    final MimeTypeMap mime = MimeTypeMap.getSingleton();
+                                    String tmptype = mime.getMimeTypeFromExtension("vcf");
+                                    String path = Environment.getExternalStorageDirectory()
+                                            .toString() + File.separator + vfile;
+                                    final File file = new File(path);
+                                    if (file.exists()) {
+                                        Intent i = new Intent();
+                                        i.setAction(Intent.ACTION_VIEW);
+                                        i.setDataAndType(FileProvider.getUriForFile(context, "com.chatapp.provider", file), "text/x-vcard");
+                                        startActivity(i);
+                                    } else {
+                                        Toast.makeText(context, "There are no backups to restore.", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        });
+                        builder.show();
+                    } else {
+                        Toast.makeText(context, "Contacts permissions has been denied by the user.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+
+      findViewById(R.id.voucher_recharge).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.dialog_text_edittext, null);
+                dialogBuilder.setView(dialogView);
+
+                final EditText txtVoucherNo = (EditText) dialogView.findViewById(R.id.dialog_edit_text);
+                txtVoucherNo.setInputType(InputType.TYPE_CLASS_NUMBER);
+                dialogView.findViewById(R.id.dialog_title).setVisibility(View.GONE);
+
+                dialogBuilder.setTitle("Voucher Recharge");
+                dialogBuilder.setMessage("Enter the voucher number");
+                dialogBuilder.setPositiveButton("Recharge", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        if ((txtVoucherNo.getText().toString().length() == 0)) {
+                            Toast.makeText(context, "Please Enter Voucher Number", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            VoucherRecharge(txtVoucherNo.getText().toString());
+                        }
+                    }
+                });
+                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+            }
+        });
+
+      findViewById(R.id.credit_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "Credit");
+                startActivity(myIntent);
+            }
+        });
+
+      findViewById(R.id.transfer_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.dialog_transfer, null);
+                dialogBuilder.setView(dialogView);
+
+                final EditText txtTransferPhone = (EditText) dialogView.findViewById(R.id.txtTransferAccount);
+                final EditText txtTransferAmount = (EditText) dialogView.findViewById(R.id.txtTransferAmount);
+                final TextView txtTransferCurrency = (TextView) dialogView.findViewById(R.id.txtTransferCurrency);
+                txtTransferCurrency.setText(UserCurrency);
+
+                dialogBuilder.setTitle("Transfer credit");
+                dialogBuilder.setMessage("Transfer your credit to");
+                dialogBuilder.setPositiveButton("Transfer", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // TransferBalance(txtTransferPhone.getText().toString(),txtTransferAmount.getText().toString());
+
+                        if ((txtTransferPhone.getText().toString().length() == 0)) {
+                            Toast.makeText(context, "Please enter Destination Number", Toast.LENGTH_LONG).show();
+                            txtTransferPhone.setError("Please enter Destination Number");
+                            return;
+                        } else if ((txtTransferAmount.getText().toString().length() == 0)) {
+                            Toast.makeText(context, "Please enter Amount", Toast.LENGTH_LONG).show();
+                            txtTransferAmount.setError("Please enter Amount");
+                            return;
+                        } else {
+                            //VoucherRecharge(txtVoucherNo.getText().toString());
+                            TransferBalance(txtTransferPhone.getText().toString(), txtTransferAmount.getText().toString());
+                        }
+                    }
+                });
+                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //pass
+                    }
+                });
+                AlertDialog b = dialogBuilder.create();
+                b.show();
+
+
+            }
+        });
+
+      findViewById(R.id.transfer_history).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, TransferHistoryAcitivty.class);
+                startActivity(i);
+            }
+        });
+
+      findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "Topup");
+                startActivity(myIntent);
+
+
+            }
+        });
+
+
+    }
+
+    private void TransferBalance(String PhoneNo, String Amount) {
+        final ProgressDialog pDialog;
+        try {
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage("Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+
+            final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
+            final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
+            final String credit = asHex(encrypt(Amount, Settings.ENC_KEY).getBytes());
+            final String transferaccount = asHex(encrypt(PhoneNo, Settings.ENC_KEY).getBytes());
+
+
+            String url = Settings.BALANCE_TRANSFER_API;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    pDialog.dismiss();
+                    try {
+                        final JSONObject json = new JSONObject(response);
+                        if (!json.isNull("result")) {
+                            if (ChatMainActivity.this!=null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            Toast.makeText(context, json.getString("msg"), Toast.LENGTH_LONG).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(context, "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }
+                        } else {
+                            if (context!=null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (context!=null) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context, "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    final VolleyError error1 = error;
+                    if (context!=null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pDialog.dismiss();
+                                Toast.makeText(context, error1.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("cust_id", cust_id);
+                    params.put("cust_pass", cust_pass);
+                    params.put("transferaccount", transferaccount);
+                    params.put("credit", credit);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            progressBar.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
+
+    }
+
+    private void VoucherRecharge(String VoucherNo) {
+        final ProgressDialog pDialog;
+        try {
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage("Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+
+            final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
+            final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
+            final String voucher = asHex(encrypt(VoucherNo, Settings.ENC_KEY).getBytes());
+
+
+            String url = Settings.VOUCHER_RECHARGE;
+
+            RequestQueue queue = Volley.newRequestQueue(context);
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    pDialog.dismiss();
+                    try {
+                        final JSONObject json = new JSONObject(response);
+                        if (!json.isNull("result")) {
+                            if (ChatMainActivity.this!=null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            Toast.makeText(context, json.getString("msg"), Toast.LENGTH_LONG).show();
+                                            GetBalance();
+                                        } catch (Exception e) {
+                                            Toast.makeText(context, "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }
+                        } else {
+                            if (ChatMainActivity.this!=null) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(context, "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (ChatMainActivity.this!=null) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(context, "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    final VolleyError error1 = error;
+                    if (ChatMainActivity.this!=null) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pDialog.dismiss();
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(context, error1.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", cust_id);
+                    params.put("password", cust_pass);
+                    params.put("voucher", voucher);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            progressBar.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
+
+    }
+
+    class AttemptContactBackup extends AsyncTask<String, String, String> {
+        ProgressDialog pDialog;
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage("Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            BackupContacts(context,pDialog);
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String status) {
+            pDialog.dismiss();
+        }
+
+    }
+
+    private void BackupContacts(Context mContext,final ProgressDialog pDialog){
+
+
+        final String vfile = "Contacts.vcf";
+        String path = Environment.getExternalStorageDirectory()
+                .toString() + File.separator + vfile;
+        File file = new File(path);
+        if (file.exists()){
+            file.delete();
+        }
+
+        final Cursor phones = mContext.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                null, null, null);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pDialog.setMessage("Backing up 0 of " + phones.getCount() + " contacts." );
+            }
+        });
+
+        phones.moveToFirst();
+        for (int i = 0; i < phones.getCount(); i++) {
+            final  String CurrentCount = String.valueOf(i);
+            String lookupKey = phones.getString(phones
+                    .getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+            Uri uri = Uri.withAppendedPath(
+                    ContactsContract.Contacts.CONTENT_VCARD_URI,
+                    lookupKey);
+            AssetFileDescriptor fd;
+            try {
+                fd = mContext.getContentResolver().openAssetFileDescriptor(uri, "r");
+                FileInputStream fis = fd.createInputStream();
+                StringBuffer strContent = new StringBuffer("");
+                int ch;
+                while ((ch = fis.read()) != -1) strContent.append((char) ch);
+                fis.close();
+
+                //byte[] buf = new byte[(int) fd.getDeclaredLength()];
+                //fis.read(buf);
+                String VCard = strContent.toString();
+                FileOutputStream mFileOutputStream = new FileOutputStream(path,
+                        true);
+                mFileOutputStream.write(VCard.toString().getBytes());
+                phones.moveToNext();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pDialog.setMessage("Backing up "+  CurrentCount +" of " + phones.getCount() + " contacts." );
+                    }
+                });
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+
 
 
 

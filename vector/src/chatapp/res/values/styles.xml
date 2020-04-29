@@ -1,7 +1,7 @@
 <resources>
 
     <style name="Style.Vector.Login.Button" parent="VectorButtonStyle">
-        <item name="backgroundTint">@color/splash_button_color</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
         <item name="android:textSize">20sp</item>
         <item name="android:minHeight">70dp</item>
         <item name="android:textAllCaps">false</item>
@@ -9,7 +9,7 @@
     </style>
 
     <style name="VectorButtonStyleLogin" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/riotx_accent</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
         <item name="android:padding">16dp</item>
         <item name="android:minWidth">94dp</item>
         <item name="android:layout_width">wrap_content</item>

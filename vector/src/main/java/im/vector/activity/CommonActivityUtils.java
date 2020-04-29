@@ -98,6 +98,11 @@ import im.vector.util.PreferencesManager;
 public class CommonActivityUtils {
     private static final String LOG_TAG = CommonActivityUtils.class.getSimpleName();
 
+    private static final int PERMISSION_READ_CONTACTS = 0x1 << 3;
+
+    public static final int REQUEST_CODE_PERMISSION_MEMBERS_SEARCH = PERMISSION_READ_CONTACTS;
+
+
     // global helper constants:
 
     public static final boolean UTILS_DISPLAY_PROGRESS_BAR = true;
@@ -1371,4 +1376,9 @@ public class CommonActivityUtils {
             Log.e(LOG_TAG, "## displayUnknownDevicesDialog() failed : " + e.getMessage(), e);
         }
     }
+
+    public static boolean checkPermissions(final int aPermissionsToBeGrantedBitMap, final Activity aCallingActivity) {
+        return checkPermissions(aPermissionsToBeGrantedBitMap, aCallingActivity);
+    }
+
 }

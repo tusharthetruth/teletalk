@@ -1045,7 +1045,7 @@ Vedd figyelembe, hogy az alkalmazás újraindul ami sok időt vehet igénybe.</s
     <string name="markdown_has_been_disabled">Markdown tiltva.</string>
 
     <string name="settings_call_category">Hívások</string>
-    <string name="settings_call_ringtone_use_riot_ringtone">Az alapértelmezett Riot csengőhang használata bejövő hívásokhoz</string>
+    <string name="settings_call_ringtone_use_riot_ringtone">Az alapértelmezett Viido csengőhang használata bejövő hívásokhoz</string>
     <string name="settings_call_ringtone_title">Bejövő hívás csengőhangja</string>
     <string name="settings_call_ringtone_dialog_title">Csengőhang kiválasztása hívásokhoz:</string>
 

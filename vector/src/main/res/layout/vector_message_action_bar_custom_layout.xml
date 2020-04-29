@@ -49,6 +49,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
+        android:visibility="visible"
         android:contentDescription="@string/open_chat_header"
         android:src="@drawable/ic_arrow_drop_down_white" />
 

@@ -234,9 +234,9 @@ public class ChatListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-
-        Matrix.getInstance(mContext).getDefaultSession().getDataHandler().removeListener(mLiveEventListener);
-
+try {
+    Matrix.getInstance(mContext).getDefaultSession().getDataHandler().removeListener(mLiveEventListener);
+}catch (Exception e){}
     }
 
     @Override
