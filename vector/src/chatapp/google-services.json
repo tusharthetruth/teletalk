@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "478891785126",
-    "firebase_url": "https://call-home-bf3ee.firebaseio.com",
-    "project_id": "call-home-bf3ee",
-    "storage_bucket": "call-home-bf3ee.appspot.com"
+    "project_number": "215250149605",
+    "firebase_url": "https://viido-7da92.firebaseio.com",
+    "project_id": "viido-7da92",
+    "storage_bucket": "viido-7da92.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:478891785126:android:d25f9a9892eaaddb6c6d67",
+        "mobilesdk_app_id": "1:215250149605:android:aaa5078c7de91ffaedb40c",
         "android_client_info": {
-          "package_name": "fr.callhome"
+          "package_name": "com.viido"
         }
       },
       "oauth_client": [
         {
-          "client_id": "478891785126-gaqlkmphmmjpbm65qgkk29qe8itiqgar.apps.googleusercontent.com",
+          "client_id": "215250149605-lpj6nkaftmlsl1gi019dithprco3u3o8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_xRX5P7K6TjaLvjNWoY6hj9NIpnXdzrI"
+          "current_key": "AIzaSyCsNES7Rz7-MBj1IZ6A_nNgd5hySzSz0F8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "478891785126-gaqlkmphmmjpbm65qgkk29qe8itiqgar.apps.googleusercontent.com",
+              "client_id": "215250149605-lpj6nkaftmlsl1gi019dithprco3u3o8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

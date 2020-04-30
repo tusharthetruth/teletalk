@@ -127,7 +127,7 @@ android {
     productFlavors {
 
         chatapp {
-            applicationId "fr.callhome"
+            applicationId "com.viido"
             // use the version name
             versionCode 1
             versionName "1.0"

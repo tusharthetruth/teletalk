@@ -1280,7 +1280,7 @@ public class SipConfigManager {
      * Authority for preference content provider. <br/>
      * Maybe be changed for forked versions of the app.
      */
-    public static final String AUTHORITY = "fr.callhome.prefs";
+    public static final String AUTHORITY = "com.viido.prefs";
     private static final String BASE_DIR_TYPE = "vnd.android.cursor.dir/vnd.ibsmobile";
     private static final String BASE_ITEM_TYPE = "vnd.android.cursor.item/vnd.ibsmobile";
     

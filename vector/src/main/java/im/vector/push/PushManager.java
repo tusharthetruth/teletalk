@@ -29,6 +29,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.chatapp.Settings;
+
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.core.Log;
 import org.matrix.androidsdk.core.callback.ApiCallback;
@@ -48,6 +50,9 @@ import im.vector.Matrix;
 import im.vector.push.fcm.FcmHelper;
 import im.vector.services.EventStreamServiceX;
 import im.vector.util.PreferencesManager;
+
+import static com.chatapp.Settings.DEFAULT_PUSHER_APP_ID;
+import static com.chatapp.Settings.DEFAULT_PUSHER_URL;
 
 /**
  * Helper class to store the FCM registration ID in {@link SharedPreferences}
@@ -69,8 +74,8 @@ public final class PushManager {
     private static final String PREFS_SYNC_TIMEOUT = "GcmRegistrationManager.PREFS_SYNC_TIMEOUT";
     private static final String PREFS_SYNC_DELAY = "GcmRegistrationManager.PREFS_SYNC_DELAY";
 
-    private static final String DEFAULT_PUSHER_APP_ID = "im.vector.app.android";
-    private static final String DEFAULT_PUSHER_URL = "https://matrix.org/_matrix/push/v1/notify";
+    //private static final String DEFAULT_PUSHER_APP_ID = "im.vector.app.android";
+    //private static final String DEFAULT_PUSHER_URL = "https://matrix.org/_matrix/push/v1/notify";
     private static final String DEFAULT_PUSHER_FILE_TAG = "mobile";
 
     private String mPusherAppName = null;

@@ -31,6 +31,8 @@
     <!-- set a valid URL like "https://matrix.org" to use a custom one -->
     <string name="push_server_url" translatable="false" >http://viido.it:5000/_matrix/push/v1/notify</string>
 
+
+
     <string-array name="room_directory_servers" translatable="false">
         <item>matrix.org</item>
     </string-array>
@@ -40,7 +42,9 @@
     <!-- Note: pusher_http_url should have path '/_matrix/push/v1/notify' -->
     <string name="pusher_http_url" translatable="false">http://viido.it:5000/_matrix/push/v1/notify</string>
     <!-- Note: pusher_app_id cannot exceed 64 chars -->
-    <string name="pusher_app_id" translatable="false">fr.callhome</string>
+    <string name="pusher_app_id" translatable="false">com.viido</string>
     <string name="chatDomain" translatable="false">viido.it</string>
+
+
 
 </resources>

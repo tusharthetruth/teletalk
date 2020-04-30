@@ -139,7 +139,7 @@ object NotificationUtils {
          */
         notificationManager.createNotificationChannel(NotificationChannel(NOISY_NOTIFICATION_CHANNEL_ID,
                 context.getString(R.string.notification_noisy_notifications),
-                NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = context.getString(R.string.notification_noisy_notifications)
                     enableVibration(true)
@@ -152,7 +152,7 @@ object NotificationUtils {
          */
         notificationManager.createNotificationChannel(NotificationChannel(SILENT_NOTIFICATION_CHANNEL_ID,
                 context.getString(R.string.notification_silent_notifications),
-                NotificationManager.IMPORTANCE_LOW)
+                NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = context.getString(R.string.notification_silent_notifications)
                     setSound(null, null)
@@ -162,7 +162,7 @@ object NotificationUtils {
 
         notificationManager.createNotificationChannel(NotificationChannel(LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
                 context.getString(R.string.notification_listening_for_events),
-                NotificationManager.IMPORTANCE_MIN)
+                NotificationManager.IMPORTANCE_HIGH)
                 .apply {
                     description = context.getString(R.string.notification_listening_for_events)
                     setSound(null, null)

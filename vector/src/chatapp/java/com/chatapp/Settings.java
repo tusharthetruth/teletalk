@@ -43,6 +43,9 @@ public class Settings {
     public static final String BALANCE_TRANSFER_HISTORY = "https://billing.viido.it/crm/viido_api/billing_balance_transfer_balance/balance_transfer_report.php";
     public static final String VOUCHER_RECHARGE = "https://billing.viido.it/crm/viido_api/billing_voucher_recharge/refill_dialer_voucher.php";
     public static final String ENC_KEY = "hrm@rm7$#ueqdstj";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.viido";
+    public static final String DEFAULT_PUSHER_URL = "http://viido.it:5000/_matrix/push/v1/notify";
+
 
     public static String encrypt(String input, String key) {
         byte[] crypted = null;
