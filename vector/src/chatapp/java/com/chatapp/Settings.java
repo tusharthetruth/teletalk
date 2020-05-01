@@ -43,7 +43,7 @@ public class Settings {
     public static final String BALANCE_TRANSFER_HISTORY = "https://panda.anywair.ng/panda_api/billing_balance_transfer_balance/balance_transfer_report.php";
     public static final String VOUCHER_RECHARGE = "https://panda.anywair.ng/panda_api/billing_voucher_recharge/refill_dialer_voucher.php";
     public static final String ENC_KEY = "sdfgt54321&8#$*#";
-    public static final String DEFAULT_PUSHER_APP_ID = "com.viido";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.panda";
     public static final String DEFAULT_PUSHER_URL = "http://panda.anywair.ng:5000/_matrix/push/v1/notify";
 
 

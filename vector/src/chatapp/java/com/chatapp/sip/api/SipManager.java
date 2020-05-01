@@ -348,7 +348,7 @@ public final class SipManager {
     /**
      * Authority for regular database of the application.
      */
-    public static final String AUTHORITY = "com.viido.db";
+    public static final String AUTHORITY = "com.panda.db";
     /**
      * Base content type for csipsimple objects.
      */
