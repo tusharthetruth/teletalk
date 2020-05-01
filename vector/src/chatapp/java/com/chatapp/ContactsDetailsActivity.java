@@ -89,7 +89,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + DefaultPhone));
-            intent.putExtra("sms_body", "Join me on Viido, this free video chat and messaging app is amazing. I like it! https://viido.it/");
+            intent.putExtra("sms_body", "Join me on Panda, this free video chat and messaging app is amazing. I like it! https://panda.anywair.ng/");
             startActivity(intent);
 
         }

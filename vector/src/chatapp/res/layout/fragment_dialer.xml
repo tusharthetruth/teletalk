@@ -95,6 +95,7 @@
             android:layout_weight="10"
             android:background="@drawable/table_row_bg"
             android:scaleType="centerInside"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/add_user" />
 
         <ImageButton
@@ -113,6 +114,7 @@
             android:layout_weight="10"
             android:background="@drawable/table_row_bg"
             android:scaleType="centerInside"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/delete" />
 
     </LinearLayout>

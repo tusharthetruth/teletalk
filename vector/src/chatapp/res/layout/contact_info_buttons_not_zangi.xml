@@ -141,6 +141,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="Invite"
             android:scaleType="center"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/add_to_contact" />
 
         <TextView

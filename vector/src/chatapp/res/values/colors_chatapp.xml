@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#31bdfa</color>
-    <color name="colorPrimaryDark">#27b5f3</color>
+    <color name="colorPrimary">#ff02aa82</color>
+    <color name="colorPrimaryDark">#ff02aa82</color>
     <color name="riotx_accent">#4bc348</color>
     <color name="riotx_links">#FFFFFF</color>
     <color name="splash_bg_color">#ffffff</color>
     <color name="splash_button_color">#ffffff</color>
     <color name="splash_button_text_color">#000000</color>
-    <color name="primary_color_dark">#32bcf9</color>
+    <color name="primary_color_dark">#ff02aa82</color>
     <color name="button_enabled_text_color">#fff</color>
     <color name="button_disabled_text_color">#fff</color>
     <color name="home_bg_color">#fffcf9</color>
     <color name="black_overlay">#66000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="text_color">#000000</color>
-    <color name="colorAccent">#31bdfa</color>
+    <color name="text_color">#ff02aa82</color>
+    <color name="colorAccent">#ff02aa82</color>
 
     <color name="chat_background_color">#fef9f6</color>
 

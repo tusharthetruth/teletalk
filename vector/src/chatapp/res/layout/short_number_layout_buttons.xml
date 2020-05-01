@@ -21,8 +21,9 @@
             android:background="@drawable/call_button_circle_transp"
             android:contentDescription="Globus Tech Call"
             android:scaleType="centerCrop"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/free_call_btn"
-            android:tint="#99ffffff" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +49,8 @@
             android:contentDescription="Video"
             android:scaleType="centerCrop"
             android:src="@drawable/free_video_btn"
-            android:tint="#99ffffff" />
+            android:tint="@color/colorPrimary"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,6 +78,7 @@
             android:background="@drawable/call_button_circle_transp"
             android:contentDescription="Chat"
             android:scaleType="centerCrop"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/free_message_btn" />
 
         <TextView
@@ -101,8 +104,9 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="Globus Tech Out"
             android:scaleType="centerCrop"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/zangi_out_btn"
-            android:tint="#99ffffff" />
+            />
 
         <TextView
             android:layout_width="wrap_content"

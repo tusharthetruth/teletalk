@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_buttons"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,12 +18,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="Globus Tech Call"
             android:scaleType="centerCrop"
+            android:tint="@color/colorPrimary"
             android:src="@drawable/free_call_btn" />
 
         <TextView
@@ -44,11 +46,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="Video"
+            android:tint="@color/colorPrimary"
             android:scaleType="centerCrop"
             android:src="@drawable/free_video_btn" />
 
@@ -72,10 +75,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
+            android:tint="@color/colorPrimary"
             android:contentDescription="Chat"
             android:scaleType="centerCrop"
             android:src="@drawable/free_message_btn" />
@@ -99,13 +103,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="Globus Tech Out"
+            android:tint="@color/colorPrimary"
             android:scaleType="centerCrop"
-            android:src="@drawable/zangi_out_btn" />
+            app:srcCompat="@drawable/zangi_out_btn" />
 
         <TextView
             android:layout_width="wrap_content"

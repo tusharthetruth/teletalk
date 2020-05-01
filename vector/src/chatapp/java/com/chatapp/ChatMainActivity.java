@@ -182,19 +182,19 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         bundle = new Bundle();
         bundle.putString(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
         bundle.putString(ARG_MATRIX_ID, mSession.getMyUserId());
+try {
+    if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+        new AsyncTask<Void, Void, Void>() {
 
-        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
-                    contactsSync.SyncContacts(true);
-                    return null;
-                }
-            }.execute();
-        }
-
+            @Override
+            protected Void doInBackground(Void... voids) {
+                ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
+                contactsSync.SyncContacts(true);
+                return null;
+            }
+        }.execute();
+    }
+}catch (Exception e){}
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_recent, R.id.navigation_contacts)
@@ -605,10 +605,10 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
       findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Join me on Viido, this free video chat and messaging app is amazing. I like it! https://viido.it";
+                String shareBody = "Join me on Panda, this free video chat and messaging app is amazing. I like it! https://panda.anywair.ng";
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Viido Invite");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Panda Invite");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
             }

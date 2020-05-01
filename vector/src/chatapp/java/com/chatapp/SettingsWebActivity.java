@@ -64,12 +64,12 @@ public class SettingsWebActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
-            url = "https://viido.it";
-            setTitle("Why Viido ?");
+            url = "https://panda.anywair.ng";
+            setTitle("Why Panda ?");
         } else if (url.equalsIgnoreCase("Credit")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.viido.it/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = "https://panda.anywair.ng/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Buy Credit");
         } else if (url.equalsIgnoreCase("Topup")) {
             String userName = settings.getString("Username", "");
