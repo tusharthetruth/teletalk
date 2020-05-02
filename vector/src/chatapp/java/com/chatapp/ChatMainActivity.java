@@ -605,7 +605,7 @@ try {
       findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Join me on Panda, this free video chat and messaging app is amazing. I like it! https://panda.anywair.ng";
+                String shareBody = "Join me on Panda, this free video chat and messaging app is amazing. I like it! https://anywair.ng";
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Panda Invite");
@@ -820,9 +820,10 @@ try {
       findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "Topup");
-                startActivity(myIntent);
+                Toast.makeText(ChatMainActivity.this,"Coming soon",Toast.LENGTH_LONG).show();
+//                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+//                myIntent.putExtra("Bundle", "Topup");
+//                startActivity(myIntent);
 
 
             }

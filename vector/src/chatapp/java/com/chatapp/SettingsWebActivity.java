@@ -64,7 +64,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
-            url = "https://panda.anywair.ng";
+            url = "https://anywair.ng";
             setTitle("Why Panda ?");
         } else if (url.equalsIgnoreCase("Credit")) {
             String userName = settings.getString("Username", "");

@@ -36,7 +36,7 @@
     </string-array>
 
     <!-- Note: pusher_http_url should have path '/_matrix/push/v1/notify' -->
-    <string name="pusher_http_url" translatable="false">http://panda.anywair.ng:5000/_matrix/push/v1/notify</string>
+    <string name="pusher_http_url" translatable="false"/>
     <!-- Note: pusher_app_id cannot exceed 64 chars -->
     <string name="pusher_app_id" translatable="false">com.panda</string>
     <string name="chatDomain" translatable="false">anywair.ng</string>
