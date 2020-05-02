@@ -29,22 +29,22 @@ public class Settings {
     public static boolean useJitsiConfCall = true;
     public static boolean useBatteryOptimisation = true;
 
-    public static final String SIPServer = "102.69.240.114";
+    public static final String SIPServer = "209.126.66.54 ";
     public static final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
     public static final String TRACK_GET_DEVICELIST_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_list.php";
     public static final String GET_DEVICEINFO_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_location.php";
-    public static final String OTP_REQUEST_API = "https://panda.anywair.ng/panda_api/billing_auto_register/otp_send.php";
-    public static final String OTP_VERIFY_API = "https://panda.anywair.ng/panda_api/billing_auto_register/otp_secure.php";
-    public static final String CONTACTS_SYNC_API = "https://panda.anywair.ng/panda_api/billing_auto_register/sync_contacts.php";
-    public static final String BALANCE_API = "https://panda.anywair.ng/panda_api/billing_balance/get_balance.php";
-    public static final String RATES_API = "https://panda.anywair.ng/panda_api/billing_rates/get_rates.php";
-    public static final String BALANCE_TRANSFER_API = "https://panda.anywair.ng/panda_api/billing_balance_transfer_balance/balance_transfer.php";
-    public static final String BALANCE_TRANSFER_HISTORY = "https://panda.anywair.ng/panda_api/billing_balance_transfer_balance/balance_transfer_report.php";
-    public static final String VOUCHER_RECHARGE = "https://panda.anywair.ng/panda_api/billing_voucher_recharge/refill_dialer_voucher.php";
-    public static final String ENC_KEY = "sdfgt54321&8#$*#";
-    public static final String DEFAULT_PUSHER_APP_ID = "com.panda";
-    public static final String DEFAULT_PUSHER_URL = "http://panda.anywair.ng:5000/_matrix/push/v1/notify";
+    public static final String OTP_REQUEST_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_send.php";
+    public static final String OTP_VERIFY_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_secure.php";
+    public static final String CONTACTS_SYNC_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/sync_contacts.php ";
+    public static final String BALANCE_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/get_balance.php";
+    public static final String RATES_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_rates/get_rates.php";
+    public static final String BALANCE_TRANSFER_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_org.php";
+    public static final String BALANCE_TRANSFER_HISTORY = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_report.php";
+    public static final String VOUCHER_RECHARGE = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_voucher_recharge/refill_dialer_voucher.php";
+    public static final String ENC_KEY = "mnygh234a@&!#f79";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.ceritel";
+    public static final String DEFAULT_PUSHER_URL = "http://billing.adoreinfotech.co.in:5000/_matrix/push/v1/notify";
 
 
     public static String encrypt(String input, String key) {

@@ -127,7 +127,7 @@ android {
     productFlavors {
 
         chatapp {
-            applicationId "com.panda"
+            applicationId "com.ceritel"
             // use the version name
             versionCode 1
             versionName "1.0"

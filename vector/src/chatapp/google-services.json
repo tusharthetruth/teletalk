@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "754385331610",
-    "firebase_url": "https://panda-76c6f.firebaseio.com",
-    "project_id": "panda-76c6f",
-    "storage_bucket": "panda-76c6f.appspot.com"
+    "project_number": "644636808753",
+    "firebase_url": "https://ceritel-c1e4d.firebaseio.com",
+    "project_id": "ceritel-c1e4d",
+    "storage_bucket": "ceritel-c1e4d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754385331610:android:6788b5e259463532fe4623",
+        "mobilesdk_app_id": "1:644636808753:android:68cbbbecf2756a051ea710",
         "android_client_info": {
-          "package_name": "com.panda"
+          "package_name": "com.ceritel"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754385331610-gq8oh2vh31633dlplj4kp9lj564kl36g.apps.googleusercontent.com",
+          "client_id": "644636808753-ebk4eka1v8ds7ucg4qfiiuaf76iktcoj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA0xT92pdV-RHDO5sBdzOqOFlvwEHubrZI"
+          "current_key": "AIzaSyDfcAJSsqiSBl_6xplzUEdw_GufcUaBS0I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "754385331610-gq8oh2vh31633dlplj4kp9lj564kl36g.apps.googleusercontent.com",
+              "client_id": "644636808753-ebk4eka1v8ds7ucg4qfiiuaf76iktcoj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

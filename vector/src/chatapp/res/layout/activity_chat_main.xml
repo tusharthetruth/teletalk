@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    tools:ignore="RtlCompat,RtlHardcoded,VectorDrawableCompat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    tools:ignore="RtlCompat,RtlHardcoded,VectorDrawableCompat"
     tools:openDrawer="start">
 
     <include
@@ -33,8 +33,8 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -42,27 +42,26 @@
                     <RelativeLayout
                         android:id="@+id/invite"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        >
+                        android:layout_height="48dp">
+
                         <ImageView
                             android:id="@+id/iconView10"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/add_to_contact"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
                             android:tint="@color/colorPrimary"
-                            />
+                            app:srcCompat="@drawable/add_to_contact" />
 
                         <TextView
                             android:id="@+id/textView10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView10"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView10"
                             android:text="@string/invite_friends"
                             android:textColor="@color/text_color"
                             android:textSize="15sp"
@@ -72,12 +71,12 @@
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/arrow_right"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/arrow_right"
                             tools:ignore="VectorDrawableCompat" />
 
 
@@ -94,26 +93,26 @@
                         android:id="@+id/settings"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_below="@+id/dividerview10"
-                        >
+                        android:layout_below="@+id/dividerview10">
+
                         <ImageView
                             android:id="@+id/iconViewsettings10"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            android:src="@drawable/settings_menu"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
+                            android:src="@drawable/settings_menu"
                             tools:ignore="RtlCompat" />
 
                         <TextView
                             android:id="@+id/textViewsettings10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconViewsettings10"
-                            android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/iconViewsettings10"
                             android:text="@string/title_settings"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -122,13 +121,12 @@
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/arrow_right"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
-                            />
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/arrow_right" />
 
 
                     </RelativeLayout>
@@ -144,26 +142,25 @@
                         android:id="@+id/balance_view"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_below="@+id/dividerview100"
-                        >
+                        android:layout_below="@+id/dividerview100">
+
                         <ImageView
                             android:id="@+id/iconView1"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/balance_icon"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/balance_icon" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView1"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView1"
                             android:text="@string/my_balance"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -172,11 +169,11 @@
                             android:id="@+id/balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
                             android:textSize="15sp" />
 
                         <ProgressBar
@@ -196,19 +193,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@id/balance_view"
-                        android:background="@color/colorPrimary"/>
+                        android:background="@color/colorPrimary" />
 
                     <RelativeLayout
                         android:id="@+id/contact_backup"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/dividerview"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView16"
@@ -225,20 +221,19 @@
                             android:id="@+id/iconView7"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/phone_book"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/phone_book" />
 
                         <TextView
                             android:id="@+id/textView15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView7"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView7"
                             android:text="@string/contacts_backup"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -249,21 +244,20 @@
                         android:id="@+id/view7"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="gone"
                         android:layout_below="@+id/contact_backup"
-                        android:background="@color/colorAccent" />
+                        android:background="@color/colorAccent"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:id="@+id/track_device"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/view7"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal"
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView18"
@@ -280,76 +274,74 @@
                             android:id="@+id/iconView8"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/trackling"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/trackling" />
 
                         <TextView
                             android:id="@+id/textView17"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView8"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView8"
                             android:text="@string/title_tracking"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
 
                     </RelativeLayout>
+
                     <View
                         android:id="@+id/view8"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="gone"
                         android:layout_below="@+id/track_device"
-                        android:background="@color/colorAccent" />
+                        android:background="@color/colorAccent"
+                        android:visibility="gone" />
 
                     <RelativeLayout
+                        android:id="@+id/credit_view"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:orientation="horizontal"
                         android:layout_below="@id/view8"
-                        android:id="@+id/credit_view"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
-                        >
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/iconView2"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            android:src="@drawable/buyc_redit"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            android:src="@drawable/buyc_redit" />
 
                         <ImageView
                             android:id="@+id/imageView31"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/arrow_right"
-                            android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
-                            />
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/arrow_right" />
 
                         <TextView
                             android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView2"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView2"
                             android:text="@string/buy_credit"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
                     </RelativeLayout>
+
                     <View
                         android:id="@+id/dividerview1"
                         android:layout_width="match_parent"
@@ -380,20 +372,19 @@
                             android:id="@+id/iconView3"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            android:src="@drawable/transferblce"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            android:src="@drawable/transferblce" />
 
                         <TextView
                             android:id="@+id/textView21"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView3"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView3"
                             android:text="@string/transfer_credit"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -411,9 +402,9 @@
                         android:id="@+id/transfer_history"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/dividerview2"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal">
 
@@ -432,20 +423,19 @@
                             android:id="@+id/iconView4"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            android:src="@drawable/balance_history"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            android:src="@drawable/balance_history" />
 
                         <TextView
                             android:id="@+id/textView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView4"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView4"
                             android:text="@string/transfer_history"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -463,9 +453,9 @@
                         android:id="@+id/mobile_topup"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/dividerview4"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal">
 
@@ -484,20 +474,19 @@
                             android:id="@+id/iconView5"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/mobiletopup"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/mobiletopup" />
 
                         <TextView
                             android:id="@+id/textView13"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView5"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView5"
                             android:text="@string/mobile_topup"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -511,13 +500,170 @@
                         android:layout_below="@+id/mobile_topup"
                         android:background="@color/colorAccent" />
 
+                    <LinearLayout
+                        android:id="@+id/cccontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/view5"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/topupb"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/list_item_or_button_click_riple_hover"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:src="@drawable/vchrecharge" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:text="@string/mobile_topup_two"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                app:srcCompat="@drawable/arrow_right" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent" />
+
+                        <LinearLayout
+                            android:id="@+id/data_bundle"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/list_item_or_button_click_riple_hover"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:src="@drawable/data_bill" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:text="@string/data_bundle"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                app:srcCompat="@drawable/arrow_right" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent" />
+
+                        <LinearLayout
+                            android:id="@+id/electric_bill"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/list_item_or_button_click_riple_hover"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:src="@drawable/electric" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:text="@string/electric_bill"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                app:srcCompat="@drawable/arrow_right" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent" />
+
+                        <LinearLayout
+                            android:id="@+id/tv_bill"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/list_item_or_button_click_riple_hover"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:src="@drawable/tv_bill" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:text="@string/television_bill_payment"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                app:srcCompat="@drawable/arrow_right" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent" />
+
+                    </LinearLayout>
+
                     <RelativeLayout
                         android:id="@+id/voucher_recharge"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/cccontainer"
                         android:layout_alignParentStart="true"
-                        android:layout_below="@+id/view5"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal">
 
@@ -531,23 +677,24 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
                             app:srcCompat="@drawable/arrow_right" />
+
                         <ImageView
                             android:id="@+id/iconView6"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            android:src="@drawable/vchrecharge"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            android:src="@drawable/vchrecharge" />
+
                         <TextView
                             android:id="@+id/textView14"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView6"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView6"
                             android:text="@string/voucher_recharge"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
@@ -562,18 +709,16 @@
                         android:background="@color/colorAccent" />
 
 
-
                     <RelativeLayout
                         android:id="@+id/why"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/view6"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal"
-                        android:visibility="visible"
-                        >
+                        android:visibility="visible">
 
                         <ImageView
                             android:id="@+id/imageView19"
@@ -590,42 +735,42 @@
                             android:id="@+id/iconView9"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/why_icon"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/why_icon" />
 
                         <TextView
                             android:id="@+id/textView18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView9"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView9"
                             android:text="@string/title_why_this_app"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
 
                     </RelativeLayout>
+
                     <View
                         android:id="@+id/view11"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/why"
                         android:background="@color/colorAccent" />
+
                     <RelativeLayout
                         android:id="@+id/logout"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
                         android:layout_below="@+id/view11"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:background="@drawable/list_item_or_button_click_riple_hover"
                         android:orientation="horizontal"
-                        android:visibility="visible"
-                        >
+                        android:visibility="visible">
 
                         <ImageView
 
@@ -642,25 +787,25 @@
                             android:id="@+id/iconView11"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
-                            app:srcCompat="@drawable/ic_material_exit_to_app"
-                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/_20sdp"
-                            />
+                            app:srcCompat="@drawable/ic_material_exit_to_app" />
 
                         <TextView
                             android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/iconView11"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="10dp"
+                            android:layout_toRightOf="@+id/iconView11"
                             android:text="@string/action_logout"
                             android:textColor="@color/text_color"
                             android:textSize="15sp" />
 
                     </RelativeLayout>
+
                     <View
                         android:id="@+id/view10"
                         android:layout_width="match_parent"

@@ -11,7 +11,7 @@
         <domain includeSubdomains="true">127.0.0.1</domain>
         <!-- Localhost for Android emulator -->
         <domain includeSubdomains="true">10.0.2.2</domain>
-        <domain includeSubdomains="true">panda.anywair.ng</domain>
+        <domain includeSubdomains="true">209.126.66.54</domain>
     </domain-config>
 
 </network-security-config>

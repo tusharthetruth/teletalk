@@ -182,19 +182,20 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         bundle = new Bundle();
         bundle.putString(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
         bundle.putString(ARG_MATRIX_ID, mSession.getMyUserId());
-try {
-    if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
-        new AsyncTask<Void, Void, Void>() {
+        try {
+            if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+                new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
-                contactsSync.SyncContacts(true);
-                return null;
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
+                        contactsSync.SyncContacts(true);
+                        return null;
+                    }
+                }.execute();
             }
-        }.execute();
-    }
-}catch (Exception e){}
+        } catch (Exception e) {
+        }
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_recent, R.id.navigation_contacts)
@@ -602,20 +603,20 @@ try {
             }
         });
 
-      findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Join me on Panda, this free video chat and messaging app is amazing. I like it! https://anywair.ng";
+                String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! https://billing.adoreinfotech.co.in";
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Panda Invite");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ceritel Invite");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                 startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
             }
         });
 
 
-      findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, VectorSettingsActivity.class);
@@ -677,7 +678,7 @@ try {
 //                builder.show();
 //            }
 //        });
-      findViewById(R.id.contact_backup).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.contact_backup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //if (Settings.hasContactPermission) {
@@ -720,7 +721,7 @@ try {
         });
 
 
-      findViewById(R.id.voucher_recharge).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.voucher_recharge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -755,7 +756,7 @@ try {
             }
         });
 
-      findViewById(R.id.credit_view).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.credit_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, SettingsWebActivity.class);
@@ -764,7 +765,7 @@ try {
             }
         });
 
-      findViewById(R.id.transfer_view).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.transfer_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
@@ -809,7 +810,7 @@ try {
             }
         });
 
-      findViewById(R.id.transfer_history).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.transfer_history).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TransferHistoryAcitivty.class);
@@ -817,19 +818,52 @@ try {
             }
         });
 
-      findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatMainActivity.this,"Coming soon",Toast.LENGTH_LONG).show();
-//                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-//                myIntent.putExtra("Bundle", "Topup");
-//                startActivity(myIntent);
 
-
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "TopupA");
+                startActivity(myIntent);
             }
         });
 
+        findViewById(R.id.topupb).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "TopupB");
+                startActivity(myIntent);
+            }
+        });
+        findViewById(R.id.data_bundle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "data");
+                startActivity(myIntent);
+            }
+        });
+        findViewById(R.id.electric_bill).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "electric");
+                startActivity(myIntent);
+            }
+        });
+        findViewById(R.id.tv_bill).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "tv");
+                startActivity(myIntent);
+            }
+        });
     }
 
     private void TransferBalance(String PhoneNo, String Amount) {
@@ -858,7 +892,7 @@ try {
                     try {
                         final JSONObject json = new JSONObject(response);
                         if (!json.isNull("result")) {
-                            if (ChatMainActivity.this!=null) {
+                            if (ChatMainActivity.this != null) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -873,7 +907,7 @@ try {
                                 });
                             }
                         } else {
-                            if (context!=null) {
+                            if (context != null) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -884,7 +918,7 @@ try {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        if (context!=null) {
+                        if (context != null) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -898,7 +932,7 @@ try {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     final VolleyError error1 = error;
-                    if (context!=null) {
+                    if (context != null) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -960,7 +994,7 @@ try {
                     try {
                         final JSONObject json = new JSONObject(response);
                         if (!json.isNull("result")) {
-                            if (ChatMainActivity.this!=null) {
+                            if (ChatMainActivity.this != null) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -976,7 +1010,7 @@ try {
                                 });
                             }
                         } else {
-                            if (ChatMainActivity.this!=null) {
+                            if (ChatMainActivity.this != null) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -988,7 +1022,7 @@ try {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        if (ChatMainActivity.this!=null) {
+                        if (ChatMainActivity.this != null) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1003,7 +1037,7 @@ try {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     final VolleyError error1 = error;
-                    if (ChatMainActivity.this!=null) {
+                    if (ChatMainActivity.this != null) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -1042,9 +1076,10 @@ try {
 
     class AttemptContactBackup extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
+
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1057,7 +1092,7 @@ try {
 
         @Override
         protected String doInBackground(String... args) {
-            BackupContacts(context,pDialog);
+            BackupContacts(context, pDialog);
             return "success";
         }
 
@@ -1068,14 +1103,14 @@ try {
 
     }
 
-    private void BackupContacts(Context mContext,final ProgressDialog pDialog){
+    private void BackupContacts(Context mContext, final ProgressDialog pDialog) {
 
 
         final String vfile = "Contacts.vcf";
         String path = Environment.getExternalStorageDirectory()
                 .toString() + File.separator + vfile;
         File file = new File(path);
-        if (file.exists()){
+        if (file.exists()) {
             file.delete();
         }
 
@@ -1086,13 +1121,13 @@ try {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                pDialog.setMessage("Backing up 0 of " + phones.getCount() + " contacts." );
+                pDialog.setMessage("Backing up 0 of " + phones.getCount() + " contacts.");
             }
         });
 
         phones.moveToFirst();
         for (int i = 0; i < phones.getCount(); i++) {
-            final  String CurrentCount = String.valueOf(i);
+            final String CurrentCount = String.valueOf(i);
             String lookupKey = phones.getString(phones
                     .getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
             Uri uri = Uri.withAppendedPath(
@@ -1117,7 +1152,7 @@ try {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        pDialog.setMessage("Backing up "+  CurrentCount +" of " + phones.getCount() + " contacts." );
+                        pDialog.setMessage("Backing up " + CurrentCount + " of " + phones.getCount() + " contacts.");
                     }
                 });
             } catch (Exception e1) {
@@ -1126,8 +1161,6 @@ try {
             }
         }
     }
-
-
 
 
 }
