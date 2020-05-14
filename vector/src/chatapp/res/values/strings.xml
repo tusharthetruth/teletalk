@@ -2,7 +2,7 @@
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_chat">Chat</string>
-    <string name="title_recent">Recent</string>
+    <string name="title_recent">Dialer</string>
     <string name="title_contacts">Contacts</string>
     <string name="title_dialer">Dialer</string>
     <string name="title_contact_details">Contact Details</string>

@@ -804,17 +804,17 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
         if (null != mCall) {
             String roomId = mCall.getRoom().getRoomId();
 
-            if (null != VectorApp.getCurrentActivity()) {
-                Map<String, Object> params = new HashMap<>();
-                params.put(VectorRoomActivity.EXTRA_MATRIX_ID, mMatrixId);
-                params.put(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
-                CommonActivityUtils.goToRoomPage(VectorApp.getCurrentActivity(), mSession, params);
-            } else {
+//            if (null != VectorApp.getCurrentActivity()) {
+//                Map<String, Object> params = new HashMap<>();
+//                params.put(VectorRoomActivity.EXTRA_MATRIX_ID, mMatrixId);
+//                params.put(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+//                CommonActivityUtils.goToRoomPage(VectorApp.getCurrentActivity(), mSession, params);
+//            } else {
                 Intent intent = new Intent(getApplicationContext(), VectorRoomActivity.class);
                 intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
                 intent.putExtra(VectorRoomActivity.EXTRA_MATRIX_ID, mMatrixId);
                 startActivity(intent);
-            }
+//            }
         }
     }
 

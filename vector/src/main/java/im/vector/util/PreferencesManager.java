@@ -315,7 +315,7 @@ public class PreferencesManager {
      * @return true if the join and leave membership events should be shown in the messages list
      */
     public static boolean showJoinLeaveMessages(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, true);
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, false);
     }
 
     /**
@@ -541,7 +541,7 @@ public class PreferencesManager {
      * @return true if the conference call must be done with jitsi.
      */
     public static boolean useJitsiConfCall(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_USE_JITSI_CONF_PREFERENCE_KEY, true);
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_USE_JITSI_CONF_PREFERENCE_KEY, false);
     }
 
     /**
@@ -716,7 +716,7 @@ public class PreferencesManager {
 
         if (preferences.contains("SETTINGS_HIDE_JOIN_LEAVE_MESSAGES_KEY")) {
             preferences.edit()
-                    .putBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, !preferences.getBoolean("SETTINGS_HIDE_JOIN_LEAVE_MESSAGES_KEY", true))
+                    .putBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, !preferences.getBoolean("SETTINGS_HIDE_JOIN_LEAVE_MESSAGES_KEY", false))
                     .remove("SETTINGS_HIDE_JOIN_LEAVE_MESSAGES_KEY")
                     .apply();
         }

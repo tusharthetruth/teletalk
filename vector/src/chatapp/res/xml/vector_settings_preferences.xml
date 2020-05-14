@@ -132,7 +132,7 @@
             android:title="@string/settings_show_read_receipts" />
 
         <im.vector.preference.VectorSwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY"
             android:summary="@string/settings_show_join_leave_messages_summary"
             android:title="@string/settings_show_join_leave_messages" />
@@ -183,8 +183,10 @@
     <im.vector.preference.VectorPreferenceDivider />
 
     <im.vector.preference.VectorPreferenceCategory
+
         android:key="SETTINGS_GROUPS_FLAIR_KEY"
-        android:title="@string/settings_flair" app:isPreferenceVisible="false" />
+        android:title="@string/settings_flair"
+        app:isPreferenceVisible="false" />
 
     <im.vector.preference.VectorPreferenceDivider />
 
@@ -268,6 +270,7 @@
     <im.vector.preference.VectorPreferenceDivider android:key="SETTINGS_BACKGROUND_SYNC_DIVIDER_PREFERENCE_KEY" />
 
     <im.vector.preference.VectorPreferenceCategory
+        app:isPreferenceVisible="false"
         android:key="SETTINGS_NOTIFICATIONS_TARGETS_PREFERENCE_KEY"
         android:title="@string/settings_notifications_targets" />
 
@@ -367,11 +370,13 @@
             android:title="@string/settings_data_save_mode" />
 
         <im.vector.preference.VectorSwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
+            app:isPreferenceVisible="false"
             android:key="SETTINGS_USE_JITSI_CONF_PREFERENCE_KEY"
             android:title="@string/settings_labs_create_conference_with_jitsi" />
 
         <im.vector.preference.VectorSwitchPreference
+            android:defaultValue="true"
             android:key="SETTINGS_ENABLE_SEND_VOICE_FEATURE_PREFERENCE_KEY"
             android:summary="@string/settings_labs_enable_send_voice_summary"
             android:title="@string/settings_labs_enable_send_voice" />
@@ -502,6 +507,7 @@
         android:title="@string/settings_other">
 
         <im.vector.preference.VectorPreference
+            app:isPreferenceVisible="false"
             android:key="APP_INFO_LINK_PREFERENCE_KEY"
             android:summary="@string/settings_app_info_link_summary"
             android:title="@string/settings_app_info_link_title" />

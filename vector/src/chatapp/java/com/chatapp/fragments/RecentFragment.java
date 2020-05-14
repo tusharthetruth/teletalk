@@ -121,6 +121,7 @@ public class RecentFragment extends ListFragment {
             }
         });
         mSession = Matrix.getInstance(getContext()).getDefaultSession();
+        btnDialer.performClick();
         return view;
     }
 

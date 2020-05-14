@@ -66,6 +66,11 @@ public class SettingsWebActivity extends AppCompatActivity {
         if (url.equalsIgnoreCase("Why")) {
             url = "https://billing.adoreinfotech.co.in";
             setTitle("Why Ceritel ?");
+        } else if (url.equalsIgnoreCase("ippbx")) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+            url = "https://billing.adoreinfotech.co.in/admin/config.php";
+            setTitle("Buy Credit");
         } else if (url.equalsIgnoreCase("Credit")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");

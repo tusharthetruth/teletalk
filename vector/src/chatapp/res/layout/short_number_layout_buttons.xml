@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/call_button_circle_transp"
-            android:contentDescription="Globus Tech Call"
+            android:contentDescription="ceritel Call"
             android:scaleType="centerCrop"
             android:tint="@color/colorPrimary"
             android:src="@drawable/free_call_btn"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minLines="2"
-            android:text="Globus Tech Call"
+            android:text="Ceritel Call"
             android:textColor="#ffcccccc"
             android:textSize="12.0sp" />
     </LinearLayout>
@@ -102,7 +102,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="Globus Tech Out"
+            android:contentDescription="ceritel Out"
             android:scaleType="centerCrop"
             android:tint="@color/colorPrimary"
             android:src="@drawable/zangi_out_btn"
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minLines="2"
-            android:text="Globus Tech Out"
+            android:text="Ceritel Out"
             android:textColor="#ffcccccc"
             android:textSize="12.0sp" />
     </LinearLayout>

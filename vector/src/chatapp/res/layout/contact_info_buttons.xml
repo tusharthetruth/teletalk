@@ -22,7 +22,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="Globus Tech Call"
+            android:contentDescription="ceritel Call"
             android:scaleType="centerCrop"
             android:tint="@color/colorPrimary"
             android:src="@drawable/free_call_btn" />
@@ -107,7 +107,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="Globus Tech Out"
+            android:contentDescription="ceritel Out"
             android:tint="@color/colorPrimary"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/zangi_out_btn" />

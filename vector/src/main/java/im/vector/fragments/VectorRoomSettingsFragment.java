@@ -348,7 +348,8 @@ public class VectorRoomSettingsFragment extends PreferenceFragmentCompat impleme
         mBannedMembersSettingsCategoryDivider = getPreferenceManager().findPreference(PREF_KEY_BANNED_DIVIDER);
         mFlairSettingsCategory = (PreferenceCategory) getPreferenceManager().findPreference(PREF_KEY_FLAIR);
         mRoomNotificationsPreference = (ListPreference) getPreferenceManager().findPreference(PREF_KEY_ROOM_NOTIFICATIONS_LIST);
-
+        mAddressesSettingsCategory.setVisible(false);
+        mFlairSettingsCategory.setVisible(false);
         mRoomAccessRulesListPreference.setOnPreferenceWarningIconClickListener(new VectorListPreference.OnPreferenceWarningIconClickListener() {
             @Override
             public void onWarningIconClick(Preference preference) {

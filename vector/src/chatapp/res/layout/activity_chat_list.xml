@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Chatlist is empty"
+        android:layout_margin="15dp"
+        android:text="(Please click on + button to start chatting)"
         android:textSize="@dimen/_16sdp"
         android:textStyle="bold" />
 

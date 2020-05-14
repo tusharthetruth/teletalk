@@ -7,7 +7,7 @@
     <color name="splash_bg_color">#ffffff</color>
     <color name="splash_button_color">#ffffff</color>
     <color name="splash_button_text_color">#000000</color>
-    <color name="primary_color_dark">#ff02aa82</color>
+    <color name="primary_color_dark">@color/colorPrimaryDark</color>
     <color name="button_enabled_text_color">#fff</color>
     <color name="button_disabled_text_color">#fff</color>
     <color name="home_bg_color">#fffcf9</color>

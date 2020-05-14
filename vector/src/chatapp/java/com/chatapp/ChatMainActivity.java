@@ -827,6 +827,15 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 startActivity(myIntent);
             }
         });
+        findViewById(R.id.ippbx).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "ippbx");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.topupb).setOnClickListener(new View.OnClickListener() {
             @Override
