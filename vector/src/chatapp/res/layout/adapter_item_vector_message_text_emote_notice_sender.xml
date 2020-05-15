@@ -98,13 +98,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
-                                android:layout_marginStart="4dp"
-                                android:layout_marginLeft="4dp"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginLeft="2dp"
                                 android:layout_toEndOf="@id/message_adapter_e2e_icon"
                                 android:layout_toRightOf="@id/message_adapter_e2e_icon"
                                 android:textIsSelectable="false"
-                                android:textSize="14sp"
+                                android:textSize="15sp"
+                                android:textColor="@color/black"
                                 android:gravity="end"
+                                android:fontFamily="sans-serif-medium"
                                 tools:text="A body www.example.org" />
 
                             <TextView
@@ -115,10 +117,12 @@
                                 android:layout_alignStart="@+id/messagesAdapter_body"
                                 android:layout_alignLeft="@+id/messagesAdapter_body"
                                 android:layout_gravity="end"
+                                android:fontFamily="sans-serif-medium"
                                 android:gravity="end"
+                                android:textColor="@color/black"
                                 android:text="@string/e2e_re_request_encryption_key"
                                 android:textIsSelectable="false"
-                                android:textSize="14sp" />
+                                android:textSize="15sp" />
 
                         </RelativeLayout>
 

@@ -17,14 +17,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-bold"
+        android:fontFamily="sans-serif-medium"
         android:paddingStart="4dp"
         android:paddingLeft="4dp"
         android:paddingEnd="4dp"
         android:paddingRight="4dp"
         android:singleLine="true"
-        android:textColor="?android:textColorSecondary"
-        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
         android:textStyle="bold"
         tools:text="One very long sender name for testing purpose" />
 
@@ -55,6 +55,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:textColor="@android:color/white"
             android:textSize="9sp"
             tools:text="+999" />
     </LinearLayout>

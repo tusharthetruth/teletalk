@@ -116,12 +116,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_marginStart="4dp"
-                                android:layout_marginLeft="4dp"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginLeft="2dp"
                                 android:layout_toEndOf="@id/message_adapter_e2e_icon"
                                 android:layout_toRightOf="@id/message_adapter_e2e_icon"
                                 android:textIsSelectable="false"
-                                android:textSize="14sp"
+                                android:textSize="15sp"
+                                android:fontFamily="sans-serif-medium"
                                 tools:text="A body www.example.org" />
 
                             <TextView

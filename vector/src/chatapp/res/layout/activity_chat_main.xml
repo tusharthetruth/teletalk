@@ -110,8 +110,8 @@
                             android:id="@+id/textViewsettings10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
                             android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
                             android:layout_toRightOf="@+id/iconViewsettings10"
                             android:text="@string/title_settings"
                             android:textColor="@color/text_color"
@@ -508,42 +508,6 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/ippbx"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="@drawable/list_item_or_button_click_riple_hover"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="@dimen/_25sdp"
-                                android:layout_height="@dimen/_25sdp"
-                                android:layout_marginStart="@dimen/_20sdp"
-                                android:src="@drawable/did" />
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="1"
-                                android:text="@string/ippbx_features"
-                                android:textColor="@color/text_color"
-                                android:textSize="15sp" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginRight="10dp"
-                                app:srcCompat="@drawable/arrow_right" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/colorAccent" />
-  <LinearLayout
                             android:id="@+id/topupb"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
@@ -563,6 +527,43 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_weight="1"
                                 android:text="@string/mobile_topup_two"
+                                android:textColor="@color/text_color"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                app:srcCompat="@drawable/arrow_right" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent" />
+
+                        <LinearLayout
+                            android:id="@+id/ippbx"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/list_item_or_button_click_riple_hover"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_marginStart="@dimen/_20sdp"
+                                android:src="@drawable/did" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:text="@string/ippbx_features"
                                 android:textColor="@color/text_color"
                                 android:textSize="15sp" />
 

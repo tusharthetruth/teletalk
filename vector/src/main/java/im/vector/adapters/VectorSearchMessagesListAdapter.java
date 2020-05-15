@@ -18,6 +18,7 @@
 package im.vector.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
@@ -116,6 +117,7 @@ public class VectorSearchMessagesListAdapter extends VectorMessagesAdapter {
             if (senderTextView != null) {
                 senderTextView.setText(row.getSenderDisplayName());
             }
+
 
             // display the body
             TextView bodyTextView = convertView.findViewById(R.id.messagesAdapter_body);

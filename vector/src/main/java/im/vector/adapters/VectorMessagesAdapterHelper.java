@@ -18,6 +18,7 @@
 package im.vector.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -158,7 +159,6 @@ class VectorMessagesAdapterHelper {
         // manage sender text
         TextView senderTextView = convertView.findViewById(R.id.messagesAdapter_sender);
         View groupFlairView = convertView.findViewById(R.id.messagesAdapter_flair_groups_list);
-
         if (null != senderTextView) {
             Event event = row.getEvent();
 
