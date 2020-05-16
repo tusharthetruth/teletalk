@@ -2176,10 +2176,15 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             View senderNameView = inflatedView.findViewById(R.id.messagesAdapter_sender);
 
             MessageRow row = getItem(position);
-            if (row.getSender().mSender.equals(mSession.getMyUserId())) {
-                ((TextView) senderNameView).setTextColor(Color.parseColor("#ffffff"));
-            } else {
-                ((TextView) senderNameView).setTextColor(Color.parseColor("#03A9F4"));
+            try {
+                if (((TextView) senderNameView) != null) {
+                    if (row.getSender().mSender.equals(mSession.getMyUserId())) {
+                        ((TextView) senderNameView).setTextColor(Color.parseColor("#ffffff"));
+                    } else {
+                        ((TextView) senderNameView).setTextColor(Color.parseColor("#03A9F4"));
+                    }
+                }
+            } catch (Exception e) {
             }
 
             final Event event = row.getEvent();

@@ -816,6 +816,20 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 Intent i = new Intent(context, TransferHistoryAcitivty.class);
                 startActivity(i);
             }
+        }); findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, SettingsWebActivity.class);
+                i.putExtra("Bundle", "interswitchBuy");
+                startActivity(i);
+            }
+        }); findViewById(R.id.videoplan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, SettingsWebActivity.class);
+                i.putExtra("Bundle", "videoplan");
+                startActivity(i);
+            }
         });
 
         findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {

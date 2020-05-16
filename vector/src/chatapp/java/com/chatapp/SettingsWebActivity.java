@@ -66,7 +66,17 @@ public class SettingsWebActivity extends AppCompatActivity {
         if (url.equalsIgnoreCase("Why")) {
             url = "https://billing.adoreinfotech.co.in";
             setTitle("Why Ceritel ?");
-        } else if (url.equalsIgnoreCase("ippbx")) {
+        } else if (url.equalsIgnoreCase("interswitchBuy")) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+            url = "https://billing.adoreinfotech.co.in/crm/customer/checkout_payment_interswitch_app.php";
+            setTitle("interswitchBuy");
+        }else if (url.equalsIgnoreCase("videoplan")) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+            url = "https://billing.adoreinfotech.co.in/crm/admin/Public/videorate.php ";
+            setTitle("Buy Credit");
+        }else if (url.equalsIgnoreCase("ippbx")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/admin/config.php";
@@ -84,7 +94,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         }else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = "https://billing.adorein fotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
             setTitle("Topup");
         }else if (url.equalsIgnoreCase("data")) {
             String userName = settings.getString("Username", "");

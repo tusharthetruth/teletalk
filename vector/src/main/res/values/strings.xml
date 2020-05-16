@@ -1816,5 +1816,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="electric_bill">Electric Bill Payment</string>
     <string name="television_bill_payment">Television Bill Payment</string>
     <string name="ippbx_features">IPPBX features</string>
+    <string name="video_teriff">Video Teriff</string>
+    <string name="interswitch_buy">Interswitch Buy</string>
 
 </resources>
