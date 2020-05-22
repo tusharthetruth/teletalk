@@ -606,7 +606,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! https://billing.adoreinfotech.co.in";
+                String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! www.cerilog.net";
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ceritel Invite");

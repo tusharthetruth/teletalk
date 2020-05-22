@@ -1806,8 +1806,8 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="my_balance">Wallet Balance</string>
     <string name="invite_friends">Invite Friends</string>
     <string name="contacts_backup">Contacts Backup</string>
-    <string name="buy_credit">Buy Credit</string>
-    <string name="transfer_credit">Transfer Credit</string>
+    <string name="buy_credit">Add Funds To Wallet</string>
+    <string name="transfer_credit">Wallet Transfer</string>
     <string name="transfer_history">Transfer History</string>
     <string name="mobile_topup">Mobile TopUp A</string>
     <string name="voucher_recharge">Voucher Recharge</string>

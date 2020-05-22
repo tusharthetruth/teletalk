@@ -89,7 +89,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + DefaultPhone));
-            intent.putExtra("sms_body", "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! https://billing.adoreinfotech.co.in");
+            intent.putExtra("sms_body", "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! www.cerilog.net");
             startActivity(intent);
 
         }
