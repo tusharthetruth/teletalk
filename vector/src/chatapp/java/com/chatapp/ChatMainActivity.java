@@ -123,7 +123,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     MXSession mSession;
     Bundle bundle;
     private Context context;
-
+    BottomNavigationView navView;
     TextView txtbalance;
     String UserCurrency;
     TextView txtDisplayName;
@@ -132,7 +132,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     VectorPendingCallView mVectorPendingCallView;
     private static ChatMainActivity sharedInstance = null;
     ProgressBar progressBar;
-
+    NavigationView navigationView;
     private ProgressBar balancePg;
 
     @Override
@@ -196,9 +196,9 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             }
         } catch (Exception e) {
         }
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_recent, R.id.navigation_contacts)
+                R.id.navigation_home, R.id.navigation_chat, R.id.navigation_recent, R.id.navigation_contacts)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
@@ -207,7 +207,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         NavigationUI.setupWithNavController(navView, navController);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.drawer_menu);
+         navigationView = findViewById(R.id.drawer_menu);
         NavigationUI.setupWithNavController(toolbar, navController, drawer);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -579,29 +579,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 }
             }
         });
-        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-
-                dialogBuilder.setTitle("Logout");
-                dialogBuilder.setMessage("Are you sure to Logout the app");
-                dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        CommonActivityUtils.logout(ChatMainActivity.this, true);
-                    }
-                });
-                dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //pass
-                    }
-                });
-                AlertDialog b = dialogBuilder.create();
-                b.show();
-            }
-        });
 
         findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -684,7 +662,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 //if (Settings.hasContactPermission) {
                 if (context != null) {
                     if (CommonActivityUtils.checkPermissions(CommonActivityUtils.REQUEST_CODE_PERMISSION_MEMBERS_SEARCH, ChatMainActivity.this)) {
-                        CharSequence colors[] = new CharSequence[]{"Backup", "Restore"};
+                        CharSequence colors[] = new CharSequence[]{"Backup", "Restore" };
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Contacts");
@@ -724,169 +702,120 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         findViewById(R.id.voucher_recharge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.dialog_text_edittext, null);
-                dialogBuilder.setView(dialogView);
-
-                final EditText txtVoucherNo = (EditText) dialogView.findViewById(R.id.dialog_edit_text);
-                txtVoucherNo.setInputType(InputType.TYPE_CLASS_NUMBER);
-                dialogView.findViewById(R.id.dialog_title).setVisibility(View.GONE);
-
-                dialogBuilder.setTitle("Voucher Recharge");
-                dialogBuilder.setMessage("Enter the voucher number");
-                dialogBuilder.setPositiveButton("Recharge", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                        if ((txtVoucherNo.getText().toString().length() == 0)) {
-                            Toast.makeText(context, "Please Enter Voucher Number", Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-                            VoucherRecharge(txtVoucherNo.getText().toString());
-                        }
-                    }
-                });
-                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //pass
-                    }
-                });
-                AlertDialog b = dialogBuilder.create();
-                b.show();
+                voucherTransfer();
             }
         });
 
-        findViewById(R.id.credit_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "Credit");
-                startActivity(myIntent);
-            }
-        });
-
-        findViewById(R.id.transfer_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.dialog_transfer, null);
-                dialogBuilder.setView(dialogView);
-
-                final EditText txtTransferPhone = (EditText) dialogView.findViewById(R.id.txtTransferAccount);
-                final EditText txtTransferAmount = (EditText) dialogView.findViewById(R.id.txtTransferAmount);
-                final TextView txtTransferCurrency = (TextView) dialogView.findViewById(R.id.txtTransferCurrency);
-                txtTransferCurrency.setText(UserCurrency);
-
-                dialogBuilder.setTitle("Transfer credit");
-                dialogBuilder.setMessage("Transfer your credit to");
-                dialogBuilder.setPositiveButton("Transfer", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // TransferBalance(txtTransferPhone.getText().toString(),txtTransferAmount.getText().toString());
-
-                        if ((txtTransferPhone.getText().toString().length() == 0)) {
-                            Toast.makeText(context, "Please enter Destination Number", Toast.LENGTH_LONG).show();
-                            txtTransferPhone.setError("Please enter Destination Number");
-                            return;
-                        } else if ((txtTransferAmount.getText().toString().length() == 0)) {
-                            Toast.makeText(context, "Please enter Amount", Toast.LENGTH_LONG).show();
-                            txtTransferAmount.setError("Please enter Amount");
-                            return;
-                        } else {
-                            //VoucherRecharge(txtVoucherNo.getText().toString());
-                            TransferBalance(txtTransferPhone.getText().toString(), txtTransferAmount.getText().toString());
-                        }
+        findViewById(R.id.credit_view).
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "Credit");
+                        startActivity(myIntent);
                     }
                 });
-                dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //pass
+
+        findViewById(R.id.transfer_view).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                     voucherRegcharge();
+
+
                     }
                 });
-                AlertDialog b = dialogBuilder.create();
-                b.show();
 
+        findViewById(R.id.transfer_history).
 
-            }
-        });
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context, TransferHistoryAcitivty.class);
+                        startActivity(i);
+                    }
+                });
 
-        findViewById(R.id.transfer_history).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, TransferHistoryAcitivty.class);
-                startActivity(i);
-            }
-        }); findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, SettingsWebActivity.class);
-                i.putExtra("Bundle", "interswitchBuy");
-                startActivity(i);
-            }
-        }); findViewById(R.id.videoplan).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, SettingsWebActivity.class);
-                i.putExtra("Bundle", "videoplan");
-                startActivity(i);
-            }
-        });
+        findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context, SettingsWebActivity.class);
+                        i.putExtra("Bundle", "interswitchBuy");
+                        startActivity(i);
+                    }
+                });
+
+        findViewById(R.id.videoplan).
+
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context, SettingsWebActivity.class);
+                        i.putExtra("Bundle", "videoplan");
+                        startActivity(i);
+                    }
+                });
 
         findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "TopupA");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "TopupA");
+                        startActivity(myIntent);
+                    }
+                });
+
         findViewById(R.id.ippbx).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "ippbx");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "ippbx");
+                        startActivity(myIntent);
+                    }
+                });
 
         findViewById(R.id.topupb).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "TopupB");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "TopupB");
+                        startActivity(myIntent);
+                    }
+                });
+
         findViewById(R.id.data_bundle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "data");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "data");
+                        startActivity(myIntent);
+                    }
+                });
+
         findViewById(R.id.electric_bill).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "electric");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "electric");
+                        startActivity(myIntent);
+                    }
+                });
+
         findViewById(R.id.tv_bill).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                myIntent.putExtra("Bundle", "tv");
-                startActivity(myIntent);
-            }
-        });
+                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        myIntent.putExtra("Bundle", "tv");
+                        startActivity(myIntent);
+                    }
+                });
     }
 
     private void TransferBalance(String PhoneNo, String Amount) {
@@ -1185,5 +1114,124 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         }
     }
 
+
+    public void logout() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+        dialogBuilder.setTitle("Logout");
+        dialogBuilder.setMessage("Are you sure to Logout the app");
+        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                CommonActivityUtils.logout(ChatMainActivity.this, true);
+            }
+        });
+        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    public void invite() {
+        String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! www.cerilog.net";
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ceritel Invite");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
+    }
+
+    public void chat() {
+        navView.setSelectedItemId(R.id.navigation_chat);
+
+    }
+
+    public void dialer() {
+        navView.setSelectedItemId(R.id.navigation_recent);
+
+    }
+
+    public void voucherTransfer() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_text_edittext, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText txtVoucherNo = (EditText) dialogView.findViewById(R.id.dialog_edit_text);
+        txtVoucherNo.setInputType(InputType.TYPE_CLASS_NUMBER);
+        dialogView.findViewById(R.id.dialog_title).setVisibility(View.GONE);
+
+        dialogBuilder.setTitle("Voucher Recharge");
+        dialogBuilder.setMessage("Enter the voucher number");
+        dialogBuilder.setPositiveButton("Recharge", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                if ((txtVoucherNo.getText().toString().length() == 0)) {
+                    Toast.makeText(context, "Please Enter Voucher Number", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    VoucherRecharge(txtVoucherNo.getText().toString());
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+    public void voucherRegcharge(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_transfer, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText txtTransferPhone = (EditText) dialogView.findViewById(R.id.txtTransferAccount);
+        final EditText txtTransferAmount = (EditText) dialogView.findViewById(R.id.txtTransferAmount);
+        final TextView txtTransferCurrency = (TextView) dialogView.findViewById(R.id.txtTransferCurrency);
+        txtTransferCurrency.setText(UserCurrency);
+
+        dialogBuilder.setTitle("Transfer credit");
+        dialogBuilder.setMessage("Transfer your credit to");
+        dialogBuilder.setPositiveButton("Transfer", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // TransferBalance(txtTransferPhone.getText().toString(),txtTransferAmount.getText().toString());
+
+                if ((txtTransferPhone.getText().toString().length() == 0)) {
+                    Toast.makeText(context, "Please enter Destination Number", Toast.LENGTH_LONG).show();
+                    txtTransferPhone.setError("Please enter Destination Number");
+                    return;
+                } else if ((txtTransferAmount.getText().toString().length() == 0)) {
+                    Toast.makeText(context, "Please enter Amount", Toast.LENGTH_LONG).show();
+                    txtTransferAmount.setError("Please enter Amount");
+                    return;
+                } else {
+                    //VoucherRecharge(txtVoucherNo.getText().toString());
+                    TransferBalance(txtTransferPhone.getText().toString(), txtTransferAmount.getText().toString());
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+    public void hideItem(){
+        try {
+                toolbar.setNavigationIcon(null);
+                getSupportActionBar().setDisplayShowHomeEnabled(false);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                navigationView.setVisibility(View.GONE);// to hide Navigation icon
+            } catch (Exception e) {
+            }
+    }
 
 }

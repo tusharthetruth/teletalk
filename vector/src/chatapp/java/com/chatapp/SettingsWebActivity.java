@@ -64,7 +64,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
-            url = "www.cerilog.net";
+            url = "http://www.cerilog.net/";
             setTitle("Why Ceritel ?");
         } else if (url.equalsIgnoreCase("interswitchBuy")) {
             String userName = settings.getString("Username", "");
@@ -94,7 +94,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         }else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adorein fotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
             setTitle("Topup");
         }else if (url.equalsIgnoreCase("data")) {
             String userName = settings.getString("Username", "");

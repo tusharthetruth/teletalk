@@ -81,8 +81,11 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
 
         summary = roomList.get(position);
         Room room = session.getDataHandler().getStore().getRoom(summary.getRoomId());
-
-        VectorUtils.loadRoomAvatar(context,session,holder.tvRoomProfile,room);
+        if (TextUtils.isEmpty(room.getAvatarUrl())) {
+           holder.tvRoomProfile.setImageResource(R.drawable.default_contact_avatar);
+        } else {
+            VectorUtils.loadRoomAvatar(context, session, holder.tvRoomProfile, room);
+        }
 
         if (roomList.get(position).getUnreadEventsCount() == 0) {
             holder.tvUreadCount.setVisibility(View.GONE);
@@ -162,13 +165,12 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
 
         String timestamp = getFormattedTimestamp(summary.getLatestReceivedEvent());
         String currentDateAndTime = getFormattedDate(summary.getLatestReceivedEvent().getOriginServerTs()).toUpperCase();
-        if (currentDateAndTime.equalsIgnoreCase("today")){
+        if (currentDateAndTime.equalsIgnoreCase("today")) {
             holder.tvTime.setText(convertDate(summary.getLatestReceivedEvent().getOriginServerTs() + "", "hh:mm a"));
 
-        }else {
+        } else {
             holder.tvTime.setText(currentDateAndTime);
         }
-
 
 
     }

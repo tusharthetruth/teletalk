@@ -6,10 +6,12 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.ShowDeviceInMap"/>
+        <activity android:name="com.chatapp.WalletActivity"></activity>
+        <activity android:name="com.chatapp.ShowDeviceInMap" />
         <activity android:name="com.chatapp.TrackDeviceList" />
         <activity android:name="com.chatapp.SettingsWebActivity" />
         <activity android:name="com.chatapp.TransferHistoryAcitivty" />
+
         <meta-data
             android:name="firebase_analytics_collection_deactivated"
             android:value="true" />
