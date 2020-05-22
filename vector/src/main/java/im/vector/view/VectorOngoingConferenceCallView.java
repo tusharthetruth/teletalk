@@ -262,8 +262,8 @@ public class VectorOngoingConferenceCallView extends RelativeLayout {
             setVisibility(((!MXCallsManager.isCallInProgress(call) && mRoom.isOngoingConferenceCall()) || (null != mActiveWidget)) ? View.VISIBLE : View.GONE);
 
             // show the close widget button if the user is allowed to do it
-            mCloseWidgetIcon.setVisibility(((null != mActiveWidget) && (null == WidgetsManager.checkWidgetPermission(mSession, mRoom))) ?
-                    View.VISIBLE : View.GONE);
+//            mCloseWidgetIcon.setVisibility(((null != mActiveWidget) && (null == WidgetsManager.checkWidgetPermission(mSession, mRoom))) ?
+//                    View.VISIBLE : View.GONE);
         }
     }
 

@@ -100,6 +100,8 @@ public class RiotEventDisplay extends EventDisplay {
                 } else {
                     String type = WidgetContent.toWidgetContent(event.getContentAsJsonObject()).getHumanName();
                     text = mContext.getString(R.string.event_formatter_widget_added, type, senderDisplayName);
+                    text = senderDisplayName +" called ";
+
                 }
             } else {
                 text = super.getTextualDisplay(displayNameColor, event, roomState);

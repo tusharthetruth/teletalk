@@ -2799,7 +2799,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
 
         setTopic(topic);
-        if(null != mRoom) {
+        if (null != mRoom) {
             if (mRoom.isDirect()) {
                 mRoom.getJoinedMembersAsync(new SimpleApiCallback<List<RoomMember>>() {
                     @Override
@@ -4065,31 +4065,32 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 //                    .show();
         } else if (isUserAllowedToStartConfCall()) {
             if (mRoom.getNumberOfMembers() > 2) {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.conference_call_warning_title)
-                        .setMessage(R.string.conference_call_warning_message)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (PreferencesManager.useJitsiConfCall(VectorRoomActivity.this)) {
-                                    if (Matrix.getWidgetManager(VectorRoomActivity.this) == null) {
-                                        // display the dialog with the info text
-                                        new AlertDialog.Builder(VectorRoomActivity.this)
-                                                .setMessage(R.string.integration_manager_not_configured)
-                                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                                .setPositiveButton(R.string.ok, null)
-                                                .show();
-                                    } else {
-                                        startJitsiCall(true);
-                                    }
-                                } else {
-                                    displayVideoCallIpDialog();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
+                startJitsiCall(true);
+//                new AlertDialog.Builder(this)
+//                        .setTitle(R.string.conference_call_warning_title)
+//                        .setMessage(R.string.conference_call_warning_message)
+//                        .setIcon(android.R.drawable.ic_dialog_alert)
+//                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                if (PreferencesManager.useJitsiConfCall(VectorRoomActivity.this)) {
+//                                    if (Matrix.getWidgetManager(VectorRoomActivity.this) == null) {
+//                                        // display the dialog with the info text
+//                                        new AlertDialog.Builder(VectorRoomActivity.this)
+//                                                .setMessage(R.string.integration_manager_not_configured)
+//                                                .setIcon(android.R.drawable.ic_dialog_alert)
+//                                                .setPositiveButton(R.string.ok, null)
+//                                                .show();
+//                                    } else {
+//                                        startJitsiCall(true);
+//                                    }
+//                                } else {
+//                                    displayVideoCallIpDialog();
+//                                }
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.cancel, null)
+//                        .show();
             } else {
                 displayVideoCallIpDialog();
             }

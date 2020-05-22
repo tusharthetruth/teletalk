@@ -78,7 +78,7 @@
             android:padding="8dp"
             android:src="@drawable/ic_material_delete_white"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </LinearLayout>
 
