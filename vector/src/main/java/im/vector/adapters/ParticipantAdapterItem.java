@@ -19,6 +19,7 @@
 package im.vector.adapters;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import im.vector.R;
 import im.vector.VectorApp;
 import im.vector.contacts.Contact;
 import im.vector.contacts.PIDsRetriever;

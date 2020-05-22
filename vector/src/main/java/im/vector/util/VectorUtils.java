@@ -22,6 +22,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -281,18 +282,21 @@ public class VectorUtils {
      * @return the avatar.
      */
     public static Bitmap getAvatar(Context context, int backgroundColor, String aText, boolean create) {
-        String firstChar = getInitialLetter(aText);
-        String key = firstChar + "_" + backgroundColor;
 
-        // check if the avatar is already defined
-        Bitmap thumbnail = mAvatarImageByKeyDict.get(key);
+        return  BitmapFactory.decodeResource(VectorApp.getInstance().getResources(), R.drawable.default_contact_avatar);
 
-        if ((null == thumbnail) && create) {
-            thumbnail = VectorUtils.createAvatarThumbnail(context, backgroundColor, firstChar);
-            mAvatarImageByKeyDict.put(key, thumbnail);
-        }
-
-        return thumbnail;
+//        String firstChar = getInitialLetter(aText);
+//        String key = firstChar + "_" + backgroundColor;
+//
+//        // check if the avatar is already defined
+//        Bitmap thumbnail = mAvatarImageByKeyDict.get(key);
+//
+//        if ((null == thumbnail) && create) {
+//            thumbnail = VectorUtils.createAvatarThumbnail(context, backgroundColor, firstChar);
+//            mAvatarImageByKeyDict.put(key, thumbnail);
+//        }
+//
+//        return thumbnail;
     }
 
     /**
@@ -305,8 +309,9 @@ public class VectorUtils {
     private static void setDefaultMemberAvatar(final ImageView imageView, final String userId, final String displayName) {
         // sanity checks
         if (null != imageView && !TextUtils.isEmpty(userId)) {
-            final Bitmap bitmap = VectorUtils.getAvatar(imageView.getContext(),
+            Bitmap bitmap = VectorUtils.getAvatar(imageView.getContext(),
                     VectorUtils.getAvatarColor(userId), TextUtils.isEmpty(displayName) ? userId : displayName, true);
+            bitmap = BitmapFactory.decodeResource(VectorApp.getInstance().getResources(), R.drawable.default_contact_avatar);
 
             if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
                 imageView.setImageBitmap(bitmap);
@@ -314,11 +319,12 @@ public class VectorUtils {
                 final String tag = userId + " - " + displayName;
                 imageView.setTag(tag);
 
+                Bitmap finalBitmap = bitmap;
                 mUIHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (TextUtils.equals(tag, (String) imageView.getTag())) {
-                            imageView.setImageBitmap(bitmap);
+                            imageView.setImageBitmap(finalBitmap);
                         }
                     }
                 });
