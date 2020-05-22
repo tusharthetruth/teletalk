@@ -234,7 +234,42 @@
                 android:layout_height="1dp"
                 android:background="@color/colorAccent" />
 
+            <LinearLayout
+                android:id="@+id/interswitchBuy"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/list_item_or_button_click_riple_hover"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:src="@drawable/interswithcby" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/interswitch_buy"
+                    android:textColor="@color/text_color"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    app:srcCompat="@drawable/arrow_right" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorAccent" />
         </LinearLayout>
 
 

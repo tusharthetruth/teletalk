@@ -7,7 +7,8 @@ class C {
         var INVITE_FRIEND = "Invite Friend"
         var CHAT_VIDEO_CONFERENCE = "Chat/Video Confrencing"
         var DIRECT_CALL = "Direct Call"
-        var IMAT = "International Mobile Airtime Topup"
+        var IMAT = "International Mobile Airtime Topup A"
+        var TOPB = "International Mobile Airtime Topup B"
         var DBT = "Data Bundle Topup"
         var CPF = "Cloud PBX Features"
         var EBP = "Electricity Bill's Payment"
@@ -16,7 +17,6 @@ class C {
         var TH = "Settings"
         var TC = "Why This App ?"
         var VR = " Voucher Recharge"
-        var IOPG = "Interswitch Other Payment Gateway"
         var LOGOUT = "Logout"
 
     }

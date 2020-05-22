@@ -48,7 +48,8 @@
             android:id="@+id/ccp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:ccp_countryPreference="us,in" />
+            app:ccp_countryPreference="us,in"
+            app:ccp_defaultPhoneCode="234"/>
 
         <EditText
             android:id="@+id/editText_carrierNumber"

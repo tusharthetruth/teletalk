@@ -60,23 +60,32 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
                 val myIntent = Intent(context, SettingsWebActivity::class.java)
                 myIntent.putExtra("Bundle", "TopupA")
                 startActivity(myIntent)
+            }C.TOPB -> {
+                val myIntent = Intent(context, SettingsWebActivity::class.java)
+                myIntent.putExtra("Bundle", "TopupB")
+                startActivity(myIntent)
             }
             C.DBT -> {
                 val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "TopupB")
-                startActivity(myIntent)  }
+                myIntent.putExtra("Bundle", "data")
+                startActivity(myIntent)
+
+            }
             C.CPF -> {
                 val myIntent = Intent(context, SettingsWebActivity::class.java)
                 myIntent.putExtra("Bundle", "ippbx")
-                startActivity(myIntent)  }
+                startActivity(myIntent)
+            }
             C.EBP -> {
                 val myIntent = Intent(context, SettingsWebActivity::class.java)
                 myIntent.putExtra("Bundle", "electric")
-                startActivity(myIntent) }
+                startActivity(myIntent)
+            }
             C.TBP -> {
                 val myIntent = Intent(context, SettingsWebActivity::class.java)
                 myIntent.putExtra("Bundle", "tv")
-                startActivity(myIntent)}
+                startActivity(myIntent)
+            }
             C.VT -> {
                 val i = Intent(context, SettingsWebActivity::class.java)
                 i.putExtra("Bundle", "videoplan")
@@ -99,11 +108,6 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
             C.VR -> {
                 (activity as ChatMainActivity).voucherRegcharge()
 
-            }
-            C.IOPG -> {
-                val i = Intent(context, SettingsWebActivity::class.java)
-                i.putExtra("Bundle", "interswitchBuy")
-                startActivity(i)
             }
 
             C.LOGOUT -> {
