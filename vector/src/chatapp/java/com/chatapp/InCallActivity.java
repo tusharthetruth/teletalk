@@ -20,8 +20,10 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -61,17 +63,17 @@ import im.vector.util.PermissionsToolsKt;
 
 public class InCallActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String PhoneNo,ContactName,ContactId;
-    private TextView lblDuration,lblStatus;
+    private String PhoneNo, ContactName, ContactId;
+    private TextView lblDuration, lblStatus;
     private boolean isSpeakerEnabled = false, isMuted = false, isNumberPadEnabled = false, isOnHold = false, isAnimationDisabled = true;
     private String Duration = "0";
     String currentDateandTime;
     private Long CallID;
-    ImageButton btnNumberPad, btnSpeaker,btnMute,btnHold,btnHangup,btnAnswer,btnHangup2;
+    ImageButton btnNumberPad, btnSpeaker, btnMute, btnHold, btnHangup, btnAnswer, btnHangup2;
     Timer timer;
     TimerTask timerTask;
     final Handler handler = new Handler();
-    private boolean isOutbound,hasAnswered,hasConnected;
+    private boolean isOutbound, hasAnswered, hasConnected;
     Ringtone r;
     private PowerManager.WakeLock inCallWakeLock;
     private PowerManager powerManager;
@@ -123,7 +125,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_in_call);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         //getSupportActionBar().setCustomView(R.layout.actionbar_logo);
@@ -139,7 +141,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
             }
 
 
-            inCallWakeLock = powerManager.newWakeLock(flags,  getLocalClassName());
+            inCallWakeLock = powerManager.newWakeLock(flags, getLocalClassName());
             inCallWakeLock.setReferenceCounted(false);
         }
 
@@ -160,44 +162,38 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
 
         original_mode = am.getMode();
         hasAnswered = false;
-        hasConnected =false;
+        hasConnected = false;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             PhoneNo = extras.getString("PhoneNo");
-            if (extras.getString("CallType").equals("Outbound")){
+            if (extras.getString("CallType").equals("Outbound")) {
                 am.setMode(AudioManager.MODE_IN_COMMUNICATION);
-                am.requestAudioFocus(null,am.STREAM_VOICE_CALL,AudioManager.AUDIOFOCUS_GAIN);
+                am.requestAudioFocus(null, am.STREAM_VOICE_CALL, AudioManager.AUDIOFOCUS_GAIN);
                 isOutbound = true;
-            }else{
+            } else {
                 am.setMode(AudioManager.MODE_RINGTONE);
                 r.play();
-                CurrentCallID=extras.getInt("CallID");
-                isOutbound=false;
+                CurrentCallID = extras.getInt("CallID");
+                isOutbound = false;
             }
         }
         RecentDBHandler recentDBHandler = new RecentDBHandler(this);
         int Direction = 2;
-        if (isOutbound){
-            Direction=1;
+        if (isOutbound) {
+            Direction = 1;
         }
-        CallID = recentDBHandler.AddRecent(1,PhoneNo,currentDateandTime,"0",Direction);
+        CallID = recentDBHandler.AddRecent(1, PhoneNo, currentDateandTime, "0", Direction);
 
         //if(Settings.hasContactPermission) {
-        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this,PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
             HashMap contact = getContactDisplayNameByNumber(PhoneNo);
             ContactName = contact.get("name").toString();
             ContactId = contact.get("contactId").toString();
-        }else{
-            ContactName=PhoneNo;
-            ContactId="";
+        } else {
+            ContactName = PhoneNo;
+            ContactId = "";
         }
-
-
-
-
-
-
 
 
         TextView lblName = (TextView) findViewById(R.id.lblName);
@@ -225,12 +221,12 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         btnHangup2.setOnClickListener(this);
 
         DialPad = (View) findViewById(R.id.DTMFDialPad);
-        btnDialPad = (ImageView)findViewById(R.id.btnDialPad);
+        btnDialPad = (ImageView) findViewById(R.id.btnDialPad);
         btnDialPad.setOnClickListener(this);
         DialPad.setVisibility(View.INVISIBLE);
         btnDialPad.setImageResource(R.drawable.showdialpad);
 
-        txtDTMF = (EditText)findViewById(R.id.txtDTMF);
+        txtDTMF = (EditText) findViewById(R.id.txtDTMF);
         txtDTMF.setText("");
 
         ImageButton btn1 = (ImageButton) findViewById(R.id.one);
@@ -259,25 +255,26 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         btnstar.setOnClickListener(this);
         btnpound.setOnClickListener(this);
 
-        LinearLayout layoutAnswer = (LinearLayout)findViewById(R.id.Layout_Answer);
-        LinearLayout layoutControls = (LinearLayout)findViewById(R.id.Layout_Controls);
-        LinearLayout layoutHangup = (LinearLayout)findViewById(R.id.Layout_Hangup);
+        LinearLayout layoutAnswer = (LinearLayout) findViewById(R.id.Layout_Answer);
+        LinearLayout layoutControls = (LinearLayout) findViewById(R.id.Layout_Controls);
+        LinearLayout layoutHangup = (LinearLayout) findViewById(R.id.Layout_Hangup);
 
 
         if (!ContactId.equals("")) {
             ContentResolver cr = getContentResolver();
             Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(ContactId));
             //Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
-            InputStream is =null;
+            InputStream is = null;
             try {
-                is = ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri, true);;
+                is = ContactsContract.Contacts.openContactPhotoInputStream(cr, contactUri, true);
+                ;
 
                 //is = getContentResolver().openInputStream(photoUri);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Bitmap image = null;
-            if (null!= is) {
+            if (null != is) {
                 image = BitmapFactory.decodeStream(is);
                 imgContact.setImageBitmap(image);
             }
@@ -288,8 +285,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
             layoutControls.setVisibility(View.VISIBLE);
             layoutHangup.setVisibility(View.VISIBLE);
             //OutboundCall(PhoneNo);
-        }
-        else{
+        } else {
             layoutAnswer.setVisibility(View.VISIBLE);
             layoutControls.setVisibility(View.GONE);
             layoutHangup.setVisibility(View.INVISIBLE);
@@ -310,8 +306,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
             public void onProgressChanged(SeekBar bar, int progress, boolean fromUser) {
                 am.setStreamVolume(stream, progress, AudioManager.FLAG_SHOW_UI);
             }
+
             public void onStartTrackingTouch(SeekBar bar) {
             }
+
             public void onStopTrackingTouch(SeekBar bar) {
             }
         });
@@ -319,7 +317,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
 
 
     @Override
-    protected void onPause (){
+    protected void onPause() {
         if (inCallWakeLock != null && inCallWakeLock.isHeld()) {
             inCallWakeLock.release();
         }
@@ -328,7 +326,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
 
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         if (inCallWakeLock != null) {
             inCallWakeLock.acquire();
         }
@@ -342,10 +340,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
 
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         try {
             DisconnectCall();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onDestroy();
@@ -355,11 +353,11 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         telCmp = new ComponentName(this, com.chatapp.sip.plugins.telephony.CallHandler.class);
         if (account == null) {
             SipProfile retAcc = new SipProfile();
-            if(showExternals) {
+            if (showExternals) {
                 Map<String, String> handlers = CallHandlerPlugin.getAvailableCallHandlers(this);
                 boolean includeGsm = Compatibility.canMakeGSMCall(this);
 
-                if(includeGsm) {
+                if (includeGsm) {
                     for (String callHandler : handlers.keySet()) {
                         // Try to prefer the GSM handler
                         if (callHandler.equalsIgnoreCase(telCmp.flattenToString())) {
@@ -372,7 +370,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 // Fast way to get first if exists
                 for (String callHandler : handlers.values()) {
                     // Ignore tel handler if we do not include gsm in settings
-                    if(callHandler.equals(telCmp.flattenToString()) && !includeGsm) {
+                    if (callHandler.equals(telCmp.flattenToString()) && !includeGsm) {
                         continue;
                     }
                     retAcc.id = CallHandlerPlugin.getAccountIdForCallHandler(this, callHandler);
@@ -385,7 +383,8 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         }
         return account;
     }
-    private void OutboundCall(String ToPhone){
+
+    private void OutboundCall(String ToPhone) {
         //LinphoneCallParams params = TabActivity.mLc.createDefaultCallParameters();
         //params.setVideoEnabled(false);
         //params.enableLowBandwidth(true);
@@ -419,7 +418,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnSpeaker:
                 toggleSpeaker();
                 break;
@@ -440,22 +439,22 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnAnswer:
 
 
-                try{
-                    hasAnswered=true;
+                try {
+                    hasAnswered = true;
 
 
-                    if(r.isPlaying())
+                    if (r.isPlaying())
                         r.stop();
 
                     am.setMode(AudioManager.MODE_IN_COMMUNICATION);
-                    service.answer(call.getCallId(),SipCallSession.StatusCode.OK);
+                    service.answer(call.getCallId(), SipCallSession.StatusCode.OK);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            LinearLayout layoutAnswer = (LinearLayout)findViewById(R.id.Layout_Answer);
-                            LinearLayout layoutControls = (LinearLayout)findViewById(R.id.Layout_Controls);
-                            LinearLayout layoutHangup = (LinearLayout)findViewById(R.id.Layout_Hangup);
+                            LinearLayout layoutAnswer = (LinearLayout) findViewById(R.id.Layout_Answer);
+                            LinearLayout layoutControls = (LinearLayout) findViewById(R.id.Layout_Controls);
+                            LinearLayout layoutHangup = (LinearLayout) findViewById(R.id.Layout_Hangup);
                             layoutAnswer.setVisibility(View.GONE);
                             layoutControls.setVisibility(View.VISIBLE);
                             layoutHangup.setVisibility(View.VISIBLE);
@@ -470,12 +469,12 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.btnDialPad:
-                if(DialPad.getVisibility()==View.INVISIBLE){
+                if (DialPad.getVisibility() == View.INVISIBLE) {
                     btnDialPad.setImageResource(R.drawable.hidedialpad);
                     DialPad.setVisibility(View.VISIBLE);
                     lblStatus.setVisibility(View.INVISIBLE);
                     imgContact.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     btnDialPad.setImageResource(R.drawable.showdialpad);
                     DialPad.setVisibility(View.INVISIBLE);
                     lblStatus.setVisibility(View.VISIBLE);
@@ -486,10 +485,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "0");
 
-                    service.sendDtmf(call.getCallId(),0);
+                    service.sendDtmf(call.getCallId(), 0);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_0, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -497,10 +496,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "1");
 
-                    service.sendDtmf(call.getCallId(),1);
+                    service.sendDtmf(call.getCallId(), 1);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_1, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -508,10 +507,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "2");
 
-                    service.sendDtmf(call.getCallId(),2);
+                    service.sendDtmf(call.getCallId(), 2);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_2, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -519,10 +518,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "3");
 
-                    service.sendDtmf(call.getCallId(),3);
+                    service.sendDtmf(call.getCallId(), 3);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_3, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -530,10 +529,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "4");
 
-                    service.sendDtmf(call.getCallId(),4);
+                    service.sendDtmf(call.getCallId(), 4);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_4, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -541,10 +540,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "5");
 
-                    service.sendDtmf(call.getCallId(),5);
+                    service.sendDtmf(call.getCallId(), 5);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_5, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -552,10 +551,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "6");
 
-                    service.sendDtmf(call.getCallId(),6);
+                    service.sendDtmf(call.getCallId(), 6);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_6, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -563,10 +562,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "7");
 
-                    service.sendDtmf(call.getCallId(),7);
+                    service.sendDtmf(call.getCallId(), 7);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_7, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -574,10 +573,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "8");
 
-                    service.sendDtmf(call.getCallId(),8);
+                    service.sendDtmf(call.getCallId(), 8);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_8, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -585,10 +584,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "9");
 
-                    service.sendDtmf(call.getCallId(),9);
+                    service.sendDtmf(call.getCallId(), 9);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_9, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -596,10 +595,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "#");
 
-                    service.sendDtmf(call.getCallId(),11);
+                    service.sendDtmf(call.getCallId(), 11);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_P, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -607,10 +606,10 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     txtDTMF.getText().insert(txtDTMF.getSelectionStart(), "*");
 
-                    service.sendDtmf(call.getCallId(),10);
+                    service.sendDtmf(call.getCallId(), 10);
                     dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_S, 1000);
                     dtmfGenerator.stopTone();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -619,7 +618,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
 
     private void toggleMic() {
         try {
-            if (service.getCalls().length>= 1) {
+            if (service.getCalls().length >= 1) {
                 isMuted = !isMuted;
                 service.setMicrophoneMute(isMuted);
                 if (isMuted) {
@@ -628,7 +627,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                     btnMute.setImageResource(R.drawable.mute_active);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -646,7 +645,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                     btnSpeaker.setImageResource(R.drawable.speaker_active);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -659,6 +658,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         }
         */
     }
+
     /*
         public void pauseOrResumeCall(LinphoneCall call) {
             LinphoneCore lc = TabActivity.mLc;
@@ -674,36 +674,40 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
     */
-    private void DisconnectCall(){
+    private void DisconnectCall() {
         try {
-            SipCallSession[] calls =  service.getCalls();
-            call = calls[calls.length-1];
-            service.hangup(call.getCallId(),SipCallSession.StatusCode.OK);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        this.unbindService(connection);
-        RecentDBHandler recentDBHandler = new RecentDBHandler(this);
-        recentDBHandler.SetDuration(CallID,Duration);
-        if(timer!=null){
-            timer.cancel();
-        }
-        timer=null;
-        if (r.isPlaying())
-            r.stop();
-        am.setMode(original_mode);
+            try {
+                SipCallSession[] calls = service.getCalls();
+                call = calls[calls.length - 1];
+                service.hangup(call.getCallId(), SipCallSession.StatusCode.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            this.unbindService(connection);
+            RecentDBHandler recentDBHandler = new RecentDBHandler(this);
+            recentDBHandler.SetDuration(CallID, Duration);
+            if (timer != null) {
+                timer.cancel();
+            }
+            timer = null;
+            if (r.isPlaying())
+                r.stop();
+            am.setMode(original_mode);
 
-        if(!isOutbound && !hasAnswered){
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-            mBuilder.setSmallIcon(R.drawable.message_notification_transparent);
-            mBuilder.setContentTitle(ContactName);
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-            sdf.setTimeZone(TimeZone.getDefault());
-            mBuilder.setContentText("You missed a call @ " + sdf.format(new Date()));
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            Random r = new Random();
-            int i1 = r.nextInt(80 - 65) + 65;
-            mNotificationManager.notify(i1, mBuilder.build());
+            if (!isOutbound && !hasAnswered) {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+                mBuilder.setSmallIcon(R.drawable.message_notification_transparent);
+                mBuilder.setContentTitle(ContactName);
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+                sdf.setTimeZone(TimeZone.getDefault());
+                mBuilder.setContentText("You missed a call @ " + sdf.format(new Date()));
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                Random r = new Random();
+                int i1 = r.nextInt(80 - 65) + 65;
+                mNotificationManager.notify(i1, mBuilder.build());
+            }
+        } catch (Exception e) {
+
         }
         finish();
     }
@@ -716,9 +720,9 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                     public void run() {
                         try {
                             if (service.getCalls().length >= 1) {
-                                SipCallSession[] calls =  service.getCalls();
-                                call = calls[calls.length-1];
-                                if (call.getCallState()==SipCallSession.InvState.DISCONNECTED){
+                                SipCallSession[] calls = service.getCalls();
+                                call = calls[calls.length - 1];
+                                if (call.getCallState() == SipCallSession.InvState.DISCONNECTED) {
                                     DisconnectCall();
                                 }
                                 if (call.getCallState() == SipCallSession.InvState.CONFIRMED) {
@@ -729,8 +733,8 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                                         long diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMs);
                                         Duration = Long.toString(diffInSec);
                                         lblStatus.setText(splitToComponentTimes(diffInSec));
-                                    }else {
-                                        hasConnected=true;
+                                    } else {
+                                        hasConnected = true;
                                         ConnectedDate = new Date();
                                     }
                                 }
@@ -740,13 +744,13 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                                 if (call.getCallState() == SipCallSession.InvState.CONNECTING || call.getCallState() == SipCallSession.InvState.EARLY) {
                                     lblStatus.setText("Ringing");
                                 }
-                                if (call.getCallState() == SipCallSession.InvState.CALLING ) {
+                                if (call.getCallState() == SipCallSession.InvState.CALLING) {
                                     lblStatus.setText("Dialing");
                                 }
                             } else {
                                 DisconnectCall();
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -756,9 +760,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-    private String splitToComponentTimes(long duration)
-    {
+    private String splitToComponentTimes(long duration) {
         int hours = (int) duration / 3600;
         int remainder = (int) duration - hours * 3600;
         int mins = remainder / 60;
@@ -767,21 +769,21 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
         String ints;
 
         String strhours = String.valueOf(hours);
-        if (strhours.length()==1)
+        if (strhours.length() == 1)
             strhours = "0" + strhours;
 
         String strmins = String.valueOf(mins);
-        if (strmins.length()==1)
+        if (strmins.length() == 1)
             strmins = "0" + strmins;
 
         String strsecs = String.valueOf(secs);
-        if (strsecs.length()==1)
+        if (strsecs.length() == 1)
             strsecs = "0" + strsecs;
 
-        if(hours>0)
-            ints =  strhours +":"+ strmins +":" + strsecs;
+        if (hours > 0)
+            ints = strhours + ":" + strmins + ":" + strsecs;
         else
-            ints = strmins +":" + strsecs;
+            ints = strmins + ":" + strsecs;
 
         return ints;
     }
@@ -804,7 +806,7 @@ public class InCallActivity extends AppCompatActivity implements View.OnClickLis
                 contact.remove("name");
                 contact.put("name", name);
                 contact.remove("contactId");
-                contact.put("contactId",contactId);
+                contact.put("contactId", contactId);
             }
         } finally {
             if (contactLookup != null) {

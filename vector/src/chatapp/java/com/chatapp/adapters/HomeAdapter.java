@@ -40,6 +40,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull HomeHolder holder, int position) {
+        try{
         HomeModel model = list.get(position);
         holder.homeName.setText(model.getName());
         holder.iv.setImageResource(model.getIcon());
@@ -49,7 +50,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             public void onClick(View v) {
                 iHomClick.onHomeClick(model.getName());
             }
-        });
+        });}catch (Exception e){
+
+        }
     }
 
     @Override
