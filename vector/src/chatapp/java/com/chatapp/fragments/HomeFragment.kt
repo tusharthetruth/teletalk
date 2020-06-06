@@ -106,7 +106,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
                 }
             }
             C.VR -> {
-                (activity as ChatMainActivity).voucherRegcharge()
+                (activity as ChatMainActivity).voucherTransfer()
 
             }
 

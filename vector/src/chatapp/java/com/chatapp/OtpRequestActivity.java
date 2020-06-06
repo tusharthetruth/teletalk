@@ -76,6 +76,7 @@ public class OtpRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_request);
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        showPrivacyDialog();
         mPhoneEdit = (EditText) findViewById(R.id.editText_carrierNumber);
         ccp.registerCarrierNumberEditText(mPhoneEdit);
         findViewById(R.id.btn_continue).setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,12 @@ public class OtpRequestActivity extends AppCompatActivity {
         });
 
     }
+
+    private void showPrivacyDialog() {
+    PrivacyDialogSplash p=new PrivacyDialogSplash();
+    p.show(getSupportFragmentManager(),"dialog");
+    }
+
     protected String validate() {
         String region = null;
         String phone = null;

@@ -94,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
         txtTerms = (TextView) findViewById(R.id.txtPrivacy_Terms);
         txtTerms.setClickable(true);
         txtTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String text = "Agree to your <a href=\"https://www.google.com\">Privacy</a> and <a href=\"https://www.google.com\">Terms Conditions</a>";
+        String text = "Agree to your <a href=\"https://cerilog.net/privacy-policy.html\">Privacy</a> and <a href=\"https://cerilog.net/privacy-policy.html\">Terms Conditions</a>";
         txtTerms.setText(Html.fromHtml(text));
         btnGetStarted = (Button)findViewById(R.id.loginSplashSubmit);
         progressBar = (ProgressBar)findViewById(R.id.progressBar2);

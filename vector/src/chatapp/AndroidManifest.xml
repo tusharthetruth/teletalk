@@ -6,7 +6,8 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.WalletActivity"></activity>
+        <activity android:name="com.chatapp.ProfileSetActivity"></activity>
+        <activity android:name="com.chatapp.WalletActivity" />
         <activity android:name="com.chatapp.ShowDeviceInMap" />
         <activity android:name="com.chatapp.TrackDeviceList" />
         <activity android:name="com.chatapp.SettingsWebActivity" />

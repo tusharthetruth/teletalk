@@ -32,6 +32,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -111,7 +113,7 @@ import static com.chatapp.Settings.asHex;
 import static com.chatapp.Settings.encrypt;
 
 
-public class ChatMainActivity extends VectorAppCompatActivity implements View.OnClickListener {
+public class ChatMainActivity extends VectorAppCompatActivity implements View.OnClickListener, ISyncListener {
     public static String RegStatus;
     public static String Username;
     public static String SipUsername;
@@ -140,10 +142,19 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         return R.layout.activity_chat_main;
     }
 
+    private final String IS_PROFILE_SHOWN = "IsProfileActivityShown";
     @Override
     public void initUiAndData() {
         //super.initUiAndData();
         context = this;
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        if (!sharedPreferences.getBoolean(IS_PROFILE_SHOWN, false)) {
+            sharedPreferences.edit().putBoolean(IS_PROFILE_SHOWN, true).commit();
+            startActivityForResult(new Intent(this, ProfileSetActivity.class),101);
+            finish();
+            return;
+        }
+
         if (CommonActivityUtils.shouldRestartApp(this)) {
             CommonActivityUtils.restartApp(this);
             return;
@@ -177,25 +188,13 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 }
             }
         });
+        onSyncListener();
 
         mSession = Matrix.getInstance(this).getDefaultSession();
         bundle = new Bundle();
         bundle.putString(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
         bundle.putString(ARG_MATRIX_ID, mSession.getMyUserId());
-        try {
-            if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
-                new AsyncTask<Void, Void, Void>() {
 
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
-                        contactsSync.SyncContacts(true);
-                        return null;
-                    }
-                }.execute();
-            }
-        } catch (Exception e) {
-        }
         navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_chat, R.id.navigation_recent, R.id.navigation_contacts)
@@ -207,14 +206,11 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         NavigationUI.setupWithNavController(navView, navController);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-         navigationView = findViewById(R.id.drawer_menu);
+        navigationView = findViewById(R.id.drawer_menu);
         NavigationUI.setupWithNavController(toolbar, navController, drawer);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                if (item.getItemId()==R.id.nav_profile){
-//                    startActivity(new Intent(ChatMainActivity.this, VectorSettingsActivity.class));
-//                }
                 return false;
             }
         });
@@ -250,6 +246,43 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         GetBalance();
         txtbalance.setOnClickListener(this);
         setMenuClick();
+
+
+
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferencesManager.IS_SYNC_DIALOG_SHOWN, false))
+            showSyncDialog();
+
+    }
+
+    private void onSyncListener() {
+        try {
+            if (PreferencesManager.getContactSync(this)) {
+                if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+                    new AsyncTask<Void, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            ContactsSync contactsSync = new ContactsSync(ChatMainActivity.this);
+                            contactsSync.SyncContacts(true);
+                            return null;
+                        }
+                    }.execute();
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void showSyncDialog() {
+        ISyncListener listener = this;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SyncFragment f = new SyncFragment();
+                f.isyncListener = listener;
+                f.show(getSupportFragmentManager());
+            }
+        }, 2000);
 
     }
 
@@ -662,7 +695,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 //if (Settings.hasContactPermission) {
                 if (context != null) {
                     if (CommonActivityUtils.checkPermissions(CommonActivityUtils.REQUEST_CODE_PERMISSION_MEMBERS_SEARCH, ChatMainActivity.this)) {
-                        CharSequence colors[] = new CharSequence[]{"Backup", "Restore" };
+                        CharSequence colors[] = new CharSequence[]{"Backup", "Restore"};
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Contacts");
@@ -721,7 +754,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                     voucherRegcharge();
+                        voucherRegcharge();
 
 
                     }
@@ -738,13 +771,13 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 });
 
         findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context, SettingsWebActivity.class);
-                        i.putExtra("Bundle", "interswitchBuy");
-                        startActivity(i);
-                    }
-                });
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, SettingsWebActivity.class);
+                i.putExtra("Bundle", "interswitchBuy");
+                startActivity(i);
+            }
+        });
 
         findViewById(R.id.videoplan).
 
@@ -758,64 +791,64 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 });
 
         findViewById(R.id.mobile_topup).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "TopupA");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "TopupA");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.ippbx).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "ippbx");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "ippbx");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.topupb).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "TopupB");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "TopupB");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.data_bundle).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "data");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "data");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.electric_bill).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "electric");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "electric");
+                startActivity(myIntent);
+            }
+        });
 
         findViewById(R.id.tv_bill).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
-                        myIntent.putExtra("Bundle", "tv");
-                        startActivity(myIntent);
-                    }
-                });
+                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                myIntent.putExtra("Bundle", "tv");
+                startActivity(myIntent);
+            }
+        });
     }
 
     private void TransferBalance(String PhoneNo, String Amount) {
@@ -1026,6 +1059,11 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
     }
 
+    @Override
+    public void onSyncEnableClick() {
+        onSyncListener();
+    }
+
     class AttemptContactBackup extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
@@ -1185,7 +1223,8 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
-    public void voucherRegcharge(){
+
+    public void voucherRegcharge() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_transfer, null);
@@ -1224,14 +1263,24 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
-    public void hideItem(){
+
+    public void hideItem() {
         try {
-                toolbar.setNavigationIcon(null);
-                getSupportActionBar().setDisplayShowHomeEnabled(false);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                navigationView.setVisibility(View.GONE);// to hide Navigation icon
-            } catch (Exception e) {
-            }
+            toolbar.setNavigationIcon(null);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            navigationView.setVisibility(View.GONE);// to hide Navigation icon
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_OK) {
+            VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
+            txtDisplayName.setText(mSession.getMyUser().displayname);
+        }
     }
 
 }

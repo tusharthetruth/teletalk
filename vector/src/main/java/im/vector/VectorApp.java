@@ -195,7 +195,7 @@ public class VectorApp extends MultiDexApplication {
     public void onCreate() {
         Log.d(LOG_TAG, "onCreate");
         super.onCreate();
-
+try{
         mLifeCycleListener = new VectorLifeCycleObserver();
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mLifeCycleListener);
 
@@ -210,7 +210,7 @@ public class VectorApp extends MultiDexApplication {
         // init the REST client
         MXSession.initUserAgent(this, BuildConfig.FLAVOR_DESCRIPTION);
 
-        VectorUncaughtExceptionHandler.INSTANCE.activate();
+//        VectorUncaughtExceptionHandler.INSTANCE.activate();
 
         instance = this;
         mCallsManager = new CallsManager(this);
@@ -358,7 +358,7 @@ public class VectorApp extends MultiDexApplication {
 
         PreferencesManager.fixMigrationIssues(this);
         initApplicationLocale();
-        visitSessionVariables();
+        visitSessionVariables();}catch (Exception e){}
     }
 
     @Override

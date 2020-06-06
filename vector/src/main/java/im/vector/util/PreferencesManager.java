@@ -47,6 +47,7 @@ public class PreferencesManager {
     private static final String LOG_TAG = PreferencesManager.class.getSimpleName();
 
     public static final String VERSION_BUILD = "VERSION_BUILD";
+    public static final String IS_SYNC_DIALOG_SHOWN = "IS_SYNC_DIALOG_SHOW";
 
     public static final String SETTINGS_MESSAGES_SENT_BY_BOT_PREFERENCE_KEY = "SETTINGS_MESSAGES_SENT_BY_BOT_PREFERENCE_KEY_2";
     public static final String SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY = "SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY";
@@ -95,6 +96,7 @@ public class PreferencesManager {
     // user
     public static final String SETTINGS_DISPLAY_NAME_PREFERENCE_KEY = "SETTINGS_DISPLAY_NAME_PREFERENCE_KEY";
     public static final String SETTINGS_PROFILE_PICTURE_PREFERENCE_KEY = "SETTINGS_PROFILE_PICTURE_PREFERENCE_KEY";
+    public static final String SETTINGS_SYNC_CONTACTS_KEY = "SYNC_CONTACTS";
 
     // contacts
     public static final String SETTINGS_CONTACTS_PHONEBOOK_COUNTRY_PREFERENCE_KEY = "SETTINGS_CONTACTS_PHONEBOOK_COUNTRY_PREFERENCE_KEY";
@@ -315,7 +317,12 @@ public class PreferencesManager {
      * @return true if the join and leave membership events should be shown in the messages list
      */
     public static boolean showJoinLeaveMessages(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, false);
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SHOW_JOIN_LEAVE_MESSAGES_KEY, true);
+    }
+
+
+    public static boolean getContactSync(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SYNC_CONTACTS_KEY, false);
     }
 
     /**

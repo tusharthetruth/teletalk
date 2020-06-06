@@ -68,7 +68,10 @@ public class VectorMarkdownParser extends WebView {
 
     public VectorMarkdownParser(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
+        try {
+            initialize();
+        } catch (Exception e) {
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

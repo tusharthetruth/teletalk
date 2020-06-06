@@ -42,6 +42,8 @@ import java.util.Objects;
 import im.vector.Matrix;
 import im.vector.R;
 import im.vector.activity.CommonActivityUtils;
+import im.vector.activity.MXCActionBarActivity;
+import im.vector.activity.VectorRoomActivity;
 import im.vector.util.VectorUtils;
 
 /**
@@ -58,6 +60,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
     private String userId, roomId = "";
     private ProgressDialog pDialog;
     private MXSession mSession;
+    private Context context;
 
     View.OnClickListener OutCallListener = new View.OnClickListener() {
         @Override
@@ -99,9 +102,9 @@ public class ContactsDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_details);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        context = this;
         Objects.requireNonNull(getSupportActionBar()).setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -269,12 +272,10 @@ public class ContactsDetailsActivity extends AppCompatActivity {
     private void InviteOrGotoUserChat() {
         if (!mSession.getMyUserId().equals(userId)) {
             if (roomId.length() > 1) {
-                //TODO
-                /*
-                Intent intent = new Intent(ContactsDetailsActivity.this, MessageActivity.class);
-                intent.putExtra(MessageActivity.EXTRA_ROOM_ID, roomId);
-                startActivity(intent);
-                 */
+                Intent intent = new Intent(ContactsDetailsActivity.this, VectorRoomActivity.class);
+                intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+                intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
+                context.startActivity(intent);
             } else {
                 pDialog = new ProgressDialog(this, AlertDialog.THEME_HOLO_LIGHT);
                 pDialog.setMessage("Please wait...");

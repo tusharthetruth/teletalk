@@ -1,6 +1,7 @@
 package com.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,6 +28,8 @@ public class SettingsWebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_web);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,47 +73,47 @@ public class SettingsWebActivity extends AppCompatActivity {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/checkout_payment_interswitch_app.php";
-            setTitle("interswitchBuy");
+            setTitle("Interswitch Buy");
         }else if (url.equalsIgnoreCase("videoplan")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/admin/Public/videorate.php ";
-            setTitle("Buy Credit");
+            setTitle("Video Tariff");
         }else if (url.equalsIgnoreCase("ippbx")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/admin/config.php";
-            setTitle("Buy Credit");
+            setTitle("Cloud PBX Features");
         } else if (url.equalsIgnoreCase("Credit")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Buy Credit");
+            setTitle("Add Funds To Wallet");
         } else if (url.equalsIgnoreCase("TopupA")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Topup");
+            setTitle("International Mobile Airtime Topup A");
         }else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("Topup");
+            setTitle("International Mobile Airtime Topup B");
         }else if (url.equalsIgnoreCase("data")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_data_app.php";
-            setTitle("Topup");
+            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";;
+            setTitle("Data Bundle Topup");
         }else if (url.equalsIgnoreCase("electric")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/billing_electricity_payment_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("Topup");
+            setTitle("Electricity Bill's Payment");
         }else if (url.equalsIgnoreCase("tv")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_dth_payment_app.php??pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("Topup");
+            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_dth_payment_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            setTitle("Television Bill's Payment");
         }
     }
 

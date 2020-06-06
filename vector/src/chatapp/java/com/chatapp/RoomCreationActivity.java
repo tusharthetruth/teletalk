@@ -147,6 +147,7 @@ public class RoomCreationActivity extends AppCompatActivity implements SearchVie
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                List<LocalContactItem> localContactItems = mAdapter.getItems();
                 boolean hasFound = false;
                 for (int i = 0; i < SelectedNumbers.size(); i++) {
                     if (SelectedNumbers.get(i).equals(localContactItems.get(position).Phone)) {
@@ -450,6 +451,10 @@ public class RoomCreationActivity extends AppCompatActivity implements SearchVie
             this.layoutResourceId = resource;
             this.context = context;
             this.Items = objects;
+        }
+
+        public ArrayList<LocalContactItem> getItems() {
+            return (ArrayList<LocalContactItem>) Items;
         }
 
         @SuppressLint("SetTextI18n")

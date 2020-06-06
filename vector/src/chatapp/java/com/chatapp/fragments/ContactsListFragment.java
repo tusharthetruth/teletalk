@@ -288,6 +288,15 @@ public class ContactsListFragment extends ListFragment implements
         sv.requestFocusFromTouch();
         sv.setIconifiedByDefault(true);
         sv.setIconified(false);
+        sv.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                MenuItemCompat.collapseActionView(item);
+                ((ChatMainActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_contacts);
+                return true;
+            }
+        });
+
 
         int id = sv.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         final TextView textView = (TextView) sv.findViewById(id);
@@ -471,7 +480,7 @@ public class ContactsListFragment extends ListFragment implements
             getActivity().startActivity(intent);
         } else {
 
-            LocalContactItem localContactItem = localContactItemList.get(position);
+            LocalContactItem localContactItem = mContactInviteAdapterAdapter.getItem(position);
 
             Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.parseLong(localContactItem.ContactID));
             Uri photoUri = Uri.withAppendedPath(contactUri, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
