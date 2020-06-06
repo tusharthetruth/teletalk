@@ -410,11 +410,18 @@ public class DialerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
-        if (s.toString().length() == 3) {
+    public void afterTextChanged(Editable q) {
+        String s = q.toString();
+        if (s.startsWith("00")) {
+            s = s.substring(2);
+        }
+        if (s.startsWith("+")) {
+            s = s.substring(1);
+        }
+        if (s.length() == 3) {
             updateRate();
         }
-        if (s.toString().length() < 3) {
+        if (s.length() < 3) {
             txtRate.setVisibility(View.GONE);
         }
 
@@ -453,6 +460,10 @@ public class DialerActivity extends AppCompatActivity implements View.OnClickLis
                                 DialerActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        String balance = json.optString("dialprefix");
+
+                                        txtRate.setVisibility(View.VISIBLE);
+                                        txtRate.setText(balance);
 //                                        Toast.makeText(DialerActivity.this, "An error, please try again later.", Toast.LENGTH_LONG).show();
                                     }
                                 });
