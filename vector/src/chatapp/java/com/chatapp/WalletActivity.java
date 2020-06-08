@@ -197,15 +197,18 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.credit_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent myIntent = new Intent(WalletActivity.this, ExtendedWebview.class);
+                myIntent.putExtra("Bundle", "Credit");
+                startActivity(myIntent);
 
-                String userName = settings.getString("Username", "");
-                String password = settings.getString("Password", "");
-                String url = "https://billing.adoreinfotech.co.in/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-                try {
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(i);
-                } catch (Exception e) {
-                }
+//                String userName = settings.getString("Username", "");
+//                String password = settings.getString("Password", "");
+//                String url = "https://billing.adoreinfotech.co.in/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+//                try {
+//                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                    startActivity(i);
+//                } catch (Exception e) {
+//                }
             }
         });findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
             @Override

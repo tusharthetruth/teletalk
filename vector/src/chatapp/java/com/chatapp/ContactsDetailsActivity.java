@@ -373,12 +373,10 @@ public class ContactsDetailsActivity extends AppCompatActivity {
     private final ApiCallback<String> mCreateDirectMessageCallBack = new ApiCallback<String>() {
         @Override
         public void onSuccess(final String roomId) {
-            //TODO
-            /*
-            Intent intent = new Intent(ContactsDetailsActivity.this, MessageActivity.class);
-            intent.putExtra(MessageActivity.EXTRA_ROOM_ID, roomId);
-            startActivity(intent);
-             */
+            Intent intent = new Intent(ContactsDetailsActivity.this, VectorRoomActivity.class);
+            intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+            intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
+            context.startActivity(intent);
             pDialog.dismiss();
         }
 
