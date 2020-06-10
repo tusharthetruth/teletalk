@@ -282,7 +282,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 f.isyncListener = listener;
                 f.show(getSupportFragmentManager());
             }
-        }, 2000);
+        }, 200);
 
     }
 
@@ -293,9 +293,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
     private void checkNotificationPrivacySetting() {
 
-
         final PushManager pushManager = Matrix.getInstance(ChatMainActivity.this).getPushManager();
-
         if (pushManager.useFcm()) {
             if (!PreferencesManager.didMigrateToNotificationRework(this)) {
                 PreferencesManager.setDidMigrateToNotificationRework(this);

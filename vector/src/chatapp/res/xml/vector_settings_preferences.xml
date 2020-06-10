@@ -16,6 +16,13 @@
             android:summary="@string/settings_display_name"
             android:title="@string/settings_display_name" />
 
+        <im.vector.preference.VectorSwitchPreference
+            android:defaultValue="false"
+            android:key="SYNC_CONTACTS"
+            android:summary="Contact Sync"
+            app:isPreferenceVisible="true"
+            android:title="Contact Sync Automatically" />
+
         <im.vector.preference.VectorPreference
             android:key="SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY"
             android:summary="@string/password_hint"
