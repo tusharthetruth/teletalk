@@ -103,14 +103,14 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                         JSONObject json = new JSONObject(response);
                         if (!json.isNull("credit")) {
                             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
-                            UserCurrency = json.getString("currency").substring(0, 3);
+                            UserCurrency = json.getString("currency");
                             format.setCurrency(Currency.getInstance(UserCurrency));
-                            final String balance = format.format(json.getLong("credit"));
+                            final Double balance = json.getDouble("credit");
                             if (this != null) {
                                 WalletActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        txtbalance.setText(balance);
+                                        txtbalance.setText(String.format("%s %s", UserCurrency, balance));
                                     }
                                 });
                             }

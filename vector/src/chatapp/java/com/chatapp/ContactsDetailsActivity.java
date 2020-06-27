@@ -3,15 +3,22 @@ package com.chatapp;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +32,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.chatapp.util.ChatUtils;
 
+import org.json.JSONObject;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.IMXCall;
 import org.matrix.androidsdk.core.callback.ApiCallback;
@@ -36,7 +51,9 @@ import org.matrix.androidsdk.data.Room;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import im.vector.Matrix;
@@ -46,22 +63,26 @@ import im.vector.activity.MXCActionBarActivity;
 import im.vector.activity.VectorRoomActivity;
 import im.vector.util.VectorUtils;
 
+import static com.chatapp.Settings.asHex;
+
 /**
  * Created by Arun on 10-11-2017.
  */
 
-public class ContactsDetailsActivity extends AppCompatActivity {
+public class ContactsDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     final String LOG_TAG = "ContactsDetailsActivity";
     private String ContactID;
-    private String LocalPhone, DefaultPhone,DefaultCallPhone;
+    private String LocalPhone, DefaultPhone, DefaultCallPhone;
     private boolean isLocalContact, CanMakeFreeCalls = false;
     ScrollView scrollView;
     private String userId, roomId = "";
     private ProgressDialog pDialog;
     private MXSession mSession;
     private Context context;
-
+    private LinearLayout rateContainer, rateContainerT;
+    private String phoneNo;
+    private TextView contactNo, contactNoT;
     View.OnClickListener OutCallListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -110,6 +131,12 @@ public class ContactsDetailsActivity extends AppCompatActivity {
 
         mSession = Matrix.getInstance(this).getDefaultSession();
         scrollView = (ScrollView) findViewById(R.id.page_scroll_view);
+        contactNo = findViewById(R.id.mobileNo);
+        contactNoT = findViewById(R.id.mobileNoCon);
+        rateContainer = findViewById(R.id.rateContainer);
+        rateContainerT = findViewById(R.id.rateContainerT);
+        rateContainer.setOnClickListener(this);
+        rateContainerT.setOnClickListener(this);
 
 /*
         scrollView.setVisibility(View.GONE);
@@ -228,8 +255,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                             if (isLocalContact) {
                                 DefaultPhone = LocalPhone;
                                 DefaultCallPhone = "+" + LocalPhone;
-                            }
-                            else {
+                            } else {
                                 DefaultPhone = str.replace("+", "");
                                 DefaultCallPhone = str;
                             }
@@ -241,13 +267,41 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             }
         }
         datacursor.close();
+        contactNo = findViewById(R.id.mobileNo);
+        rateContainer = findViewById(R.id.rateContainer);
+        rateContainer.setOnClickListener(this);
 
+        contactNo.setText(ContactInfoItems.get(0).PhoneNo);
+        contactNoT.setText(ContactInfoItems.get(0).PhoneNo);
+        contactNo.setVisibility(View.VISIBLE);
         ContactInfoAdapter mAdapter = new ContactInfoAdapter(this, R.layout.contact_number_info_item, ContactInfoItems);
         ListView listView = (ListView) findViewById(R.id.contact_numbers_list_info);
         listView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(listView);
+        rateContainer.setOnClickListener(this);
+        contactNo.setText(ContactInfoItems.get(0).PhoneNo);
+        if (TextUtils.isEmpty(ContactInfoItems.get(0).PhoneNo)) {
+            contactNo.setText("Mobile Number No Available");
+        }
+        phoneNo = ContactInfoItems.get(0).PhoneNo;
+        pDialog = new ProgressDialog(this, AlertDialog.THEME_HOLO_LIGHT);
+        pDialog.setMessage("Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        contactNo.setText(ContactInfoItems.get(0).PhoneNo);
+        contactNo.setVisibility(View.VISIBLE);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                contactNo.setText(ContactInfoItems.get(0).PhoneNo);
+                contactNoT.setText(ContactInfoItems.get(0).PhoneNo);
+                contactNo.setVisibility(View.VISIBLE);
+                contactNoT.setVisibility(View.VISIBLE);
+            }
+        }, 200);
 
     }
 
@@ -307,13 +361,13 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             return;
         }
         if (mSession.getMyUserId().equals(userId)) {
-            Toast.makeText(ContactsDetailsActivity.this,"You can't call yourself",Toast.LENGTH_LONG).show();
+            Toast.makeText(ContactsDetailsActivity.this, "You can't call yourself", Toast.LENGTH_LONG).show();
             return;
         }
         Room mRoom = mSession.getDataHandler().getRoom(RoomID, false);
 
         // create the call object
-        mSession.mCallsManager.createCallInRoom(mRoom.getRoomId(), false,new ApiCallback<IMXCall>() {
+        mSession.mCallsManager.createCallInRoom(mRoom.getRoomId(), false, new ApiCallback<IMXCall>() {
             @Override
             public void onSuccess(final IMXCall call) {
                 ContactsDetailsActivity.this.runOnUiThread(new Runnable() {
@@ -336,7 +390,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onNetworkError(Exception e) {
-                Toast.makeText (ContactsDetailsActivity.this, e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ContactsDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 android.util.Log.e(LOG_TAG, "## startCall() failed " + e.getMessage());
             }
 
@@ -358,13 +412,13 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                     */
                 }
 
-                Toast.makeText(ContactsDetailsActivity.this, e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ContactsDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 android.util.Log.e(LOG_TAG, "## startCall() failed " + e.getMessage());
             }
 
             @Override
             public void onUnexpectedError(Exception e) {
-                Toast.makeText(ContactsDetailsActivity.this, e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ContactsDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 android.util.Log.e(LOG_TAG, "## startCall() failed " + e.getMessage());
             }
         });
@@ -455,6 +509,139 @@ public class ContactsDetailsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rateContainer: {
+                getRates();
+                break;
+            }
+            case R.id.rateContainerT: {
+                getRates();
+                break;
+            }
+        }
+    }
+
+    private void showRateDialog(JSONObject json, boolean isSuccess) {
+        Log.d("rate", json.toString());
+        String msg = "";
+        if (isSuccess) {
+            String rates = json.optString("rates");
+            String country = json.optString("country");
+            msg = "Calling rate for " + country + " is USD " + rates + ".";
+
+        } else {
+            msg = json.optString("dialprefix");
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Rate");
+        builder.setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        //                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        //  Action for 'NO' Button
+//                        dialog.cancel();
+//                    }
+//                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Rate");
+        alert.show();
+
+    }
+
+    private void getRates() {
+        try {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+
+            String userName = settings.getString("Username", "");
+
+            final String rates = asHex(Settings.encrypt(phoneNo, Settings.ENC_KEY).getBytes());
+            final String name = asHex(Settings.encrypt(userName, Settings.ENC_KEY).getBytes());
+
+            String url = Settings.RATES_API;
+            pDialog.show();
+            RequestQueue queue = Volley.newRequestQueue(this);
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+
+                        JSONObject json = new JSONObject(response);
+                        String success = json.getString("result");
+                        if (success.equals("success")) {
+                            showRateDialog(json, true);
+                            ContactsDetailsActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            ContactsDetailsActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showRateDialog(json, false);
+                                    pDialog.dismiss();
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ContactsDetailsActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                pDialog.dismiss();
+                                Toast.makeText(ContactsDetailsActivity.this, "An Internal error occured during verification, please try again later.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    final VolleyError error1 = error;
+                    ContactsDetailsActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pDialog.dismiss();
+                            Toast.makeText(ContactsDetailsActivity.this, error1.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("rates", rates);
+                    params.put("username", name);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            pDialog.dismiss();
+            e.printStackTrace();
+        }
+
+    }
+
     public class ContactInfoAdapter extends ArrayAdapter<ContactInfoItem> {
 
 
@@ -512,8 +699,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                     if (PhoneNo.equals(LocalPhone)) {
                         if (CanMakeFreeCalls) {
                             startCall(mSession, roomId, false);
-                        }
-                        else
+                        } else
                             InviteOrGotoUserChat();
                     } else {
                         MakeOutCall(CallNo);
@@ -522,7 +708,7 @@ public class ContactsDetailsActivity extends AppCompatActivity {
             });
 
 
-           final ContactInfoItem Item = this.Items.get(position);
+            final ContactInfoItem Item = this.Items.get(position);
 
             viewHolder.rates_info_activity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -535,9 +721,6 @@ public class ContactsDetailsActivity extends AppCompatActivity {
                      */
                 }
             });
-
-
-
 
 
             viewHolder.tvNumber.setText(Item.PhoneNo);

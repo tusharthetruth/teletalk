@@ -1172,7 +1172,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     }
 
     public void invite() {
-        String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! www.cerilog.net";
+        String shareBody = "Join me on Ceritel, this free video chat and messaging app is amazing. I like it! http://play.google.com/store/apps/details?id=com.ceritel\n";
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Ceritel Invite");

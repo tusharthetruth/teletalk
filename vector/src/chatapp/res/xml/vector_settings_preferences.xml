@@ -323,7 +323,7 @@
     <im.vector.preference.VectorPreferenceCategory android:title="@string/settings_call_category">
 
         <im.vector.preference.VectorSwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="SETTINGS_CALL_RINGTONE_USE_RIOT_PREFERENCE_KEY"
             android:title="@string/settings_call_ringtone_use_riot_ringtone" />

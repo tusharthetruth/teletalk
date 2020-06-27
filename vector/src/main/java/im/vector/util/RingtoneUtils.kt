@@ -103,7 +103,7 @@ fun setCallRingtoneUri(context: Context, ringtoneUri: Uri) {
  * Set using Riot default ringtone
  */
 fun useRiotDefaultRingtone(context: Context): Boolean {
-    return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferencesManager.SETTINGS_CALL_RINGTONE_USE_RIOT_PREFERENCE_KEY, true)
+    return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferencesManager.SETTINGS_CALL_RINGTONE_USE_RIOT_PREFERENCE_KEY, false)
 }
 
 /**
