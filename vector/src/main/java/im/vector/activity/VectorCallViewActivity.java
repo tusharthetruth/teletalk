@@ -21,6 +21,7 @@ package im.vector.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -43,9 +44,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+
+import com.chatapp.ChatMainActivity;
+import com.chatapp.VideoChargeService;
 
 import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.MXSession;
@@ -87,7 +92,7 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
     public static final String EXTRA_UNKNOWN_DEVICES = "CallViewActivity.EXTRA_UNKNOWN_DEVICES";
 
     private static final String EXTRA_LOCAL_FRAME_LAYOUT = "EXTRA_LOCAL_FRAME_LAYOUT";
-
+    private boolean isOutgoingCall = false;
     private View mCallView;
 
     // account info
@@ -156,8 +161,10 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
                 public void run() {
                     Log.d(LOG_TAG, "## onStateDidChange(): new state=" + fState);
 
-                    if (IMXCall.CALL_STATE_CONNECTING.equals(fState)) hasBeenConnectedBeforeEnd = false;
-                    if (IMXCall.CALL_STATE_CONNECTED.equals(fState)) hasBeenConnectedBeforeEnd = true;
+                    if (IMXCall.CALL_STATE_CONNECTING.equals(fState))
+                        hasBeenConnectedBeforeEnd = false;
+                    if (IMXCall.CALL_STATE_CONNECTED.equals(fState))
+                        hasBeenConnectedBeforeEnd = true;
 
                     manageSubViews();
 
@@ -357,6 +364,11 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
         String callId = intent.getStringExtra(EXTRA_CALL_ID);
         mMatrixId = intent.getStringExtra(EXTRA_MATRIX_ID);
 
+        try {
+            isOutgoingCall = intent.getBooleanExtra("Outgoing call", false);
+        } catch (Exception e) {
+            isOutgoingCall = false;
+        }
         mSession = Matrix.getInstance(getApplicationContext()).getSession(mMatrixId);
         if ((null == mSession) || !mSession.isAlive()) {
             Log.e(LOG_TAG, "invalid session");
@@ -810,10 +822,10 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
 //                params.put(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
 //                CommonActivityUtils.goToRoomPage(VectorApp.getCurrentActivity(), mSession, params);
 //            } else {
-                Intent intent = new Intent(getApplicationContext(), VectorRoomActivity.class);
-                intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
-                intent.putExtra(VectorRoomActivity.EXTRA_MATRIX_ID, mMatrixId);
-                startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), VectorRoomActivity.class);
+            intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+            intent.putExtra(VectorRoomActivity.EXTRA_MATRIX_ID, mMatrixId);
+            startActivity(intent);
 //            }
         }
     }
@@ -846,6 +858,7 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
         stopVideoFadingEdgesScreenTimer();
 
         try {
+            trackCallTime();
             mVideoFadingEdgesTimer = new Timer();
             mVideoFadingEdgesTimerTask = new TimerTask() {
                 public void run() {
@@ -867,6 +880,59 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
             fadeOutVideoEdge();
         }
     }
+
+    long startTime = System.currentTimeMillis();
+    long updatedTime = System.currentTimeMillis();
+
+    private void trackCallTime() {
+        SharedPreferences preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
+        boolean isTrial = preferences.getBoolean(PreferencesManager.IS_TRIAL, false);
+        if (isTrial || !isOutgoingCall) {
+            //dNothing
+        } else {
+            try {
+                SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
+                long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
+                long avTimeInMillis = 1 * 60 * 1000;
+                TimerTask reminder = new TimerTask() {
+                    @Override
+                    public void run() {
+                        updatedTime = System.currentTimeMillis();
+                        double spendTime = updatedTime - startTime;
+                        Double spendMin = (Double) (spendTime / (60 * 1000));
+                        spendMin = Math.ceil(spendMin);
+                        long t = Double.valueOf(spendMin).longValue();
+                        saveCalledTime(t);
+                        Log.d("time",t+"");
+                        if (spendTime > avTimeInMillis) {
+                            try {
+                                mCallsManager.onHangUp("You don't have enough balance");
+//                                Toast.makeText(VectorCallViewActivity.this, " You don't have enough balance", Toast.LENGTH_LONG).show();
+                            }catch (Exception e){}
+                        }
+                    }
+                };
+                Timer timer = new Timer();
+                if (avTimeInMinutes != -1)
+                    timer.schedule(reminder,
+                            0,        //initial delay
+                            1 * 5000);
+            } catch (Exception e) {
+                Log.e("e", e.getMessage());
+            }
+        }
+
+    }
+
+    private void saveCalledTime(Long t) {
+        try {
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
+            settings.edit().putLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, t).apply();
+        } catch (Exception e) {
+            Log.e("e", e.getMessage());
+        }
+    }
+
 
     /**
      * Set the fading effect on the view above the UI video.

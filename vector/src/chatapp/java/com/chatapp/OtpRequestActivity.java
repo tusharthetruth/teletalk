@@ -173,10 +173,11 @@ public class OtpRequestActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         pDialog.dismiss();
-                                        Toast.makeText(OtpRequestActivity.this, msg, Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(OtpRequestActivity.this, msg, Toast.LENGTH_LONG).show();
                                         final Intent intent = new Intent(OtpRequestActivity.this, VerifyOtpActivity.class);
                                         intent.putExtra("CCode",CCode);
                                         intent.putExtra("PhoneNo",PhoneNo);
+                                        intent.putExtra("otp",msg);
 
                                         OtpRequestActivity.this.startActivity(intent);
                                         overridePendingTransition( R.anim.right_in, R.anim.right_out );

@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.chatapp.ChatMainActivity;
+import com.chatapp.VideoChargeService;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.CallSoundsManager;
@@ -536,9 +537,18 @@ public class CallsManager {
      */
     public void onHangUp(String hangUpMsg) {
         if (null != mActiveCall) {
+            startCallUpdate();
             mIsStoppedByUser = true;
             mActiveCall.hangup(hangUpMsg);
             endCall(false);
+        }
+    }
+
+    private void startCallUpdate() {
+        try {
+            Intent i = new Intent(mContext, VideoChargeService.class);
+            mContext.startService(i);
+        } catch (Exception e) {
         }
     }
 

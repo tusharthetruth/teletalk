@@ -6,7 +6,17 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.ExtendedWebview"></activity>
+        <service
+            android:name="com.chatapp.VideoChargeService"
+            android:exported="false"></service>
+        <service
+            android:name="com.chatapp.VideoMinuteService"
+            android:exported="false" />
+        <service
+            android:name="com.chatapp.TrailDisplayService"
+            android:exported="false" />
+
+        <activity android:name="com.chatapp.ExtendedWebview" />
         <activity android:name="com.chatapp.ProfileSetActivity" />
         <activity android:name="com.chatapp.WalletActivity" />
         <activity android:name="com.chatapp.ShowDeviceInMap" />

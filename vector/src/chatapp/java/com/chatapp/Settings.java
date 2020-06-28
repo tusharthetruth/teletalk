@@ -34,6 +34,9 @@ public class Settings {
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
     public static final String TRACK_GET_DEVICELIST_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_list.php";
     public static final String GET_DEVICEINFO_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_location.php";
+    public static final String VIDEO_CHARGE = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/video_charges.php";
+    public static final String VIDEO_CALL_TIME = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/video_minutes.php";
+    public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/video_popup.php";
     public static final String OTP_REQUEST_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_send.php";
     public static final String OTP_VERIFY_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_secure.php";
     public static final String CONTACTS_SYNC_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/sync_contacts.php";

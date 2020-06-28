@@ -21,6 +21,7 @@ import androidx.preference.PreferenceManager;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
         Bundle receivedBundle = (null != intent) ? getIntent().getExtras() : null;
         CCode = receivedBundle.getString("CCode");
         PhoneNo = receivedBundle.getString("PhoneNo");
+        String otp = receivedBundle.getString("otp");
 
 
         otpMsg = (TextView) findViewById(R.id.otp_info);
@@ -101,16 +103,29 @@ public class VerifyOtpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(otpCode.getText().toString().length()==0)
-                {
+                if (otpCode.getText().toString().length() == 0) {
                     Toast.makeText(VerifyOtpActivity.this, "Please Enter OTP", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     System.out.println("Otp verify page1");
                     DoLogin();
                 }
             }
         });
+        showOtpDialog(otp);
+    }
+
+    private void showOtpDialog(String otp) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("OTP");
+        builder.setMessage(otp);
+        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog a = builder.create();
+        a.show();
     }
 
     public class MyCount extends CountDownTimer {
@@ -137,7 +152,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
     private void DoLogin() {
 
         final String OTP = otpCode.getText().toString();
-        System.out.println("Otp "+OTP);
+        System.out.println("Otp " + OTP);
 
         if (PhoneNo.length() >= 4) {
             try {
@@ -171,9 +186,9 @@ public class VerifyOtpActivity extends AppCompatActivity {
                             final String msg = json.getString("OTP");
                             if (success.equals("success")) {
                                 System.out.println("Otp verify page");
-                                JSONObject userinfo  = json.getJSONObject("userinfo");
-                                final String username=userinfo.getString("username");
-                                final String password=userinfo.getString("password");
+                                JSONObject userinfo = json.getJSONObject("userinfo");
+                                final String username = userinfo.getString("username");
+                                final String password = userinfo.getString("password");
                                 VerifyOtpActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -182,7 +197,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                                                 .withIdentityServerUri(Uri.parse(getString(R.string.default_identity_server_url)))
                                                 .build();
                                         Matrix.getInstance(getApplicationContext()).getSessions();
-                                        login(mHomeserverConnectionConfig,getString(R.string.vector_im_server_url),getString(R.string.vector_im_server_url),username,PhoneNo,CCode,password);
+                                        login(mHomeserverConnectionConfig, getString(R.string.vector_im_server_url), getString(R.string.vector_im_server_url), username, PhoneNo, CCode, password);
                                         pDialog.dismiss();
                                     }
                                 });
@@ -283,6 +298,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                                     public void run() {
                                         pDialog.dismiss();
                                         Toast.makeText(VerifyOtpActivity.this, msg, Toast.LENGTH_LONG).show();
+                                        showOtpDialog(msg);
                                         MyCount counter = new MyCount(100000, 1000);
                                         counter.start();
                                     }
@@ -380,7 +396,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                 @Override
                 public void onMatrixError(MatrixError e) {
 
-                        Toast.makeText(getApplicationContext(), "An error occured during login.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "An error occured during login.", Toast.LENGTH_LONG).show();
 
                 }
             });

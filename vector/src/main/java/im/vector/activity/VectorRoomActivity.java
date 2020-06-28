@@ -26,6 +26,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -59,6 +60,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 
 import com.chatapp.ChatMainActivity;
+import com.chatapp.Settings;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
@@ -1732,7 +1734,21 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             permissions = PermissionsToolsKt.PERMISSIONS_FOR_VIDEO_IP_CALL;
             requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL;
         }
-
+        SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorRoomActivity.this);
+        long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
+        SharedPreferences preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorRoomActivity.this);
+        boolean isTrial = preferences.getBoolean(PreferencesManager.IS_TRIAL, false);
+        if (!isTrial && isVideoCall && avTimeInMinutes <= 0) {
+            AlertDialog.Builder b = new AlertDialog.Builder(VectorRoomActivity.this)
+                    .setTitle(getString(R.string.app_name));
+            b.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(VectorRoomActivity.this)
                 .setTitle(R.string.dialog_title_confirmation);
 
@@ -1741,16 +1757,14 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         } else {
             builder.setMessage(getString(R.string.start_voice_call_prompt_msg));
         }
-
-        builder
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (PermissionsToolsKt.checkPermissions(permissions, VectorRoomActivity.this, requestCode)) {
-                            startIpCall(PreferencesManager.useJitsiConfCall(VectorRoomActivity.this), isVideoCall);
-                        }
-                    }
-                })
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (PermissionsToolsKt.checkPermissions(permissions, VectorRoomActivity.this, requestCode)) {
+                    startIpCall(PreferencesManager.useJitsiConfCall(VectorRoomActivity.this), isVideoCall);
+                }
+            }
+        })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
@@ -1779,6 +1793,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 final Intent intent = new Intent(this, JitsiCallActivity.class);
                 intent.putExtra(JitsiCallActivity.EXTRA_WIDGET_ID, widget);
                 intent.putExtra(JitsiCallActivity.EXTRA_ENABLE_VIDEO, aIsVideoCall);
+                intent.putExtra("OutgoingCall", true);
                 startActivity(intent);
             } else {
                 //we need to prompt for permissions
@@ -1874,6 +1889,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
                         intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
                         intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
+                        intent.putExtra("Outgoing call", true);
 
                         startActivity(intent);
                     }

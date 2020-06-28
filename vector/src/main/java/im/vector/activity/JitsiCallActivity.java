@@ -19,10 +19,12 @@ package im.vector.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.facebook.react.modules.core.PermissionListener;
 
@@ -40,10 +42,13 @@ import org.matrix.androidsdk.data.Room;
 
 import java.net.URL;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import im.vector.Matrix;
 import im.vector.R;
+import im.vector.util.PreferencesManager;
 import im.vector.widgets.Widget;
 import im.vector.widgets.WidgetManagerProvider;
 import im.vector.widgets.WidgetsManager;
@@ -53,7 +58,7 @@ import im.vector.widgets.WidgetsManager;
  */
 public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiMeetActivityInterface {
     private static final String LOG_TAG = JitsiCallActivity.class.getSimpleName();
-
+    private boolean isOutgoingCall = false;
     /**
      * The linked widget
      */
@@ -118,11 +123,17 @@ public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiM
 
         mWidget = (Widget) getIntent().getSerializableExtra(EXTRA_WIDGET_ID);
         mIsVideoCall = getIntent().getBooleanExtra(EXTRA_ENABLE_VIDEO, true);
+        try {
+            isOutgoingCall = getIntent().getBooleanExtra("OutgoingCall", false);
+        } catch (Exception e) {
+
+        }
 
         try {
             Uri uri = Uri.parse(mWidget.getUrl());
             String confId = uri.getQueryParameter("confId");
             mCallUrl = JITSI_SERVER_URL + confId;
+
         } catch (Exception e) {
             Log.e(LOG_TAG, "## onCreate() failed : " + e.getMessage(), e);
             finish();
@@ -218,6 +229,59 @@ public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiM
                 });
             }
         });
+    }
+
+    long startTime = System.currentTimeMillis();
+    long updatedTime = System.currentTimeMillis();
+
+    private void trackCallTime() {
+        SharedPreferences preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(JitsiCallActivity.this);
+        boolean isTrial = preferences.getBoolean(PreferencesManager.IS_TRIAL, false);
+        if (isTrial || !isOutgoingCall) {
+            //dNothing
+        } else {
+            try {
+                SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(JitsiCallActivity.this);
+                long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
+                long avTimeInMillis = avTimeInMinutes * 60 * 1000;
+                TimerTask reminder = new TimerTask() {
+                    @Override
+                    public void run() {
+                        updatedTime = System.currentTimeMillis();
+                        double spendTime = updatedTime - startTime;
+                        Double spendMin = (Double) (spendTime / (60 * 1000));
+                        spendMin = Math.ceil(spendMin);
+                        long t = Double.valueOf(spendMin).longValue();
+                        saveCalledTime(t);
+                        Log.d("time", t + "");
+                        if (spendTime > avTimeInMillis) {
+                            try {
+                                mJitsiView.leave();
+                                Toast.makeText(JitsiCallActivity.this, " You don't have enough balance", Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                };
+                Timer timer = new Timer();
+                if (avTimeInMinutes != -1)
+                    timer.schedule(reminder,
+                            0,        //initial delay
+                            1 * 5000);
+            } catch (Exception e) {
+                Log.e("e", e.getMessage());
+            }
+        }
+
+    }
+
+    private void saveCalledTime(Long t) {
+        try {
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(JitsiCallActivity.this);
+            settings.edit().putLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, t).apply();
+        } catch (Exception e) {
+            Log.e("e", e.getMessage());
+        }
     }
 
     @Override

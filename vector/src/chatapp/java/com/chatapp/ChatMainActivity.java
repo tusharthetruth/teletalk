@@ -33,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.provider.ContactsContract;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -143,14 +144,17 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     }
 
     private final String IS_PROFILE_SHOWN = "IsProfileActivityShown";
+    private final String IS_VIDEO_POPUP_CALLED = "IS_VIDEO_POPUP_CALLED";
+    SharedPreferences sharedPreferences;
+
     @Override
     public void initUiAndData() {
         //super.initUiAndData();
         context = this;
-        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPreferences.getBoolean(IS_PROFILE_SHOWN, false)) {
             sharedPreferences.edit().putBoolean(IS_PROFILE_SHOWN, true).commit();
-            startActivityForResult(new Intent(this, ProfileSetActivity.class),101);
+            startActivityForResult(new Intent(this, ProfileSetActivity.class), 101);
             finish();
             return;
         }
@@ -248,10 +252,65 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         setMenuClick();
 
 
-
         if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferencesManager.IS_SYNC_DIALOG_SHOWN, false))
             showSyncDialog();
 
+        setVideoPopUP();
+        Intent i = new Intent(this, VideoMinuteService.class);
+        startService(i);
+        startCallUpdate();
+    }
+
+    private VideoPopupReceiver videoPopupReceiver;
+
+    private void setVideoPopUP() {
+        videoPopupReceiver = new VideoPopupReceiver(new Handler());
+        Intent i = new Intent(this, TrailDisplayService.class);
+        i.putExtra("r", videoPopupReceiver);
+        startService(i);
+
+    }
+
+    class VideoPopupReceiver extends ResultReceiver {
+
+        public VideoPopupReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            super.onReceiveResult(resultCode, resultData);
+            if (resultCode == 101) {
+                boolean showVideoDialog = resultData.getBoolean("showTrail");
+                if (showVideoDialog) {
+                    sharedPreferences.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
+                    sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+                    String msg = resultData.getString("msg");
+                    AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
+                    b.setTitle(getString(R.string.app_name));
+                    b.setMessage(msg);
+                    b.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog a = b.create();
+                    if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
+                        a.show();
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void startCallUpdate() {
+        try {
+            Intent i = new Intent(this, VideoChargeService.class);
+            startService(i);
+        } catch (Exception e) {
+        }
     }
 
     private void onSyncListener() {

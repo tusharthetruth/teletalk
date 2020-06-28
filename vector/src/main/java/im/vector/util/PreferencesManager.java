@@ -48,6 +48,9 @@ public class PreferencesManager {
 
     public static final String VERSION_BUILD = "VERSION_BUILD";
     public static final String IS_SYNC_DIALOG_SHOWN = "IS_SYNC_DIALOG_SHOW";
+    public static final String VIDEO_CALL_TIME = "VIDEO_CALL_TIME";
+    public static final String VIDEO_CALL_TIME_HAPPEN = "VIDEO_CALL_TIME_HAPPEN";
+    public static final String IS_TRIAL = "IS_TRIAL";
 
     public static final String SETTINGS_MESSAGES_SENT_BY_BOT_PREFERENCE_KEY = "SETTINGS_MESSAGES_SENT_BY_BOT_PREFERENCE_KEY_2";
     public static final String SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY = "SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY";

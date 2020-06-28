@@ -501,6 +501,8 @@ object NotificationUtils {
                 .apply {
                     if (simpleNotifiableEvent is InviteNotifiableEvent) {
                         val roomId = simpleNotifiableEvent.roomId
+                        Matrix.getInstance(context).defaultSession.joinRoom(roomId,null);
+
 
                         // offer to type a quick reject button
                         val rejectIntent = JoinRoomActivity.getRejectRoomIntent(context, roomId, matrixId)
