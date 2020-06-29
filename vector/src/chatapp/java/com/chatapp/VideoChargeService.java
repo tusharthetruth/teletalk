@@ -26,7 +26,7 @@ import static com.chatapp.Settings.asHex;
 import static com.chatapp.Settings.encrypt;
 
 
-public class VideoChargeService extends IntentService {
+public class     VideoChargeService extends IntentService {
 
     private Context context;
 

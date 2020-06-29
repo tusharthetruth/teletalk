@@ -911,7 +911,8 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
                                     @Override
                                     public void run() {
                                         mCallsManager.onHangUp("You don't have enough balance");
-                                        Toast.makeText(VectorCallViewActivity.this,"You don't have enough balance",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(VectorCallViewActivity.this, "You don't have enough balance", Toast.LENGTH_LONG).show();
+                                        cancel();
                                     }
                                 });
                             } catch (Exception e) {
