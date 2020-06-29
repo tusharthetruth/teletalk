@@ -903,12 +903,20 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
                         spendMin = Math.ceil(spendMin);
                         long t = Double.valueOf(spendMin).longValue();
                         saveCalledTime(t);
-                        Log.d("time",t+"");
-                        if (spendTime > avTimeInMillis) {
+                        Log.d("time", t + "");
+                        if (spendTime >= avTimeInMillis) {
                             try {
-                                mCallsManager.onHangUp("You don't have enough balance");
-//                                Toast.makeText(VectorCallViewActivity.this, " You don't have enough balance", Toast.LENGTH_LONG).show();
-                            }catch (Exception e){}
+                                Log.d("-------", "call");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mCallsManager.onHangUp("You don't have enough balance");
+                                        Toast.makeText(VectorCallViewActivity.this,"You don't have enough balance",Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } catch (Exception e) {
+                                Log.e("e", e.toString());
+                            }
                         }
                     }
                 };

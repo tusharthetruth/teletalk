@@ -537,10 +537,10 @@ public class CallsManager {
      */
     public void onHangUp(String hangUpMsg) {
         if (null != mActiveCall) {
-            startCallUpdate();
             mIsStoppedByUser = true;
             mActiveCall.hangup(hangUpMsg);
             endCall(false);
+            startCallUpdate();
         }
     }
 

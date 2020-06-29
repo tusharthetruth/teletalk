@@ -255,11 +255,17 @@ public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiM
                         saveCalledTime(t);
                         Log.d("time", t + "");
                         if (spendTime > avTimeInMillis) {
-                            try {
-                                mJitsiView.leave();
-                                Toast.makeText(JitsiCallActivity.this, " You don't have enough balance", Toast.LENGTH_LONG).show();
-                            } catch (Exception e) {
-                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        mJitsiView.leave();
+                                        Toast.makeText(JitsiCallActivity.this, " You don't have enough balance", Toast.LENGTH_LONG).show();
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            });
+
                         }
                     }
                 };
