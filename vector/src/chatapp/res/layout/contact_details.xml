@@ -122,7 +122,7 @@
                                 layout="@layout/short_number_layout_buttons"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
                             <include
                                 android:id="@+id/layout_bottons_non_zangi"
@@ -136,7 +136,7 @@
                                 layout="@layout/contact_info_buttons"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
                         </RelativeLayout>
 
                         <ImageView

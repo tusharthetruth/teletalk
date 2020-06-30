@@ -221,9 +221,10 @@ class ProfileUpdateFragment : DialogFragment() {
         }
     }
 
-    private fun goToSplash() {
+    private fun goToSplash() { 
         activity!!.setResult(RESULT_OK)
         activity!!.startActivity(Intent(activity, ChatMainActivity::class.java))
+        activity!!.finish()
     }
 
 

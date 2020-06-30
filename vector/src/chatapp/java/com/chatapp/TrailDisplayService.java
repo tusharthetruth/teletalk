@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import im.vector.util.PreferencesManager;
+
 import static com.chatapp.Settings.asHex;
 import static com.chatapp.Settings.encrypt;
 
@@ -67,6 +69,7 @@ public class TrailDisplayService extends IntentService {
                         JSONObject json = new JSONObject(response);
                         if (json.optString("result").equalsIgnoreCase("First")) {
                             b.putBoolean("showTrail", true);
+                            settings.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
                             b.putString("msg",json.optString("message"));
                             resultReceiver.send(101, b);
                         }

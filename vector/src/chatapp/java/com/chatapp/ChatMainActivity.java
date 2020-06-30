@@ -292,9 +292,8 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 boolean isTrialPopupShow = sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false);
                 if (showVideoDialog) {
                     sharedPreferences.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
-                    if (isTrialPopupShow)
-                        return;
-                    sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+//                    if(isTrialPopupShow)
+//                        return;
                     String msg = resultData.getString("msg");
                     AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
                     b.setTitle(getString(R.string.app_name));
@@ -309,6 +308,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                     AlertDialog a = b.create();
                     if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
                         a.show();
+                        sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
                     }
                 }
             }
