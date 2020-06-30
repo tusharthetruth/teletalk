@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -26,7 +28,7 @@ import static com.chatapp.Settings.asHex;
 import static com.chatapp.Settings.encrypt;
 
 
-public class     VideoChargeService extends IntentService {
+public class VideoChargeService extends IntentService {
 
     private Context context;
 
@@ -54,7 +56,7 @@ public class     VideoChargeService extends IntentService {
 
             final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
             final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
-            final String min = asHex(encrypt(settings.getString(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, ""), Settings.ENC_KEY).getBytes());
+            final String min =  asHex(encrypt(String.valueOf(settings.getLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, 0)), Settings.ENC_KEY).getBytes());
 
             String url = Settings.VIDEO_CHARGE;
 
@@ -68,10 +70,10 @@ public class     VideoChargeService extends IntentService {
                         startService(i);
                         response = response.trim();
                         JSONObject json = new JSONObject(response);
-                        Log.d("video charge service",response);
+                        Log.d("video charge service", response);
 
                     } catch (Exception e) {
-                        Log.d("e",e.getMessage());
+                        Log.d("e", e.getMessage());
                     }
                 }
             }, new Response.ErrorListener() {
@@ -89,6 +91,7 @@ public class     VideoChargeService extends IntentService {
                     return params;
                 }
 
+
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
@@ -97,6 +100,10 @@ public class     VideoChargeService extends IntentService {
                 }
 
             };
+            sr.setRetryPolicy(new DefaultRetryPolicy(
+                    1000000,
+                    0,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             queue.add(sr);
         } catch (Exception e) {
             e.printStackTrace();

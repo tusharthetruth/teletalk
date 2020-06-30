@@ -893,7 +893,7 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
             try {
                 SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
                 long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
-                long avTimeInMillis = 1 * 60 * 1000;
+                long avTimeInMillis = avTimeInMinutes * 60 * 1000;
                 TimerTask reminder = new TimerTask() {
                     @Override
                     public void run() {
@@ -911,6 +911,8 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
                                     @Override
                                     public void run() {
                                         mCallsManager.onHangUp("You don't have enough balance");
+                                        stopVideoFadingEdgesScreenTimer();
+                                        fadeOutVideoEdge();
                                         Toast.makeText(VectorCallViewActivity.this, "You don't have enough balance", Toast.LENGTH_LONG).show();
                                         cancel();
                                     }
@@ -936,7 +938,7 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
     private void saveCalledTime(Long t) {
         try {
             SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
-            settings.edit().putLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, t).apply();
+            settings.edit().putLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, t).commit();
         } catch (Exception e) {
             Log.e("e", e.getMessage());
         }

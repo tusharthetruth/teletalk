@@ -549,6 +549,7 @@ public class CallsManager {
             Intent i = new Intent(mContext, VideoChargeService.class);
             mContext.startService(i);
         } catch (Exception e) {
+            Log.d("e",e.toString());
         }
     }
 

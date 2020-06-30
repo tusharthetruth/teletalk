@@ -61,6 +61,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.chatapp.ChatMainActivity;
 import com.chatapp.Settings;
+import com.chatapp.VideoMinuteService;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
@@ -1730,6 +1731,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             permissions = PermissionsToolsKt.PERMISSIONS_FOR_AUDIO_IP_CALL;
             requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_AUDIO_CALL;
         } else {
+            Intent i = new Intent(this, VideoMinuteService.class);
+            startService(i);
             isVideoCall = true;
             permissions = PermissionsToolsKt.PERMISSIONS_FOR_VIDEO_IP_CALL;
             requestCode = PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL;
@@ -1793,7 +1796,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 final Intent intent = new Intent(this, JitsiCallActivity.class);
                 intent.putExtra(JitsiCallActivity.EXTRA_WIDGET_ID, widget);
                 intent.putExtra(JitsiCallActivity.EXTRA_ENABLE_VIDEO, aIsVideoCall);
-                intent.putExtra("OutgoingCall", true);
+                intent.putExtra("OutgoingCall", false);
                 startActivity(intent);
             } else {
                 //we need to prompt for permissions

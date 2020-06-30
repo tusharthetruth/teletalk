@@ -177,19 +177,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         mVectorPendingCallView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IMXCall call = CallsManager.getSharedInstance().getActiveCall();
-                if (null != call) {
-                    final Intent intent = new Intent(ChatMainActivity.this, VectorCallViewActivity.class);
-                    intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, call.getSession().getCredentials().userId);
-                    intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(intent);
-                        }
-                    });
-                }
+                showDialer();
             }
         });
         onSyncListener();
@@ -259,6 +247,25 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         Intent i = new Intent(this, VideoMinuteService.class);
         startService(i);
         startCallUpdate();
+        if(mVectorPendingCallView.getVisibility()==View.VISIBLE){
+            showDialer();
+        }
+    }
+
+    private void showDialer() {
+        IMXCall call = CallsManager.getSharedInstance().getActiveCall();
+        if (null != call) {
+            final Intent intent = new Intent(ChatMainActivity.this, VectorCallViewActivity.class);
+            intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, call.getSession().getCredentials().userId);
+            intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private VideoPopupReceiver videoPopupReceiver;
@@ -282,13 +289,17 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             super.onReceiveResult(resultCode, resultData);
             if (resultCode == 101) {
                 boolean showVideoDialog = resultData.getBoolean("showTrail");
+                boolean isTrialPopupShow = sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false);
                 if (showVideoDialog) {
                     sharedPreferences.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
+                    if (isTrialPopupShow)
+                        return;
                     sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
                     String msg = resultData.getString("msg");
                     AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
                     b.setTitle(getString(R.string.app_name));
                     b.setMessage(msg);
+                    b.setCancelable(false);
                     b.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -412,6 +423,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         VectorApp.getInstance().getNotificationDrawerManager().homeActivityDidResume(mSession != null ? mSession.getMyUserId() : null);
 
         mVectorPendingCallView.checkPendingCall();
+
 
         checkNotificationPrivacySetting();
         VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
@@ -586,7 +598,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                                 ChatMainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(ChatMainActivity.this, "An error, please try again later.", Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(ChatMainActivity.this, "An error, please try again later.", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             }
@@ -598,7 +610,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                             ChatMainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(ChatMainActivity.this, "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(ChatMainActivity.this, "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }

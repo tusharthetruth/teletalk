@@ -19,8 +19,11 @@
 
 package im.vector.push.fcm
 
+import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.text.TextUtils
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -39,6 +42,7 @@ import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.core.Log
 import org.matrix.androidsdk.rest.model.Event
 import org.matrix.androidsdk.rest.model.bingrules.BingRule
+
 
 /**
  * Class extending FirebaseMessagingService.
@@ -65,7 +69,15 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
             Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
             Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
         }
+        try{
+        val pm:PowerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val isScreenOn = if (Build.VERSION.SDK_INT >= 20) pm.isInteractive else pm.isScreenOn // check if screen is on
 
+        if (!isScreenOn) {
+            val wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock")
+            wl.acquire(3000) //set your time in milliseconds
+        }}catch (e:java.lang.Exception)
+        {}
         //safe guard
         val pushManager = Matrix.getInstance(applicationContext).pushManager
         if (!pushManager.areDeviceNotificationsAllowed()) {
