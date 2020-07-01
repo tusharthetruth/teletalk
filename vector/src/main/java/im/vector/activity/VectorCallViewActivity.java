@@ -51,6 +51,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.chatapp.ChatMainActivity;
 import com.chatapp.VideoChargeService;
+import com.giorgosneokleous.fullscreenintentexample.ActivityUtilsKt;
 
 import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.MXSession;
@@ -347,7 +348,14 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityUtilsKt.turnScreenOffAndKeyguardOn(this);
+    }
+
+    @Override
     public void initUiAndData() {
+        ActivityUtilsKt.turnScreenOnAndKeyguardOff(this);
         final Intent intent = getIntent();
         if (intent == null) {
             Log.e(LOG_TAG, "Need an intent to view.");
