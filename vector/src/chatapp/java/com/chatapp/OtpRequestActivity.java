@@ -17,11 +17,14 @@
 package com.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -46,6 +49,7 @@ import org.json.JSONObject;
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.core.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +60,9 @@ import im.vector.Matrix;
 import im.vector.R;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.LoginActivity;
+
 import com.chatapp.SplashActivity;
+
 import im.vector.push.fcm.FcmHelper;
 import im.vector.receiver.VectorUniversalLinkReceiver;
 
@@ -104,8 +110,8 @@ public class OtpRequestActivity extends AppCompatActivity {
     }
 
     private void showPrivacyDialog() {
-    PrivacyDialogSplash p=new PrivacyDialogSplash();
-    p.show(getSupportFragmentManager(),"dialog");
+        PrivacyDialogSplash p = new PrivacyDialogSplash();
+        p.show(getSupportFragmentManager(), "dialog");
     }
 
     protected String validate() {
@@ -175,12 +181,12 @@ public class OtpRequestActivity extends AppCompatActivity {
                                         pDialog.dismiss();
 //                                        Toast.makeText(OtpRequestActivity.this, msg, Toast.LENGTH_LONG).show();
                                         final Intent intent = new Intent(OtpRequestActivity.this, VerifyOtpActivity.class);
-                                        intent.putExtra("CCode",CCode);
-                                        intent.putExtra("PhoneNo",PhoneNo);
-                                        intent.putExtra("otp",msg);
+                                        intent.putExtra("CCode", CCode);
+                                        intent.putExtra("PhoneNo", PhoneNo);
+                                        intent.putExtra("otp", msg);
 
                                         OtpRequestActivity.this.startActivity(intent);
-                                        overridePendingTransition( R.anim.right_in, R.anim.right_out );
+                                        overridePendingTransition(R.anim.right_in, R.anim.right_out);
                                         OtpRequestActivity.this.finish();
                                     }
                                 });
@@ -245,6 +251,26 @@ public class OtpRequestActivity extends AppCompatActivity {
         }
     }
 
+    public void askPermission() {
+        ArrayList<String> arrPerm = new ArrayList<>();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            arrPerm.add(Manifest.permission.CAMERA);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            arrPerm.add(Manifest.permission.RECORD_AUDIO);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            arrPerm.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+            arrPerm.add(Manifest.permission.READ_CONTACTS);
+        if (!arrPerm.isEmpty()) {
+            String[] permissions = new String[arrPerm.size()];
+            permissions = arrPerm.toArray(permissions);
+            ActivityCompat.requestPermissions(this, permissions, 101);
+        }
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        askPermission();
+    }
 }

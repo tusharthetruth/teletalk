@@ -145,6 +145,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
     private final String IS_PROFILE_SHOWN = "IsProfileActivityShown";
     private final String IS_VIDEO_POPUP_CALLED = "IS_VIDEO_POPUP_CALLED";
+    private final String IS_VIDEO_POPUP_EXPIRED_CALLED = "IS_VIDEO_POPUP_EXPIRED_CALLED";
     SharedPreferences sharedPreferences;
 
     @Override
@@ -292,8 +293,6 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 boolean isTrialPopupShow = sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false);
                 if (showVideoDialog) {
                     sharedPreferences.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
-//                    if(isTrialPopupShow)
-//                        return;
                     String msg = resultData.getString("msg");
                     AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
                     b.setTitle(getString(R.string.app_name));
@@ -306,10 +305,26 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                         }
                     });
                     AlertDialog a = b.create();
-                    if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
-                        a.show();
-                        sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+//                    if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
+                    a.show();
+//                        sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+                }
+            } else {
+                AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
+                String msg = resultData.getString("msg");
+                b.setTitle(getString(R.string.app_name));
+                b.setMessage(msg);
+                b.setCancelable(false);
+                b.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
+                });
+                AlertDialog a = b.create();
+                if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_EXPIRED_CALLED, false)) {
+                    a.show();
+                    sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_EXPIRED_CALLED, true).apply();
                 }
             }
         }

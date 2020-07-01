@@ -67,10 +67,19 @@ public class TrailDisplayService extends IntentService {
                     try {
                         response = response.trim();
                         JSONObject json = new JSONObject(response);
-                        if (json.optString("result").equalsIgnoreCase("First")) {
+                        if (json.optString("result").equalsIgnoreCase("expired")) {
+                            b.putBoolean("showTrail", false);
+                            b.putString("msg",json.optString("message"));
+                            resultReceiver.send(101, b);
+                        } else if (json.optString("result").equalsIgnoreCase("First")) {
                             b.putBoolean("showTrail", true);
                             settings.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
-                            b.putString("msg",json.optString("message"));
+                            b.putString("msg", json.optString("message"));
+                            resultReceiver.send(101, b);
+                        } else {
+                            b.putBoolean("showTrail", true);
+                            settings.edit().putBoolean(PreferencesManager.IS_TRIAL, true).apply();
+                            b.putString("msg", json.optString("message"));
                             resultReceiver.send(101, b);
                         }
                     } catch (Exception e) {
@@ -79,7 +88,7 @@ public class TrailDisplayService extends IntentService {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("e",error.getMessage());
+                    Log.d("e", error.getMessage());
                 }
             }) {
                 @Override
