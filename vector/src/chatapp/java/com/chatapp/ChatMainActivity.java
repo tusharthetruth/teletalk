@@ -248,7 +248,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         Intent i = new Intent(this, VideoMinuteService.class);
         startService(i);
         startCallUpdate();
-        if(mVectorPendingCallView.getVisibility()==View.VISIBLE){
+        if (mVectorPendingCallView.getVisibility() == View.VISIBLE) {
             showDialer();
         }
     }
@@ -305,9 +305,10 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                         }
                     });
                     AlertDialog a = b.create();
-//                    if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
-                    a.show();
-//                        sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+                    if (!sharedPreferences.getBoolean(IS_VIDEO_POPUP_CALLED, false)) {
+                        a.show();
+                        sharedPreferences.edit().putBoolean(IS_VIDEO_POPUP_CALLED, true).apply();
+                    }
                 }
             } else {
                 AlertDialog.Builder b = new AlertDialog.Builder(ChatMainActivity.this);
