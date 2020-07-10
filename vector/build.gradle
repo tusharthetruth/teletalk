@@ -130,8 +130,8 @@ android {
         chatapp {
             applicationId "com.ceritel"
             // use the version name
-            versionCode 90004
-            versionName "1.1.2"
+            versionCode 90005
+            versionName "1.1.3"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
             buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"G\""
             buildConfigField "String", "FLAVOR_DESCRIPTION", "\"GooglePlay\""
