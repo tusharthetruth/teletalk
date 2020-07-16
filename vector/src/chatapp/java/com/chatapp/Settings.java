@@ -41,6 +41,7 @@ public class Settings {
     public static final String OTP_VERIFY_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_secure.php";
     public static final String CONTACTS_SYNC_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/sync_contacts.php";
     public static final String BALANCE_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/get_balance.php";
+    public static final String BALANCE_API_USD = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/get_balance_usd.php";
     public static final String RATES_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_rates/get_rates.php";
     public static final String BALANCE_TRANSFER_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_org.php";
     public static final String BALANCE_TRANSFER_HISTORY = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_report.php";

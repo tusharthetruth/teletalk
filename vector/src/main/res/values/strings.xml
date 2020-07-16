@@ -1804,6 +1804,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="title_why_this_app">Why this app ?</string>
     <string name="action_logout">Logout</string>
     <string name="my_balance">Wallet Balance</string>
+    <string name="my_balance_usd">Wallet Balance In Usd</string>
     <string name="invite_friends">Invite Friends</string>
     <string name="contacts_backup">Contacts Backup</string>
     <string name="buy_credit">Add Funds To Wallet</string>

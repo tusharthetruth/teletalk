@@ -38,11 +38,16 @@
 
     <string name="home_second">Home Second</string>
 
-    <string name="privacy_text_for_dialog">Please click on accept if you wish to enable contacts synchronisation,
-        Ceritel will upload your phonebook contacts to https://billing.adoreinfotech.co.in/crm/
-        \n \n Ceritel will not use your
-        phonebook contacts for any other purpose as stated above. You can always disable or enable this option from the settings menu of
-        the App. \n \n To know more in detail about privacy policy, please visit https://cerilog.net/privacy-policy.html/</string>
+    <string name="privacy_text_for_dialog">
+        Ceritel needs access to your contacts so that you can connect with your friends across all your devices. Your contacts will
+         be continuously synced with Ceritel\'s heavily encrypted cloud servers.</string>
+<!--    <string name="privacy_text_for_dialog">Please click on accept if you wish to enable contacts synchronisation,-->
+<!--        Ceritel will upload your phonebook contacts to https://billing.adoreinfotech.co.in/crm/-->
+<!--        \n \n Ceritel will not use your-->
+<!--        phonebook contacts for any other purpose as stated above. You can always disable or enable this option from the settings menu of-->
+<!--        the App. \n \n To know more in detail about privacy policy, please visit https://cerilog.net/privacy-policy.html/</string>-->
+<!--    -->
+
     <string name="privacy_text_for_dialog_1">
         <![CDATA[ Ceritel`s Privacy Policy \n
     We have created this privacy statement in order to demonstrate our commitment to you, our customer. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website, products and Mobile Apps.

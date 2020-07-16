@@ -51,8 +51,8 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     Bundle bundle;
     private Context context;
 
-    TextView txtbalance;
-    String UserCurrency;
+    TextView txtbalance,txtBalanceUsd;
+    String UserCurrency,userCurrencyUsd;
     TextView txtDisplayName;
     VectorCircularImageView profileImge;
 
@@ -60,7 +60,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     private static WalletActivity sharedInstance = null;
     ProgressBar progressBar;
     SharedPreferences settings;
-    private ProgressBar balancePg;
+    private ProgressBar balancePg,balancePgUsd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,16 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         balancePg = findViewById(R.id.progress_balance);
+        balancePgUsd = findViewById(R.id.progress_balance_usd);
         progressBar = findViewById(R.id.progress_balance);
         txtbalance = (TextView) findViewById(R.id.balance);
+        txtBalanceUsd = (TextView) findViewById(R.id.balanceUsd);
         txtbalance.setOnClickListener(this);
+        txtBalanceUsd.setOnClickListener(this);
         addListeners();
 
         GetBalance();
+        GetBalanceUsd();
     }
 
     private void GetBalance() {
@@ -174,6 +178,98 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
+    private void GetBalanceUsd() {
+
+        try {
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+
+            final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
+            final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
+
+
+            String url = Settings.BALANCE_API_USD;
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        balancePgUsd.setVisibility(View.GONE);
+                        response = response.trim();
+                        JSONObject json = new JSONObject(response);
+                        if (!json.isNull("credit")) {
+                            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                            userCurrencyUsd = json.getString("currency");
+                            format.setCurrency(Currency.getInstance(userCurrencyUsd));
+                            final Double balance = json.getDouble("credit");
+                            if (this != null) {
+                                WalletActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        txtBalanceUsd.setText(String.format("%s %s", userCurrencyUsd, balance));
+                                    }
+                                });
+                            }
+                        } else {
+                            if (this != null) {
+                                WalletActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(WalletActivity.this, "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        balancePgUsd.setVisibility(View.GONE);
+                        e.printStackTrace();
+                        if (WalletActivity.this != null) {
+                            WalletActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(WalletActivity.this, "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    balancePgUsd.setVisibility(View.GONE);
+                    final VolleyError error1 = error;
+                    if (WalletActivity.this != null) {
+                        WalletActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(WalletActivity.this, error1.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("cust_id", cust_id);
+                    params.put("cust_pass", cust_pass);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -188,6 +284,10 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 txtbalance.setText("");
                 balancePg.setVisibility(View.VISIBLE);
                 GetBalance();
+            }case R.id.balanceUsd: {
+                txtbalance.setText("");
+                balancePgUsd.setVisibility(View.VISIBLE);
+                GetBalanceUsd();
             }
         }
 

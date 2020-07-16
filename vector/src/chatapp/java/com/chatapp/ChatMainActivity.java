@@ -1318,7 +1318,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         final EditText txtTransferPhone = (EditText) dialogView.findViewById(R.id.txtTransferAccount);
         final EditText txtTransferAmount = (EditText) dialogView.findViewById(R.id.txtTransferAmount);
         final TextView txtTransferCurrency = (TextView) dialogView.findViewById(R.id.txtTransferCurrency);
-        txtTransferCurrency.setText(UserCurrency);
+//        txtTransferCurrency.setText(UserCurrency);
 
         dialogBuilder.setTitle("Transfer credit");
         dialogBuilder.setMessage("Transfer your credit to");
