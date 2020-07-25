@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -106,6 +107,7 @@ public class ContactsSync {
 
                             JSONObject json = new JSONObject(response);
                             String success = json.getString("result");
+                            Log.e("----resp",success);
                             if (success.equals("success")) {
                                 if(!json.isNull("phonenos")) {
                                     JSONArray jsonPhoneNos = json.getJSONArray("phonenos");
