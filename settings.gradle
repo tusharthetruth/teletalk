@@ -1,4 +1,4 @@
-include ':vector'
+include ':vector', ':pix'
 include ':appintro'
 
 // uncomment theses lines to compile matrix SDK as project sources instead of external lib

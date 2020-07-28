@@ -31,7 +31,7 @@ kapt {
 ext.abiVersionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2, "x86": 3, "x86_64": 4].withDefault { 0 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -43,10 +43,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId "im.vector"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         // use the version code
         versionCode rootProject.ext.versionCodeProp
         versionName rootProject.ext.versionNameProp
@@ -299,6 +303,7 @@ dependencies {
     chatappImplementation 'com.google.firebase:firebase-messaging:20.1.5'
     chatappImplementation 'com.google.firebase:firebase-analytics:17.3.0'
     chatappImplementation 'de.hdodenhof:circleimageview:3.1.0'
+//    chatappImplementation 'com.fxn769:pix:1.5.3'
 
     chatappImplementation 'androidx.navigation:navigation-fragment:2.2.1'
     chatappImplementation 'androidx.navigation:navigation-ui:2.2.1'
@@ -309,6 +314,8 @@ dependencies {
     chatappImplementation 'com.wang.avi:library:1.0.5'
     chatappImplementation 'com.google.firebase:firebase-analytics:17.4.1'
     chatappImplementation 'com.google.firebase:firebase-crashlytics:17.0.0'
+    chatappImplementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     // appfdroid flavor only
 
     // Test
@@ -326,6 +333,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     implementation project(path: ':appintro')
+    implementation project(path: ':pix')
 }
 
 //Ensure we never move past okhttp 3.12.x

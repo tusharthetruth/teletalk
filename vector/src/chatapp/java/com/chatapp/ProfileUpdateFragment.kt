@@ -85,7 +85,8 @@ class ProfileUpdateFragment : DialogFragment() {
                 mSession.myUser.updateDisplayName(displayName.text.toString().trim(), object : ApiCallback<Void> {
                     override fun onSuccess(info: Void?) {
                         // refresh the settings value
-                        PreferenceManager.getDefaultSharedPreferences(activity).edit {
+                        PreferenceManager.getDefaultSharedPreferences(activity).
+                        edit {
                             putString(PreferencesManager.SETTINGS_DISPLAY_NAME_PREFERENCE_KEY, value)
                         }
 

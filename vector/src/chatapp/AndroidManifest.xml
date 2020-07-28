@@ -8,7 +8,7 @@
     <application>
         <service
             android:name="com.chatapp.VideoChargeService"
-            android:exported="false"></service>
+            android:exported="false"/>
         <service
             android:name="com.chatapp.VideoMinuteService"
             android:exported="false" />

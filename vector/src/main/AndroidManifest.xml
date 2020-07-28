@@ -136,7 +136,7 @@
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Light"
+        android:theme="@style/AppTheme"
         tools:replace="allowBackup,label">
 
         <!-- No limit for screen ratio: avoid black strips -->

@@ -56,7 +56,7 @@ class DebugReceiver : BroadcastReceiver() {
     }
 
     private fun alterScalarToken(context: Context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit {
+        PreferenceManager.getDefaultSharedPreferences(context). edit {
             putString("SCALAR_TOKEN_PREFERENCE_KEY" + Matrix.getInstance(context).defaultSession.myUserId, "bad_token")
         }
     }
