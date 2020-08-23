@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.chatapp.sip.utils.Log;
 
 import org.json.JSONObject;
 
@@ -28,7 +29,7 @@ public class VolleyApi {
 
     }
 
-    public void post(VolleyListener listener, String url, JSONObject object,String tag) {
+    public void post(VolleyListener listener, String url, JSONObject object, String tag) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
 
@@ -42,7 +43,7 @@ public class VolleyApi {
                         listener.onError(error, tag);
                     }
                 });
-
+        Log.d("r", jsonObjectRequest.toString());
         getRequestQueue().add(jsonObjectRequest);
     }
 }
