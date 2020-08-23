@@ -13,15 +13,15 @@ import org.json.JSONObject;
 
 public class VolleyApi {
 
-    static RequestQueue mRequestQueue;
+    private static RequestQueue mRequestQueue;
     private Context context;
 
     public VolleyApi(Context context) {
         this.context = context;
     }
 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue != null) {
+    private RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context);
         }
         return mRequestQueue;
