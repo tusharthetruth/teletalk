@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:id="@+id/statusContainer"
         android:padding="10dp">
 
         <im.vector.view.VectorCircularImageView
@@ -48,8 +49,13 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="30dp"
         android:gravity="center_vertical"
+        android:minHeight="30dp"
         android:text="Recent Updates" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

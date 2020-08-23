@@ -1740,19 +1740,6 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorRoomActivity.this);
         long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
         SharedPreferences preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorRoomActivity.this);
-        boolean isTrial = preferences.getBoolean(PreferencesManager.IS_TRIAL, false);
-        if (!isTrial && isVideoCall && avTimeInMinutes <= 0) {
-            AlertDialog.Builder b = new AlertDialog.Builder(VectorRoomActivity.this)
-                    .setTitle(getString(R.string.app_name))
-                    .setMessage("you don't have enough balance to call");
-            b.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            }).show();
-            return;
-        }
         AlertDialog.Builder builder = new AlertDialog.Builder(VectorRoomActivity.this)
                 .setTitle(R.string.dialog_title_confirmation);
 
@@ -3529,7 +3516,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
                         showWaitingView();
 
-                        room.joinWithThirdPartySigned(sRoomPreviewData.getRoomIdOrAlias(), signUrl, new ApiCallback<Void>() {
+                        room.joinWithThirdPartySigned(mSession,sRoomPreviewData.getRoomIdOrAlias(), signUrl, new ApiCallback<Void>() {
                             @Override
                             public void onSuccess(Void info) {
                                 onJoined();

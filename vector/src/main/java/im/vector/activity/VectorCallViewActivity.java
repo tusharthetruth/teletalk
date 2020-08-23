@@ -866,7 +866,6 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
         stopVideoFadingEdgesScreenTimer();
 
         try {
-            trackCallTime();
             mVideoFadingEdgesTimer = new Timer();
             mVideoFadingEdgesTimerTask = new TimerTask() {
                 public void run() {
@@ -886,69 +885,6 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
 
             stopVideoFadingEdgesScreenTimer();
             fadeOutVideoEdge();
-        }
-    }
-
-    long startTime = System.currentTimeMillis();
-    long updatedTime = System.currentTimeMillis();
-
-    private void trackCallTime() {
-        SharedPreferences preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
-        boolean isTrial = preferences.getBoolean(PreferencesManager.IS_TRIAL, false);
-        if (isTrial || !isOutgoingCall) {
-            //dNothing
-        } else {
-            try {
-                SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
-                long avTimeInMinutes = settings.getLong(PreferencesManager.VIDEO_CALL_TIME, 0);
-                long avTimeInMillis = avTimeInMinutes * 60 * 1000;
-                TimerTask reminder = new TimerTask() {
-                    @Override
-                    public void run() {
-                        updatedTime = System.currentTimeMillis();
-                        double spendTime = updatedTime - startTime;
-                        Double spendMin = (Double) (spendTime / (60 * 1000));
-                        spendMin = Math.ceil(spendMin);
-                        long t = Double.valueOf(spendMin).longValue();
-                        saveCalledTime(t);
-                        Log.d("time", t + "");
-                        if (spendTime >= avTimeInMillis) {
-                            try {
-                                Log.d("-------", "call");
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mCallsManager.onHangUp("You don't have enough balance");
-                                        stopVideoFadingEdgesScreenTimer();
-                                        fadeOutVideoEdge();
-                                        Toast.makeText(VectorCallViewActivity.this, "You don't have enough balance", Toast.LENGTH_LONG).show();
-                                        cancel();
-                                    }
-                                });
-                            } catch (Exception e) {
-                                Log.e("e", e.toString());
-                            }
-                        }
-                    }
-                };
-                Timer timer = new Timer();
-                if (avTimeInMinutes != -1)
-                    timer.schedule(reminder,
-                            0,        //initial delay
-                            1 * 5000);
-            } catch (Exception e) {
-                Log.e("e", e.getMessage());
-            }
-        }
-
-    }
-
-    private void saveCalledTime(Long t) {
-        try {
-            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(VectorCallViewActivity.this);
-            settings.edit().putLong(PreferencesManager.VIDEO_CALL_TIME_HAPPEN, t).commit();
-        } catch (Exception e) {
-            Log.e("e", e.getMessage());
         }
     }
 
