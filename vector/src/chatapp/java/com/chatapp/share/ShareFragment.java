@@ -39,7 +39,7 @@ import im.vector.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShareFragment extends Fragment implements View.OnClickListener, VolleyListener {
+public class ShareFragment extends Fragment implements View.OnClickListener, VolleyListener, RecentUpdateAdapter.IShareAdapterClickListner {
 
     private Activity context;
     private RecyclerView rv;
@@ -109,6 +109,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
         list.add(new RecentModel());
         list.add(new RecentModel());
         adapter = new RecentUpdateAdapter(list, context);
+        adapter.setListner(this);
         rv.setAdapter(adapter);
     }
 
@@ -152,5 +153,13 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
 
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    public void onStatusClick() {
+        Pix.start(this, Options.init().
+                setCount(3).
+                setExcludeVideos(true).
+                setRequestCode(100));
     }
 }

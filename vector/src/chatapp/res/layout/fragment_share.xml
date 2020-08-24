@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:id="@+id/statusContainer"
         android:padding="10dp">
 
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:minHeight="30dp"
+        android:visibility="gone"
         android:text="Recent Updates" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -23,6 +23,15 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
 
     private ArrayList<RecentModel> list;
     private Context context;
+    private IShareAdapterClickListner listner;
+
+    public IShareAdapterClickListner getListner() {
+        return listner;
+    }
+
+    public void setListner(IShareAdapterClickListner listner) {
+        this.listner = listner;
+    }
 
     public RecentUpdateAdapter(ArrayList<RecentModel> list, Context context) {
         this.list = list;
@@ -39,11 +48,27 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
     @Override
     public void onBindViewHolder(@NonNull RecentHolder holder, int position) {
         RecentModel model = list.get(position);
+        if (position == 0) {
+            holder.recentUpdate.setVisibility(View.GONE);
+            holder.container.setVisibility(View.VISIBLE);
+        } else if (position == 1) {
+            holder.recentUpdate.setVisibility(View.VISIBLE);
+            holder.container.setVisibility(View.GONE);
+        } else {
+            holder.recentUpdate.setVisibility(View.GONE);
+            holder.container.setVisibility(View.VISIBLE);
+        }
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, StatusActivity.class);
-                context.startActivity(i);
+                if (position == 0) {
+                    listner.onStatusClick();
+                } else if (position == 1) {
+                    //do nothing
+                } else {
+                    Intent i = new Intent(context, StatusActivity.class);
+                    context.startActivity(i);
+                }
             }
         });
 
@@ -59,6 +84,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
         VectorCircularImageView userIcon;
         TextView userName, userTime;
         ConstraintLayout container;
+        TextView recentUpdate;
 
         public RecentHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +92,12 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
             userName = itemView.findViewById(R.id.my_status);
             userTime = itemView.findViewById(R.id.time);
             container = itemView.findViewById(R.id.container);
+            recentUpdate = itemView.findViewById(R.id.recentUpdate);
+
         }
+    }
+
+    public interface IShareAdapterClickListner {
+        void onStatusClick();
     }
 }
