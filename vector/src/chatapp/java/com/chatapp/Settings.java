@@ -29,26 +29,33 @@ public class Settings {
     public static boolean useJitsiConfCall = true;
     public static boolean useBatteryOptimisation = true;
 
-    public static final String SIPServer = "209.126.66.54 ";
-    public static final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
+    public static String SIPDomain = "";
+
+    public static final String SIPServer = "158.51.121.6";
+    public static final String host="https://billingsystem.willssmartvoip.com/crm/wills_api/";
+
+    public static final String OTP_REQUEST_API = host+"billing_auto_register/otp_send.php";
+    public static final String OTP_VERIFY_API = host+"billing_auto_register/otp_secure.php";
+    public static final String CONTACTS_SYNC_API = host+"billing_auto_register/sync_contacts.php";
+    public static final String BALANCE_API = host+"billing_balance/get_balance.php";
+    public static final String BALANCE_API_USD = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/get_balance_usd.php";
+    public static final String SMS_A = "http://www.goip2call.com/crm/goip_api/billing_send_sms/send_web_sms.php";
+    public static final String SMS_B = "http://www.goip2call.com/crm/goip_api/billing_send_sms/send_web_sms_bulk.php";
+    public static final String RATES_API = host+"billing_rates/get_rates.php";
+    public static final String BALANCE_TRANSFER_API = host+"billing_balance_transfer_balance/balance_transfer_org.php";
+    public static final String BALANCE_TRANSFER_HISTORY = host+"billing_balance_transfer_balance/balance_transfer_report.php";
+    public static final String VOUCHER_RECHARGE = host+"billing_voucher_recharge/refill_dialer_voucher.php";
+
+    final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
     public static final String TRACK_GET_DEVICELIST_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_list.php";
     public static final String GET_DEVICEINFO_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_location.php";
-    public static final String VIDEO_CHARGE = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/video_charges.php";
-    public static final String VIDEO_CALL_TIME = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/video_minutes.php";
-    public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/video_popup.php";
-    public static final String OTP_REQUEST_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_send.php";
-    public static final String OTP_VERIFY_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/otp_secure.php";
-    public static final String CONTACTS_SYNC_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_auto_register/sync_contacts.php";
-    public static final String BALANCE_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/get_balance.php";
-    public static final String BALANCE_API_USD = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance/get_balance_usd.php";
-    public static final String RATES_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_rates/get_rates.php";
-    public static final String BALANCE_TRANSFER_API = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_org.php";
-    public static final String BALANCE_TRANSFER_HISTORY = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_balance_transfer_balance/balance_transfer_report.php";
-    public static final String VOUCHER_RECHARGE = "https://billing.adoreinfotech.co.in/crm/ceritel_api/billing_voucher_recharge/refill_dialer_voucher.php";
-    public static final String ENC_KEY = "mnygh234a@&!#f79";
-    public static final String DEFAULT_PUSHER_APP_ID = "com.ceritel";
-    public static final String DEFAULT_PUSHER_URL = "http://billing.adoreinfotech.co.in:5000/_matrix/push/v1/notify";
+    public static final String VIDEO_CHARGE = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/video_charges.php";
+    public static final String VIDEO_CALL_TIME = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/video_minutes.php";
+    public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_auto_register/video_popup.php";
+    public static final String ENC_KEY = "hrm@rm#7$#ueqdst";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.goipcall";
+    public static final String DEFAULT_PUSHER_URL = "http://158.51.121.6:5000/_matrix/push/v1/notify";
 
 
     public static String encrypt(String input, String key) {
