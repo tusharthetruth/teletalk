@@ -348,7 +348,7 @@ public final class SipManager {
     /**
      * Authority for regular database of the application.
      */
-    public static final String AUTHORITY = "com.ceritel.db";
+    public static final String AUTHORITY = "com.wills.db";
     /**
      * Base content type for csipsimple objects.
      */

@@ -54,7 +54,7 @@ public class Settings {
     public static final String VIDEO_CALL_TIME = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/video_minutes.php";
     public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_auto_register/video_popup.php";
     public static final String ENC_KEY = "hrm@rm#7$#ueqdst";
-    public static final String DEFAULT_PUSHER_APP_ID = "com.goipcall";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.wills";
     public static final String DEFAULT_PUSHER_URL = "http://158.51.121.6:5000/_matrix/push/v1/notify";
 
 

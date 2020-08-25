@@ -82,7 +82,7 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
             url = "http://www.cerilog.net/";
-            setTitle("Why Ceritel ?");
+            setTitle("Why Wills ?");
         } else if (url.equalsIgnoreCase("interswitchBuy")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");

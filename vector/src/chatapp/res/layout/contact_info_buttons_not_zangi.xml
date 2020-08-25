@@ -24,7 +24,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/call_button_circle_transp"
-                android:contentDescription="ceritel Call"
+                android:contentDescription="Wills Call"
                 android:scaleType="centerCrop"
                 android:src="@drawable/free_call_btn"
                 android:tint="#99ffffff" />
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minLines="2"
-                android:text="Ceritel Call"
+                android:text="Wills Call"
                 android:textColor="#ffcccccc"
                 android:textSize="12.0sp" />
         </LinearLayout>
@@ -105,7 +105,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="ceritel Out"
+                android:contentDescription="Wills Out"
                 android:scaleType="centerCrop"
                 android:src="@drawable/zangi_out_btn" />
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minLines="2"
-                android:text="Ceritel Out"
+                android:text="Wills Out"
                 android:textColor="#ff4f5460"
                 android:textSize="12.0sp" />
         </LinearLayout>

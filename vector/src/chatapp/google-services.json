@@ -1,16 +1,16 @@
 {
   "project_info": {
     "project_number": "644636808753",
-    "firebase_url": "https://ceritel-c1e4d.firebaseio.com",
-    "project_id": "ceritel-c1e4d",
-    "storage_bucket": "ceritel-c1e4d.appspot.com"
+    "firebase_url": "https://Wills-c1e4d.firebaseio.com",
+    "project_id": "Wills-c1e4d",
+    "storage_bucket": "Wills-c1e4d.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:644636808753:android:68cbbbecf2756a051ea710",
         "android_client_info": {
-          "package_name": "com.ceritel"
+          "package_name": "com.wills"
         }
       },
       "oauth_client": [
