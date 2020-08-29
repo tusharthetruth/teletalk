@@ -35,9 +35,12 @@ import android.text.method.LinkMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.MXSession;
@@ -105,7 +108,8 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        ImageView iv = findViewById(R.id.loginSplashLogo);
+        Glide.with(this).asGif().load(R.raw.wills).into(iv);
         txtTerms.setVisibility(View.GONE);
         btnGetStarted.setVisibility(View.GONE);
         progressBar.setIndeterminate(true);
