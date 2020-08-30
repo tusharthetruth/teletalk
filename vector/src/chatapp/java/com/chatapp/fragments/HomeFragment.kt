@@ -139,9 +139,9 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
                 }
             }
 
-//            C.LOGOUT -> {
-//                (activity as ChatMainActivity).logout()
-//            }
+            C.Logout -> {
+                (activity as ChatMainActivity).logout()
+            }
         }
     }
 

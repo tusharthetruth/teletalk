@@ -60,7 +60,8 @@ public class HomeModel {
                         R.drawable.law_enforcement,
                         R.drawable.agro_farming,
                         R.drawable.city_guide,
-                        R.drawable.why_wills
+                        R.drawable.why_wills,
+                        R.drawable.logout
                 };
 
         String[] colorList = {
@@ -103,7 +104,8 @@ public class HomeModel {
                 C.Companion.getLaw(),
                 C.Companion.getSmartAgro(),
                 C.Companion.getSmartCityGuide(),
-                C.Companion.getWhyWill()
+                C.Companion.getWhyWill(),
+                C.Companion.getLogout()
         };
         for (int i = 0; i < iconList.length; i++) {
             HomeModel model = new HomeModel();

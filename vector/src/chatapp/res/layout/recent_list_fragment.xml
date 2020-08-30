@@ -37,6 +37,7 @@
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:src="@drawable/numpad_btn"
+        android:visibility="gone"
         app:backgroundTint="@color/riotx_accent"
         app:rippleColor="#FFFFFF" />
     <View
