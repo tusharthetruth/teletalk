@@ -13,10 +13,7 @@ import com.chatapp.C
 import com.chatapp.ChatMainActivity
 import com.chatapp.SettingsWebActivity
 import com.chatapp.TransferHistoryAcitivty
-import com.chatapp.activity.CourierActivity
-import com.chatapp.activity.LawActivity
-import com.chatapp.activity.QrActivity
-import com.chatapp.activity.TrackingActivity
+import com.chatapp.activity.*
 import com.chatapp.adapters.HomeAdapter
 import im.vector.Matrix
 import im.vector.R
@@ -84,7 +81,8 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
 
             }
             C.Tracking -> {
-                startActivity(Intent(activity, TrackingActivity::class.java))
+                C.showErr()
+//                startActivity(Intent(activity, TrackingActivity::class.java))
             }
             C.Did -> {
                 showErr()
@@ -99,7 +97,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
 
             }
             C.Ticketing -> {
-                showErr()
+                startActivity(Intent(activity, TicketingActivity::class.java))
 
             }
             C.Courier -> {

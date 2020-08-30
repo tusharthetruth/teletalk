@@ -17,7 +17,7 @@
         tools:src="@tools:sample/avatars" />
 
     <LinearLayout
-        android:id="@+id/btb"
+        android:id="@+id/train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -31,19 +31,19 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/bank_to_bank_transfer" />
+            android:src="@drawable/train_booking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Transfer to Bank Account (OPay,Apps,Loans)"
+            android:text="Train Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tws"
+        android:id="@+id/taxi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -57,18 +57,18 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/trasfer_to_wills_user" />
+            android:src="@drawable/taxi_booking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Transfer to Will Smart Users"
+            android:text="Taxi Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/loan"
+        android:id="@+id/smartcab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -82,45 +82,19 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/loans" />
+            android:src="@drawable/wills_smart_cab" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Loans"
-            android:textSize="@dimen/global_ts" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/tmm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/home_item_bg"
-        android:minHeight="44dp"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/global_icon_size"
-            android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/transer_to_mobile_money" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:text="Transfer to Mobile Money"
+            android:text="Smartcab"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tws"
+        android:id="@+id/bus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -134,19 +108,19 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/trasfer_to_wills_user" />
+            android:src="@drawable/bus_booking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Transfer to Will Smart Users"
+            android:text="Bus Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/loan"
+        android:id="@+id/fligt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -160,19 +134,19 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/loans" />
+            android:src="@drawable/flight_booking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Loans"
+            android:text="Flight Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tmm"
+        android:id="@+id/hotels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -186,14 +160,40 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/transer_to_mobile_money" />
+            android:src="@drawable/hotel_booking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Transfer to Mobile Money"
+            android:text="Hotels Booking"
+            android:textSize="@dimen/global_ts" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home_item_bg"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/global_icon_size"
+            android:layout_height="@dimen/global_icon_size"
+            android:src="@drawable/bike_booking" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="Bike Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
