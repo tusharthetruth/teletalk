@@ -258,7 +258,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         txtPhoneNo.setText(tmp[0]);
 
 
-        GetBalance();
+//        GetBalance();
         txtbalance.setOnClickListener(this);
         setMenuClick();
 
@@ -560,7 +560,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         }
     }
 
-    private void GetBalance() {
+    public void GetBalance() {
 
         try {
             SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(ChatMainActivity.this);
@@ -588,7 +588,8 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                                 ChatMainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        txtbalance.setText(balance);
+                                        showOkDialog("Balance : "+balance);
+//                                        txtbalance.setText(balance);
                                     }
                                 });
                             }
@@ -1354,6 +1355,26 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
             txtDisplayName.setText(mSession.getMyUser().displayname);
         }
+    }
+
+    private void showOkDialog(String msg) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
+        dialogBuilder.setTitle("Wills");
+        dialogBuilder.setMessage(msg);
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+
+            }
+        });
+//        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int whichButton) {
+//                //pass
+//            }
+//        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 
 }

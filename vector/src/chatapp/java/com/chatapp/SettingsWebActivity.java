@@ -67,7 +67,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
-            url = "http://www.wills.com/";
+            url = "http://willssmartvoip.com/";
             setTitle("Why Wills ?");
         } else if (url.equalsIgnoreCase("interswitchBuy")) {
             String userName = settings.getString("Username", "");
@@ -87,13 +87,13 @@ public class SettingsWebActivity extends AppCompatActivity {
         } else if (url.equalsIgnoreCase("Credit")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Add Funds To Wallet");
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            setTitle("Buy Credit");
         } else if (url.equalsIgnoreCase("TopupA")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("International Mobile Airtime Topup A");
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            setTitle("Mobile Topup");
         }else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");

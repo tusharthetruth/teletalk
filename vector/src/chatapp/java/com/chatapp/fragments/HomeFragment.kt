@@ -57,20 +57,25 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
 
             }
             C.MyBalance -> {
+                (activity as ChatMainActivity).GetBalance()
 
             }
             C.BuyCredit -> {
-
+                val myIntent = Intent(context, SettingsWebActivity::class.java)
+                myIntent.putExtra("Bundle", "Credit")
+                startActivity(myIntent)
             }
             C.VoucherRecharge -> {
                 (activity as ChatMainActivity).voucherTransfer()
 
             }
             C.MobileTopup -> {
-                showErr()
+                val myIntent = Intent(context, SettingsWebActivity::class.java)
+                myIntent.putExtra("Bundle", "TopupA")
+                startActivity(myIntent)
             }
             C.MobileTransfer -> {
-                showErr()
+                (activity as ChatMainActivity).voucherRegcharge()
             }
             C.TrnasferHistory -> {
                 startActivity(Intent(requireActivity(), TransferHistoryAcitivty::class.java))

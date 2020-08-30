@@ -3,7 +3,9 @@ package com.chatapp.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +14,10 @@ import android.os.Handler;
 import android.provider.ContactsContract;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +26,34 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.chatapp.ChatMainActivity;
 import com.chatapp.InCallActivity;
+import com.chatapp.Settings;
 import com.chatapp.sip.api.ISipService;
 import com.chatapp.sip.utils.AccountListUtils;
 import com.chatapp.util.RecentDBHandler;
 
+import org.json.JSONObject;
+
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import im.vector.R;
+
+import static com.chatapp.Settings.asHex;
+import static com.chatapp.Settings.encrypt;
 
 public class DialerFragment extends Fragment implements View.OnClickListener {
 
@@ -40,10 +64,13 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
     ToneGenerator dtmfGenerator = new ToneGenerator(0, ToneGenerator.MAX_VOLUME);
 
     AccountListUtils.AccountStatusDisplay accountStatusDisplay;
+    private TextView balance;
+    private String UserCurrency;
 
     Timer timer;
     TimerTask timerTask;
     final Handler handler = new Handler();
+    TextView rate;
 
     View vDialerFragment;
 
@@ -70,8 +97,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vDialerFragment = inflater.inflate(R.layout.fragment_dialer, container, false);
+        balance = (TextView) vDialerFragment.findViewById(R.id.balance);
 
-
+        rate = vDialerFragment.findViewById(R.id.rate);
         ImageButton btn1 = (ImageButton) vDialerFragment.findViewById(R.id.one);
         ImageButton btn2 = (ImageButton) vDialerFragment.findViewById(R.id.two);
         ImageButton btn3 = (ImageButton) vDialerFragment.findViewById(R.id.three);
@@ -138,7 +166,52 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 return true;
             }
         });
+        GetBalance();
+
+
+        txtDialNumber.addTextChangedListener(new TextWatcher() {
+                                                 @Override
+                                                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                                 }
+
+                                                 @Override
+                                                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                                 }
+
+                                                 @Override
+                                                 public void afterTextChanged(Editable s) {
+                                                     if (s.toString().length() >= 3) {
+                                                         if (s.toString().substring(0, 2).equalsIgnoreCase("00")) {
+                                                             if (s.toString().length() >= 5)
+                                                                 getRate(s.toString());
+                                                         } else
+                                                             getRate(s.toString());
+                                                     } else {
+                                                         rate.setText("");
+                                                     }
+                                                 }
+                                             }
+        );
         return vDialerFragment;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Uri contactData = data.getData();
+                Cursor cursor = getActivity().managedQuery(contactData, null, null, null, null);
+                cursor.moveToFirst();
+                String number = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                //contactName.setText(name);
+                txtDialNumber.setText(number);
+                //contactEmail.setText(email);
+            }
+        }
     }
 
     @Override
@@ -178,7 +251,8 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                         try {
                             accountStatusDisplay = AccountListUtils.getAccountDisplay(getContext(), 1);
                             updateStatus(accountStatusDisplay.statusLabel);
-                        }catch (Exception e){
+                            GetBalance();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -364,4 +438,172 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
             });
         }
     }
+
+
+    private void GetBalance() {
+
+        try {
+            SharedPreferences settings = android.preference.PreferenceManager.getDefaultSharedPreferences(getContext());
+
+            final String cust_id = asHex(encrypt(settings.getString("Username", ""), Settings.ENC_KEY).getBytes());
+            final String cust_pass = asHex(encrypt(settings.getString("Password", ""), Settings.ENC_KEY).getBytes());
+
+
+            String url = Settings.BALANCE_API;
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        response = response.trim();
+                        JSONObject json = new JSONObject(response);
+                        if (!json.isNull("credit")) {
+                            NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
+                            UserCurrency = json.getString("currency").substring(0, 3);
+                            format.setCurrency(Currency.getInstance(UserCurrency));
+                            final Double d = json.getDouble("credit");
+//                            DecimalFormat df2 = new DecimalFormat("#.##");
+//                            String s = df2.format(d);
+                            String s=String.valueOf(d);
+
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        balance.setText(String.format("Bal : $%s", s));
+                                    }
+                                });
+                            }
+                        } else {
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+//                                        Toast.makeText(getActivity(), "An error, please try again later.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    Toast.makeText(getActivity(), "An Internal error, please try again later.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    final VolleyError error1 = error;
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(), error1.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("cust_id", cust_id);
+                    params.put("cust_pass", cust_pass);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void getRate(String phoneNo) {
+        try {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            String userName = settings.getString("Username", "");
+
+            final String rates = asHex(Settings.encrypt(phoneNo, Settings.ENC_KEY).getBytes());
+            final String name = asHex(Settings.encrypt(userName, Settings.ENC_KEY).getBytes());
+
+            String url = Settings.RATES_API;
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+
+                        JSONObject json = new JSONObject(response);
+                        String success = json.getString("result");
+                        if (success.equals("success")) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String rates = json.optString("rates");
+                                    String country = json.optString("country");
+                                    rate.setText(String.format("Rate :$%s", rates));
+                                }
+                            });
+                        } else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    rate.setText("");
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    final VolleyError error1 = error;
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("rates", rates);
+                    params.put("username", name);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+
+            };
+            queue.add(sr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
+
+
+
+

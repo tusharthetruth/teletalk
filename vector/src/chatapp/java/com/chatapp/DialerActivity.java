@@ -101,7 +101,7 @@ public class DialerActivity extends AppCompatActivity implements View.OnClickLis
         txtStatus.setText("");
 
         txtDialNumber = (EditText) findViewById(R.id.dialdigits);
-        txtRate = (TextView) findViewById(R.id.txtRate);
+        txtRate = (TextView) findViewById(R.id.rate);
         txtDialNumber.setText("");
         txtDialNumber.addTextChangedListener(this);
 /*
