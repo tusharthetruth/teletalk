@@ -6,7 +6,8 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.activity.CourierActivity"></activity>
+        <activity android:name="com.chatapp.activity.TicketingActivity"></activity>
+        <activity android:name="com.chatapp.activity.CourierActivity" />
         <activity android:name="com.chatapp.activity.QrActivity" />
         <activity android:name="com.chatapp.activity.TrackingActivity" />
         <activity android:name="com.chatapp.activity.LawActivity" />

@@ -67,7 +67,85 @@
             android:text="Transfer to Will Smart Users"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
- <LinearLayout
+    <LinearLayout
+        android:id="@+id/loan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home_item_bg"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/global_icon_size"
+            android:layout_height="@dimen/global_icon_size"
+            android:src="@drawable/loans" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="Loans"
+            android:textSize="@dimen/global_ts" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tmm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home_item_bg"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/global_icon_size"
+            android:layout_height="@dimen/global_icon_size"
+            android:src="@drawable/transer_to_mobile_money" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="Transfer to Mobile Money"
+            android:textSize="@dimen/global_ts" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tws"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home_item_bg"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/global_icon_size"
+            android:layout_height="@dimen/global_icon_size"
+            android:src="@drawable/trasfer_to_wills_user" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="Transfer to Will Smart Users"
+            android:textSize="@dimen/global_ts" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/loan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

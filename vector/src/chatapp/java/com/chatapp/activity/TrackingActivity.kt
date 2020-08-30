@@ -8,25 +8,19 @@ import im.vector.Matrix
 import im.vector.R
 import im.vector.util.VectorUtils
 import kotlinx.android.synthetic.chatapp.activity_courier.*
-import kotlinx.android.synthetic.chatapp.activity_qr.*
-import kotlinx.android.synthetic.chatapp.activity_qr.settings_avatar
 import org.matrix.androidsdk.MXSession
 
-class QrActivity : AppCompatActivity(),View.OnClickListener {
+class TrackingActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_qr)
-        btb.setOnClickListener(this)
-        tws.setOnClickListener(this)
-        loan.setOnClickListener(this)
-        tmm.setOnClickListener(this)
+        setContentView(R.layout.activity_tracking)
+
     }
 
     override fun onResume() {
         super.onResume()
         var mSession: MXSession? = Matrix.getInstance(this).defaultSession
         VectorUtils.loadUserAvatar(this, mSession, settings_avatar, mSession!!.myUser)
-
 
     }
 

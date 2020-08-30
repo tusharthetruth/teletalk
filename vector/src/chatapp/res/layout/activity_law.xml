@@ -17,7 +17,7 @@
         tools:src="@tools:sample/avatars" />
 
     <LinearLayout
-        android:id="@+id/dhl"
+        android:id="@+id/cyber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -31,7 +31,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/dhl" />
+            android:src="@drawable/cyber_security" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fedex"
+        android:id="@+id/smart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -57,7 +57,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/fedex" />
+            android:src="@drawable/smart_document_verification" />
 
         <TextView
             android:layout_width="wrap_content"
