@@ -1001,7 +1001,7 @@ public class UAStateReceiver extends Callback {
             Intent callHandlerIntent = SipService.buildCallUiIntent(ctxt, currentCallInfo2);
 
             Log.d(THIS_FILE, "Anounce call activity");
-            //ctxt.startActivity(callHandlerIntent);
+            ctxt.startActivity(callHandlerIntent);
             lastLaunchCallHandler = currentElapsedTime;
         } else {
             Log.d(THIS_FILE, "Ignore extra launch handler");

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chatapp.ChatMainActivity;
 import com.chatapp.Customprogress.CustomProgressDialog;
 import com.chatapp.RoomCreationActivity;
 import com.chatapp.adapters.RoomListAdapter;
@@ -246,9 +247,13 @@ try {
 
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        try {
+            ((ChatMainActivity) getActivity()).hideItem();
+        }catch (Exception e){}
         callAdapter();
     }
 

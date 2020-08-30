@@ -157,6 +157,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 ExPhone="";
             }
         }
+        try {
+            ((ChatMainActivity) getActivity()).hideItem();
+        }catch (Exception e){}
     }
 
     @Override

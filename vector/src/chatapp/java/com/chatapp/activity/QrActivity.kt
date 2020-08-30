@@ -3,6 +3,7 @@ package com.chatapp.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.chatapp.C
 import im.vector.Matrix
 import im.vector.R
@@ -20,6 +21,15 @@ class QrActivity : AppCompatActivity(),View.OnClickListener {
         tws.setOnClickListener(this)
         loan.setOnClickListener(this)
         tmm.setOnClickListener(this)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = "QR Code Trasaction"
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true) }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     override fun onResume() {

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 
+import com.chatapp.ChatMainActivity;
 import com.chatapp.DialerActivity;
 import com.chatapp.InCallActivity;
 import com.chatapp.util.ChatUtils;
@@ -172,6 +173,9 @@ public class RecentFragment extends ListFragment {
     public void onResume(){
         super.onResume();
         new JSONParse().execute();
+        try {
+            ((ChatMainActivity) getActivity()).hideItem();
+        }catch (Exception e){}
     }
 
     @Override

@@ -270,10 +270,14 @@ public class ContactsListFragment extends ListFragment implements
     @Override
     public void onResume(){
         super.onResume();
+
         if (isLocalContacts)
             setListAdapter(mContactInviteAdapterAdapter);
         else
             setListAdapter(mContactsAdapterAdapter);
+        try {
+            ((ChatMainActivity) getActivity()).hideItem();
+        }catch (Exception e){}
     }
 
     @Override
@@ -1029,4 +1033,5 @@ public class ContactsListFragment extends ListFragment implements
         }
         return displayName;
     }
+
 }

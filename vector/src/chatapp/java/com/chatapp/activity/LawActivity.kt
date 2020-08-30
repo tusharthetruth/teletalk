@@ -3,6 +3,7 @@ package com.chatapp.activity
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.chatapp.C
 import im.vector.Matrix
 import im.vector.R
@@ -18,8 +19,16 @@ class LawActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_law)
         cyber.setOnClickListener(this)
         smart.setOnClickListener(this)
-    }
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = "Law Enforcement Tracking"
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true) }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
     override fun onClick(v: View?) {
         C.showErr()
     }
