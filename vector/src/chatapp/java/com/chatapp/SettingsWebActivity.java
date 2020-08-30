@@ -67,7 +67,7 @@ public class SettingsWebActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
         if (url.equalsIgnoreCase("Why")) {
-            url = "http://www.cerilog.net/";
+            url = "http://www.wills.com/";
             setTitle("Why Wills ?");
         } else if (url.equalsIgnoreCase("interswitchBuy")) {
             String userName = settings.getString("Username", "");

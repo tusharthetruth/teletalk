@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff27a8df</color>
-    <color name="colorPrimaryDark">#ff0157a0</color>
-    <color name="colorAccent">#03A9F4</color>
+    <color name="colorPrimary">#169D58</color>
+    <color name="colorPrimaryDark">#084F2C</color>
+    <color name="colorAccent">#169D58</color>
     <color name="textPrimary">#FFFFFF</color>
     <color name="colorGray">#03A9F4</color>
-    <color name="riotx_accent">#ff27a8df</color>
+    <color name="riotx_accent">#169D58</color>
     <color name="riotx_links">#ff27a8df  </color>
     <color name="splash_bg_color">#ffffff</color>
     <color name="splash_button_color">#ffffff</color>

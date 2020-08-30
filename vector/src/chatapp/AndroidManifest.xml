@@ -6,7 +6,11 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.status_module.StatusActivity"></activity>
+        <activity android:name="com.chatapp.activity.CourierActivity"></activity>
+        <activity android:name="com.chatapp.activity.QrActivity" />
+        <activity android:name="com.chatapp.activity.TrackingActivity" />
+        <activity android:name="com.chatapp.activity.LawActivity" />
+        <activity android:name="com.chatapp.status_module.StatusActivity" />
 
         <service
             android:name="com.chatapp.VideoChargeService"

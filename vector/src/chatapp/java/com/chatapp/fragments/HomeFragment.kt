@@ -12,17 +12,26 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.chatapp.C
 import com.chatapp.ChatMainActivity
 import com.chatapp.SettingsWebActivity
-import com.chatapp.WalletActivity
+import com.chatapp.TransferHistoryAcitivty
+import com.chatapp.activity.CourierActivity
+import com.chatapp.activity.LawActivity
+import com.chatapp.activity.QrActivity
+import com.chatapp.activity.TrackingActivity
 import com.chatapp.adapters.HomeAdapter
+import im.vector.Matrix
 import im.vector.R
 import im.vector.activity.VectorSettingsActivity
+import im.vector.util.VectorUtils
 import kotlinx.android.synthetic.chatapp.fragment_home2.*
+import org.matrix.androidsdk.MXSession
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class HomeFragment : Fragment(), HomeAdapter.iHomClick {
+
+    private lateinit var mSession: MXSession
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,7 +41,9 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rv.setLayoutManager(GridLayoutManager(activity, 2))
+
+
+        rv.setLayoutManager(GridLayoutManager(activity, 3))
         var adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
         rv.adapter = adapter
 
@@ -40,62 +51,81 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
 
     override fun onHomeClick(title: String?) {
         when (title) {
-            C.BUY_CREDIT -> {
-                startActivity(Intent(activity, VectorSettingsActivity::class.java))
-            }
-            C.WALLET_BALANCE -> {
-                startActivity(Intent(activity, WalletActivity::class.java))
-            }
-            C.INVITE_FRIEND -> {
+            C.InviteFriends -> {
                 (activity as ChatMainActivity).invite()
-            }
-            C.CHAT_VIDEO_CONFERENCE -> {
-                (activity as ChatMainActivity).chat()
-            }
-            C.DIRECT_CALL -> {
-                (activity as ChatMainActivity).dialer()
 
             }
-            C.IMAT -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "TopupA")
-                startActivity(myIntent)
-            }C.TOPB -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "TopupB")
-                startActivity(myIntent)
-            }
-            C.DBT -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "data")
-                startActivity(myIntent)
-
-            }
-            C.CPF -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "ippbx")
-                startActivity(myIntent)
-            }
-            C.EBP -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "electric")
-                startActivity(myIntent)
-            }
-            C.TBP -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
-                myIntent.putExtra("Bundle", "tv")
-                startActivity(myIntent)
-            }
-            C.VT -> {
-                val i = Intent(context, SettingsWebActivity::class.java)
-                i.putExtra("Bundle", "videoplan")
-                startActivity(i)
-
-            }
-            C.TH -> {
+            C.Settings -> {
                 startActivity(Intent(activity, VectorSettingsActivity::class.java))
+
             }
-            C.TC -> {
+            C.MyBalance -> {
+
+            }
+            C.BuyCredit -> {
+
+            }
+            C.VoucherRecharge -> {
+                (activity as ChatMainActivity).voucherTransfer()
+
+            }
+            C.MobileTopup -> {
+                showErr()
+            }
+            C.MobileTransfer -> {
+                showErr()
+            }
+            C.TrnasferHistory -> {
+                startActivity(Intent(requireActivity(), TransferHistoryAcitivty::class.java))
+
+            }
+            C.ContactBackup -> {
+                showErr()
+
+            }
+            C.Tracking -> {
+                startActivity(Intent(activity, TrackingActivity::class.java))
+            }
+            C.Did -> {
+                showErr()
+
+            }
+            C.UpdateProfile -> {
+                startActivity(Intent(activity, VectorSettingsActivity::class.java))
+
+            }
+            C.Qr -> {
+                startActivity(Intent(activity, QrActivity::class.java))
+
+            }
+            C.Ticketing -> {
+                showErr()
+
+            }
+            C.Courier -> {
+                startActivity(Intent(activity, CourierActivity::class.java))
+
+            }
+            C.WillEducation -> {
+                showErr()
+
+
+            }
+            C.Medical -> {
+                showErr()
+
+            }
+            C.Law -> {
+                startActivity(Intent(activity, LawActivity::class.java))
+
+            }
+            C.smartAgro -> {
+                showErr()
+            }
+            C.SmartCityGuide -> {
+                showErr()
+            }
+            C.WhyWill -> {
                 try {
                     val myIntent = Intent(activity, SettingsWebActivity::class.java)
                     myIntent.putExtra("Bundle", "Why")
@@ -105,20 +135,24 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
                     e.printStackTrace()
                 }
             }
-            C.VR -> {
-                (activity as ChatMainActivity).voucherTransfer()
 
-            }
-
-            C.LOGOUT -> {
-                (activity as ChatMainActivity).logout()
-            }
+//            C.LOGOUT -> {
+//                (activity as ChatMainActivity).logout()
+//            }
         }
+    }
+
+    private fun showErr() {
+        Toast.makeText(requireActivity(), "Coming Soon", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onResume() {
         super.onResume()
         (activity as ChatMainActivity).hideItem();
+        mSession = Matrix.getInstance(requireActivity()).defaultSession
+
+        VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
     }
 
 }

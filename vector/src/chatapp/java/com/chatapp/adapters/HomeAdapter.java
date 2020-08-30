@@ -44,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         HomeModel model = list.get(position);
         holder.homeName.setText(model.getName());
         holder.iv.setImageResource(model.getIcon());
-        holder.container.setBackgroundColor(Color.parseColor(model.getColorCode()));
+//        holder.container.setBackgroundColor(Color.parseColor(model.getColorCode()));
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

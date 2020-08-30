@@ -1,23 +1,35 @@
 package com.chatapp
 
+import android.widget.Toast
+import im.vector.VectorApp
+
 class C {
     companion object {
-        var WALLET_BALANCE = "Wallet Balance"
-        var BUY_CREDIT = "Profile"
-        var INVITE_FRIEND = "Invite Friend"
-        var CHAT_VIDEO_CONFERENCE = "Chat/Video Confrencing"
-        var DIRECT_CALL = "Direct Call"
-        var IMAT = "International Mobile Airtime Topup A"
-        var TOPB = "International Mobile Airtime Topup B"
-        var DBT = "Data Bundle Topup"
-        var CPF = "Cloud PBX Features"
-        var EBP = "Electricity Bill's Payment"
-        var TBP = "Television Bill's Payment"
-        var VT = " Video Tariff"
-        var TH = "Settings"
-        var TC = "Why This App ?"
-        var VR = " Voucher Recharge"
-        var LOGOUT = "Logout"
+        var InviteFriends = "InviteFriends"
+        var Settings = "Settings"
+        var MyBalance = "MyBalance"
+        var BuyCredit = "Credit"
+        var VoucherRecharge = "VoucherRecharge"
+        var MobileTopup = "MobileTopup"
+        var MobileTransfer = "MobileTransfer"
+        var TrnasferHistory = "TrnasferHistory"
+        var ContactBackup = "ContactBackup"
+        var Tracking = "Tracking"
+        var Did = "Did"
+        var UpdateProfile = "UpdateProfile"
+        var Qr = "Qr"
+        var Ticketing = "Ticketing"
+        var Courier = "Courier"
+        var WillEducation = "WillEducation"
+        var Medical = "Medical"
+        var Law = "Law"
+        var smartAgro = "smartAgro"
+        var SmartCityGuide = "SmartCityGuide"
+        var WhyWill = "WhyWill"
 
+        public fun showErr() {
+            Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
+
+        }
     }
 }

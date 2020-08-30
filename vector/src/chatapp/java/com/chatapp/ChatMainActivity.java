@@ -157,6 +157,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             service = null;
         }
     };
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_chat_main;
@@ -171,7 +172,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     public void initUiAndData() {
         //super.initUiAndData();
         context = this;
-        sharedInstance=this;
+        sharedInstance = this;
         sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPreferences.getBoolean(IS_PROFILE_SHOWN, false)) {
             sharedPreferences.edit().putBoolean(IS_PROFILE_SHOWN, true).commit();
@@ -210,7 +211,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
         navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_chat, R.id.navigation_recent, R.id.navigation_contacts,R.id.navigation_share)
+                R.id.navigation_chat, R.id.navigation_dialer, R.id.navigation_recent, R.id.navigation_contacts, R.id.navigation_home)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
@@ -265,10 +266,6 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PreferencesManager.IS_SYNC_DIALOG_SHOWN, false))
             showSyncDialog();
 
-        setVideoPopUP();
-        Intent i = new Intent(this, VideoMinuteService.class);
-        startService(i);
-        startCallUpdate();
         if (mVectorPendingCallView.getVisibility() == View.VISIBLE) {
             showDialer();
         }
@@ -437,7 +434,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         }
         try {
             this.unbindService(connection);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -1344,6 +1341,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         } catch (Exception e) {
         }
     }
+
     public ISipService getConnectedService() {
         return service;
     }

@@ -39,6 +39,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chatapp.sip.api.ISipService;
 import com.chatapp.util.ChatUtils;
 
 import org.json.JSONObject;
@@ -344,10 +345,18 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
     }
 
     private void MakeOutCall(String PhoneNo) {
-        Intent i = new Intent(ContactsDetailsActivity.this, InCallActivity.class);
-        i.putExtra("CallType", "Outbound");
-        i.putExtra("PhoneNo", PhoneNo);
-        startActivity(i);
+        try {
+            ISipService service = ChatMainActivity.getInstance().getConnectedService();
+            service.makeCall(PhoneNo, 1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        Intent i = new Intent(ContactsDetailsActivity.this, InCallActivity.class);
+//        i.putExtra("CallType", "Outbound");
+//        i.putExtra("PhoneNo", PhoneNo);
+//        startActivity(i);
     }
 
     /**

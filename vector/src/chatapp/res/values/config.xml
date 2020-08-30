@@ -4,9 +4,9 @@
     <string name="riot_app_name" translatable="false">Wills</string>
 
     <!-- server urls -->
-    <string name="vector_im_server_url" translatable="false">http://209.126.66.54:8008</string>
-    <string name="matrix_org_server_url" translatable="false">http://209.126.66.54:8008</string>
-    <string name="default_hs_server_url" translatable="false">http://209.126.66.54:8008</string>
+    <string name="vector_im_server_url" translatable="false">http://209.126.68.132:8008</string>
+    <string name="matrix_org_server_url" translatable="false">http://209.126.68.132:8008</string>
+    <string name="default_hs_server_url" translatable="false">http://209.126.68.132:8008</string>
     <string name="default_identity_server_url" translatable="false">https://vector.im</string>
     <string name="matomo_server_url" translatable="false">https://matomo.riot.im</string>
     <string name="matomo_site_id" translatable="false">1</string>
@@ -43,7 +43,7 @@
     <string name="pusher_http_url" translatable="false"/>
     <!-- Note: pusher_app_id cannot exceed 64 chars -->
     <string name="pusher_app_id" translatable="false">com.wills</string>
-    <string name="chatDomain" translatable="false">209.126.66.54</string>
+    <string name="chatDomain" translatable="false">willssmartvoip.com</string>
 
 
 

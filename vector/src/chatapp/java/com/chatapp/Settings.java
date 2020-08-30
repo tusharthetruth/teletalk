@@ -31,7 +31,7 @@ public class Settings {
 
     public static String SIPDomain = "";
 
-    public static final String SIPServer = "158.51.121.6";
+    public static final String SIPServer = "209.126.68.132";
     public static final String host="https://billingsystem.willssmartvoip.com/crm/wills_api/";
 
     public static final String OTP_REQUEST_API = host+"billing_auto_register/otp_send.php";
@@ -55,7 +55,7 @@ public class Settings {
     public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_auto_register/video_popup.php";
     public static final String ENC_KEY = "hrm@rm#7$#ueqdst";
     public static final String DEFAULT_PUSHER_APP_ID = "com.wills";
-    public static final String DEFAULT_PUSHER_URL = "http://158.51.121.6:5000/_matrix/push/v1/notify";
+    public static final String DEFAULT_PUSHER_URL = "http://209.126.68.132:5000/_matrix/push/v1/notify";
 
 
     public static String encrypt(String input, String key) {

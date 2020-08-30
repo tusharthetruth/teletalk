@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Date"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text_color"
             android:textSize="14sp" />
 
         <TextView

@@ -24,6 +24,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.core.Log;
@@ -63,6 +66,8 @@ public class ChatLoginActivity extends AppCompatActivity {
         CommonActivityUtils.onApplicationStarted(this);
 
         FcmHelper.ensureFcmTokenIsRetrieved(this);
+        ImageView iv = findViewById(R.id.imgProfile);
+        Glide.with(this).asGif().load(R.raw.wills).into(iv);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean ShowWelcome = settings.getBoolean("ShowWelcome",true);
