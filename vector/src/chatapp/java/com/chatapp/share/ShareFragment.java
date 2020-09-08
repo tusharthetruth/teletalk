@@ -3,6 +3,7 @@ package com.chatapp.share;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,12 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.FileUtils;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.android.volley.VolleyError;
+import com.chatapp.Settings;
 import com.chatapp.adapters.RecentUpdateAdapter;
 import com.chatapp.network.VolleyApi;
 import com.chatapp.network.VolleyListener;
@@ -30,10 +35,18 @@ import com.chatapp.util.LocalContactsHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import im.vector.R;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -48,6 +61,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     List<LocalContactItem> localContactItemList;
     private VolleyApi volleyApi;
     private String CONTACT_STATUS = "CONTACT STATUS";
+    SharedPreferences settings;
 
     public ShareFragment() {
         // Required empty public constructor
@@ -121,10 +135,51 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
                 if (resultCode == Activity.RESULT_OK) {
                     ArrayList<String> returnValue = new ArrayList<>();
                     returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
+                    uploadFiles(returnValue);
                 }
             }
             break;
         }
+    }
+
+    private void uploadFiles(ArrayList<String> returnValue) {
+        File file = new File(returnValue.get(0));
+        settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+
+        String userName = settings.getString("Username", "");
+        userName = Settings.asHex(Settings.encrypt(userName, Settings.ENC_KEY).getBytes());
+        // Parsing any Media type file
+        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+
+        StatusApi getResponse = StatusApiClient.getRetrofit().create(StatusApi.class);
+
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+
+        Call<FileUploadResponse> call = getResponse.upload(userName, fileToUpload);
+        call.enqueue(new Callback<FileUploadResponse>() {
+            @Override
+            public void onResponse(Call<FileUploadResponse> call, Response<FileUploadResponse> response) {
+                FileUploadResponse serverResponse = (FileUploadResponse) response.body();
+                if (serverResponse != null) {
+                    if (serverResponse.getResult().equalsIgnoreCase("success")) {
+                        Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    assert serverResponse != null;
+                    Log.v("Response", serverResponse.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FileUploadResponse> call, Throwable t) {
+                Log.d("response", t.toString());
+
+            }
+        });
     }
 
 

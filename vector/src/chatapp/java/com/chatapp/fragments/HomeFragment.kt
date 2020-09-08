@@ -15,6 +15,8 @@ import com.chatapp.SettingsWebActivity
 import com.chatapp.TransferHistoryAcitivty
 import com.chatapp.activity.*
 import com.chatapp.adapters.HomeAdapter
+import com.chatapp.share.UserStatusActivity
+import com.chatapp.status_module.StatusActivity
 import im.vector.Matrix
 import im.vector.R
 import im.vector.activity.VectorSettingsActivity
@@ -26,7 +28,7 @@ import org.matrix.androidsdk.MXSession
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFragment : Fragment(), HomeAdapter.iHomClick {
+class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
     private lateinit var mSession: MXSession
 
@@ -39,11 +41,10 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         rv.setLayoutManager(GridLayoutManager(activity, 3))
         var adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
         rv.adapter = adapter
-
+        status.setOnClickListener(this)
     }
 
     override fun onHomeClick(title: String?) {
@@ -158,4 +159,11 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick {
         VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
     }
 
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.status -> {
+                startActivity(Intent(requireActivity(), UserStatusActivity::class.java))
+            }
+        }
+    }
 }
