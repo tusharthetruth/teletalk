@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/a53b5aad5d6756bb4998c46d14765115/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/notification_action_background.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/7ee725b3a9840c210b23888cd6ff13b7/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/abc_dialog_material_background.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/a53b5aad5d6756bb4998c46d14765115/res/drawable-v21/abc_dialog_material_background.xml"
+    },
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/abc_list_divider_material.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/a53b5aad5d6756bb4998c46d14765115/res/drawable-v21/abc_list_divider_material.xml"
+    },
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/a53b5aad5d6756bb4998c46d14765115/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/Tushar/.gradle/caches/transforms-2/files-2.1/a53b5aad5d6756bb4998c46d14765115/res/drawable-v21/abc_edit_text_material.xml"
+    }
+]

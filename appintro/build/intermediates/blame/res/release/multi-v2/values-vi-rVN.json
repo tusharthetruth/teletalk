@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/res/merged/release/values-vi-rVN/values-vi-rVN.xml",
+            "map": [
+                {
+                    "source": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/res/values-vi-rVN/strings.xml",
+                    "from": {
+                        "startLines": "3,2",
+                        "startColumns": "4,4",
+                        "startOffsets": "112,55",
+                        "endColumns": "60,56",
+                        "endOffsets": "168,107"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,116",
+                        "endColumns": "60,56",
+                        "endOffsets": "111,168"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-vi-rVN/values-vi-rVN.xml",
+            "map": [
+                {
+                    "source": "/Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/res/values-vi-rVN/strings.xml",
+                    "from": {
+                        "startLines": "3,2",
+                        "startColumns": "4,4",
+                        "startOffsets": "112,55",
+                        "endColumns": "60,56",
+                        "endOffsets": "168,107"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,116",
+                        "endColumns": "60,56",
+                        "endOffsets": "111,168"
+                    }
+                }
+            ]
+        }
+    ]
+}

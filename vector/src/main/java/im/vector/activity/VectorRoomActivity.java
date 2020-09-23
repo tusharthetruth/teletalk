@@ -213,6 +213,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     private VectorMessageListFragment mVectorMessageListFragment;
     private MXSession mSession;
+    public static VectorRoomActivity vectorRoomActivity;
 
     @Nullable
     private Room mRoom;
@@ -293,6 +294,9 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     @BindView(R.id.room_header_avatar)
     ImageView mActionBarHeaderRoomAvatar;
+
+    @BindView(R.id.send_voice)
+    ImageView sendVoice;
 
     // notifications area
     @BindView(R.id.room_notifications_area)
@@ -632,7 +636,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @Override
     public void initUiAndData() {
         setWaitingView(findViewById(R.id.main_progress_layout));
-
+        vectorRoomActivity = this;
         if (CommonActivityUtils.shouldRestartApp(this)) {
             Log.e(LOG_TAG, "onCreate : Restart the application.");
             CommonActivityUtils.restartApp(this);
@@ -3516,7 +3520,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
                         showWaitingView();
 
-                        room.joinWithThirdPartySigned(mSession,sRoomPreviewData.getRoomIdOrAlias(), signUrl, new ApiCallback<Void>() {
+                        room.joinWithThirdPartySigned(mSession, sRoomPreviewData.getRoomIdOrAlias(), signUrl, new ApiCallback<Void>() {
                             @Override
                             public void onSuccess(Void info) {
                                 onJoined();
@@ -4109,6 +4113,11 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @OnClick(R.id.room_end_call_image_view)
     void onStopCallClick() {
         CallsManager.getSharedInstance().onHangUp(null);
+    }
+
+    @OnClick(R.id.send_voice)
+    void onSendVoiceClick() {
+        launchAudioRecorderIntent();
     }
 
     @OnClick(R.id.room_button_margin_right)

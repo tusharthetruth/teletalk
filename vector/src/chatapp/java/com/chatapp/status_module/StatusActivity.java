@@ -21,11 +21,11 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
 
     private int counter = 0;
     private final String[] resources1 = new String[]{
-            "https://apod.nasa.gov/apod/image/1205/FullMoonriseArn1250.jpg",
+            "https://images.pexels.com/photos/920382/pexels-photo-920382.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
             "https://wallpapercave.com/wp/JAA5qgn.jpg",
-            "https://apod.nasa.gov/apod/image/1205/FullMoonriseArn1250.jpg",
+            "https://images.pexels.com/photos/920382/pexels-photo-920382.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
             "https://wallpapercave.com/wp/JAA5qgn.jpg",
-            "https://apod.nasa.gov/apod/image/1205/FullMoonriseArn1250.jpg",
+            "https://images.pexels.com/photos/920382/pexels-photo-920382.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
             "https://wallpapercave.com/wp/JAA5qgn.jpg"
 
     };

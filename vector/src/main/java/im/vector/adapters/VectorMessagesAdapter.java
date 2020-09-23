@@ -18,6 +18,7 @@
 package im.vector.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -42,6 +43,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -51,11 +53,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.binaryfork.spanny.Spanny;
+import com.chatapp.util.OnSwipeTouchListener;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.adapters.AbstractMessagesAdapter;
@@ -99,6 +103,7 @@ import java.util.Set;
 
 import im.vector.R;
 import im.vector.VectorApp;
+import im.vector.activity.VectorRoomActivity;
 import im.vector.extensions.MatrixSdkExtensionsKt;
 import im.vector.listeners.IMessagesAdapterActionsListener;
 import im.vector.settings.VectorLocale;
@@ -113,6 +118,8 @@ import im.vector.util.RiotEventDisplay;
 import im.vector.util.VectorImageGetter;
 import im.vector.util.VectorLinkifyKt;
 import im.vector.widgets.WidgetsManager;
+
+import static im.vector.activity.VectorRoomActivity.vectorRoomActivity;
 
 /**
  * An adapter which can display room information.
@@ -2123,22 +2130,49 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
      * @param position    the item position
      */
     private void addContentViewListeners(final View convertView, final View contentView, final int position, final int msgType) {
-        contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mVectorMessagesAdapterEventsListener) {
-                    // GA issue
-                    if (position < getCount()) {
-                        mVectorMessagesAdapterEventsListener.onContentClick(position);
-                    }
-                }
-            }
-        });
+//        contentView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (null != mVectorMessagesAdapterEventsListener) {
+//                    // GA issue
+//                    if (position < getCount()) {
+//                        mVectorMessagesAdapterEventsListener.onContentClick(position);
+//                    }
+//                }
+//            }
+//        });
 
-        contentView.setOnLongClickListener(new View.OnLongClickListener() {
+
+//        contentView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // GA issue
+//                if (position < getCount()) {
+//                    MessageRow row = getItem(position);
+//                    Event event = row.getEvent();
+//
+//                    if (!mIsSearchMode) {
+//                        onMessageClick(event, getEventText(contentView, event, msgType), convertView.findViewById(R.id.messagesAdapter_action_anchor));
+//
+//                        onEventTap(event);
+//                        return true;
+//                    }
+//                }
+//
+//                return true;
+//            }
+//        });
+
+        contentView.setOnTouchListener(new OnSwipeTouchListener(vectorRoomActivity) {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return super.onTouch(view, motionEvent);
+//            }
+
+
             @Override
-            public boolean onLongClick(View v) {
-                // GA issue
+            public void onLongClick() {
+                super.onLongClick();
                 if (position < getCount()) {
                     MessageRow row = getItem(position);
                     Event event = row.getEvent();
@@ -2147,13 +2181,71 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                         onMessageClick(event, getEventText(contentView, event, msgType), convertView.findViewById(R.id.messagesAdapter_action_anchor));
 
                         onEventTap(event);
-                        return true;
                     }
                 }
+//
+            }
 
-                return true;
+            @Override
+            public void onClick() {
+                super.onClick();
+                if (null != mVectorMessagesAdapterEventsListener) {
+                    if (position < getCount()) {
+                        mVectorMessagesAdapterEventsListener.onContentClick(position);
+                    }
+                }
+            }
+
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                try {
+                    Log.d("touch", "swipe right");
+//                    com.chatapp.Animation.anim(contentView);
+//                    com.chatapp.Animation.anim(contentView.getRootView());
+                    com.chatapp.Animation.anim(convertView);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            com.chatapp.Animation.reversAnim(convertView);
+                        }
+                    },600);
+
+                    Activity attachedActivity = vectorRoomActivity;
+
+                    if ((null != attachedActivity) && (attachedActivity instanceof VectorRoomActivity)) {
+                        // Quote all paragraphs instead
+                        MessageRow row = getItem(position);
+                        Event event = row.getEvent();
+                        String textMsg = getEventText(contentView, event, msgType);
+                        String[] messageParagraphs = textMsg.split("\n\n");
+                        String quotedTextMsg = "";
+                        for (int i = 0; i < messageParagraphs.length; i++) {
+                            if (!messageParagraphs[i].trim().equals("")) {
+                                quotedTextMsg += "> " + messageParagraphs[i];
+                            }
+
+                            if (!((i + 1) == messageParagraphs.length)) {
+                                quotedTextMsg += "\n\n";
+                            }
+                        }
+                        ((VectorRoomActivity) attachedActivity).insertQuoteInTextEditor(quotedTextMsg + "\n\n");
+                    }
+
+
+                    Toast.makeText(contentView.getContext(), "Quote Added", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                }
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                Log.d("touch", "swipe left");
+
             }
         });
+
     }
 
     /*
