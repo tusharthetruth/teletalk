@@ -1,4 +1,4 @@
-package com.chatapp.status_module;
+package com.chatapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,27 +8,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.chatapp.CR;
-import com.chatapp.network.VolleyApi;
 import com.chatapp.share.RecentModel;
-import com.chatapp.sip.utils.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.chatapp.status_module.StoriesProgressView;
 
 import im.vector.R;
 
-public class StatusActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener {
+public class SelfStatusActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener {
 
     private static int PROGRESS_COUNT = 6;
 
@@ -70,23 +57,20 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
         model = getIntent().getParcelableExtra("model");
         isSelf = getIntent().getBooleanExtra("self", false);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_status);
+        setContentView(R.layout.activity_self_status);
 
 
-        storiesProgressView = (StoriesProgressView) findViewById(R.id.stories);
+        storiesProgressView =  findViewById(R.id.stories);
         storiesProgressView.setStoriesCount(PROGRESS_COUNT);
         storiesProgressView.setStoryDuration(3000L);
-        // or
         // storiesProgressView.setStoriesCountWithDurations(durations);
         storiesProgressView.setStoriesListener(this);
-//        storiesProgressView.startStories();
         counter = 0;
         storiesProgressView.startStories(counter);
 
         image = (ImageView) findViewById(R.id.image);
 
         try {
-            updateStatus();
             Glide.with(this).load(CR.resources.get(0)).into(image);
         } catch (Exception e) {
 
@@ -117,9 +101,7 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
         try {
             if (CR.resources.size() - 1 == counter)
                 finish();
-            int a=++counter;
-            updateStatus();
-            Glide.with(this).load(CR.resources.get(a)).into(image);
+            Glide.with(this).load(CR.resources.get(++counter)).into(image);
         } catch (Exception e) {
 
         }
@@ -145,43 +127,5 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
         // Very important !
         storiesProgressView.destroy();
         super.onDestroy();
-    }
-
-    private void updateStatus() {
-        String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_views.php";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                try {
-                    Log.d("s", "S");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user", model.getUserName());
-                params.put("time", getTime());
-                params.put("imageID", CR.resources.get(counter));
-                return params;
-            }
-
-        };
-        new VolleyApi(this).getRequestQueue().add(stringRequest);
-    }
-
-    private String getTime() {
-        Date date = Calendar.getInstance().getTime();
-        String s = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(date);
-        s.replace(" ", "/");
-        return s;
-
     }
 }

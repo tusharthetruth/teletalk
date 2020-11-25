@@ -5,14 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="30dp"
-        android:id="@+id/recentUpdate"
-        android:text="Recent Updates"
-        android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
@@ -23,8 +15,8 @@
 
         <im.vector.view.VectorCircularImageView
             android:id="@+id/user_status_icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/default_contact_avatar" />
@@ -58,4 +50,21 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey_100" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recentUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="50dp"
+        android:text="Recent Updates"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/devider_two"
+        android:background="@color/grey_100" />
+
+
 </LinearLayout>

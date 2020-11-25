@@ -21,7 +21,7 @@ public class VolleyApi {
         this.context = context;
     }
 
-    private RequestQueue getRequestQueue() {
+    public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context);
         }

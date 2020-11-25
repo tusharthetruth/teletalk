@@ -18,10 +18,13 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.chatapp.Settings;
 import com.chatapp.adapters.RecentUpdateAdapter;
 import com.chatapp.network.VolleyApi;
@@ -31,13 +34,19 @@ import com.chatapp.pixly.pix.Pix;
 import com.chatapp.sip.utils.Log;
 import com.chatapp.util.LocalContactItem;
 import com.chatapp.util.LocalContactsHandler;
+import com.chatapp.util.NetworkUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import im.vector.R;
@@ -47,6 +56,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.accounts.AccountManager.KEY_PASSWORD;
 
 
 /**
@@ -62,6 +73,10 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     private VolleyApi volleyApi;
     private String CONTACT_STATUS = "CONTACT STATUS";
     SharedPreferences settings;
+    LinearLayout pg;
+    String userName = "";
+    FloatingActionButton camera;
+
 
     public ShareFragment() {
         // Required empty public constructor
@@ -85,14 +100,23 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         localContactItemList = new LocalContactsHandler(getContext()).GetLocalContacts();
+        settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        userName = settings.getString("Username", "");
 
+        camera = view.findViewById(R.id.stat_camera);
         rv = view.findViewById(R.id.rvList);
+        pg = view.findViewById(R.id.pg);
         statusContainer = view.findViewById(R.id.statusContainer);
         rv.setLayoutManager(new LinearLayoutManager(context));
         statusContainer.setOnClickListener(this);
-        setData();
         getOtherContacts();
 
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStatusClick();
+            }
+        });
     }
 
     private void getOtherContacts() {
@@ -102,30 +126,49 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
             for (LocalContactItem item : localContactItemList) {
                 list.add(item.Phone);
             }
-            object.put("list", list.toArray().toString());
-            volleyApi.post(this, "", object, CONTACT_STATUS);
+            object.put("username", userName);
+            String otherContacts = userName;
+            for (LocalContactItem item : localContactItemList) {
+                otherContacts = userName + "," + item.Phone;
+            }
+            object.put("phonenos", otherContacts);
+            showPg();
+            String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_list.php";
+
+            String finalOtherContacts = otherContacts;
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    hidePg();
+                    try {
+                        handleResponse(new JSONObject(s));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    hidePg();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("username", userName);
+                    params.put("phonenos", finalOtherContacts);
+                    return params;
+                }
+
+            };
+            new VolleyApi(context).getRequestQueue().add(stringRequest);
         } catch (JSONException e) {
+            hidePg();
             e.printStackTrace();
         }
 
     }
 
-    public void setData() {
-        ArrayList<RecentModel> list = new ArrayList<>();
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        list.add(new RecentModel());
-        adapter = new RecentUpdateAdapter(list, context);
-        adapter.setListner(this);
-        rv.setAdapter(adapter);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -143,43 +186,44 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     }
 
     private void uploadFiles(ArrayList<String> returnValue) {
-        File file = new File(returnValue.get(0));
-        settings = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        if (NetworkUtils.isConnected()) {
+            showPg();
+            File file = new File(returnValue.get(0));
+            StatusApi getResponse = StatusApiClient.getRetrofit().create(StatusApi.class);
+            RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
+            RequestBody userNameValue = RequestBody.create(okhttp3.MultipartBody.FORM,userName);
 
-        String userName = settings.getString("Username", "");
-        userName = Settings.asHex(Settings.encrypt(userName, Settings.ENC_KEY).getBytes());
-        // Parsing any Media type file
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+            Call<FileUploadResponse> call = getResponse.upload1(userNameValue, fileToUpload);
+            call.enqueue(new Callback<FileUploadResponse>() {
+                @Override
+                public void onResponse(Call<FileUploadResponse> call, Response<FileUploadResponse> response) {
+                    hidePg();
+                    FileUploadResponse serverResponse = (FileUploadResponse) response.body();
 
-        StatusApi getResponse = StatusApiClient.getRetrofit().create(StatusApi.class);
-
-        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-
-        Call<FileUploadResponse> call = getResponse.upload(userName, fileToUpload);
-        call.enqueue(new Callback<FileUploadResponse>() {
-            @Override
-            public void onResponse(Call<FileUploadResponse> call, Response<FileUploadResponse> response) {
-                FileUploadResponse serverResponse = (FileUploadResponse) response.body();
-                if (serverResponse != null) {
-                    if (serverResponse.getResult().equalsIgnoreCase("success")) {
-                        Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (serverResponse != null) {
+                        if (serverResponse.getResult().equalsIgnoreCase("success")) {
+                            Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            getOtherContacts();
+                        } else {
+                            Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(requireActivity(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        assert serverResponse != null;
+                        Log.v("Response", serverResponse.toString());
                     }
-                } else {
-                    assert serverResponse != null;
-                    Log.v("Response", serverResponse.toString());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<FileUploadResponse> call, Throwable t) {
-                Log.d("response", t.toString());
+                @Override
+                public void onFailure(Call<FileUploadResponse> call, Throwable t) {
+                    hidePg();
+                    Log.d("response", t.toString());
 
-            }
-        });
+                }
+            });
+        } else {
+            Toast.makeText(requireActivity(), "Check Internet connection", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -196,16 +240,69 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     @Override
     public void onResponse(JSONObject jsonObject, String tag) {
         try {
-            Log.d("res", tag);
+            HashMap<String, ArrayList<String>> map = handleResponse(jsonObject);
+            Log.d("res", map.toString());
         } catch (Exception e) {
+            hidePg();
         }
     }
+
+    @NotNull
+    private HashMap<String, ArrayList<String>> handleResponse(JSONObject jsonObject) throws JSONException {
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+        hidePg();
+        if (jsonObject != null) {
+            if (jsonObject.optString("result").
+                    equalsIgnoreCase("success")) {
+                JSONArray array = jsonObject.optJSONArray("data");
+                for (int i = 0; i < array.length(); i++) {
+                    ArrayList<String> currentItems = new ArrayList<String>();
+                    JSONObject o = array.getJSONObject(i);
+                    String userId = o.getString("Username: ");
+                    String image = o.getString("Image URL: ");
+                    if (map.get(userId) != null) {
+                        currentItems = map.get(userId);
+                    }
+                    currentItems.add(image);
+                    map.put(userId, currentItems);
+                }
+            }
+        }
+        setListData(map);
+        return map;
+    }
+
+    private void setListData(HashMap<String, ArrayList<String>> map) {
+        ArrayList<RecentModel> list = new ArrayList<>();
+        userImages.clear();
+        userRecentModel.userName = userName;
+        for (Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            if (entry.getKey().equalsIgnoreCase(userName)) {
+                userImages.addAll(entry.getValue());
+                userRecentModel.imageList.addAll(userImages);
+            } else {
+                RecentModel model = new RecentModel();
+                model.userName = entry.getKey();
+                model.imageList.addAll(entry.getValue());
+                list.add(model);
+            }
+        }
+        list.add(0, userRecentModel);
+        adapter = new RecentUpdateAdapter(list, context);
+        adapter.setListner(this);
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    ArrayList<String> userImages = new ArrayList<String>();
+    RecentModel userRecentModel = new RecentModel();
 
     @Override
     public void onError(VolleyError error, String tag) {
         try {
+            hidePg();
             Log.d("err", tag);
-
         } catch (Exception e) {
         }
     }
@@ -216,5 +313,13 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
                 setCount(3).
                 setExcludeVideos(true).
                 setRequestCode(100));
+    }
+
+    private void showPg() {
+        pg.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePg() {
+        pg.setVisibility(View.GONE);
     }
 }

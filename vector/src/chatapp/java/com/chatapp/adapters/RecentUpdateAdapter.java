@@ -1,5 +1,6 @@
 package com.chatapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.chatapp.CR;
+import com.chatapp.activity.SelfStatusActivity;
 import com.chatapp.share.RecentModel;
 import com.chatapp.status_module.StatusActivity;
 
@@ -45,29 +49,59 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
         return new RecentHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecentHolder holder, int position) {
         RecentModel model = list.get(position);
         if (position == 0) {
-            holder.recentUpdate.setVisibility(View.GONE);
             holder.container.setVisibility(View.VISIBLE);
-        } else if (position == 1) {
             holder.recentUpdate.setVisibility(View.VISIBLE);
-            holder.container.setVisibility(View.GONE);
+            holder.userTime.setVisibility(View.VISIBLE);
+            holder.divider.setVisibility(View.VISIBLE);
+            if (model.getImageList().size() > 0) {
+                holder.userTime.setText("");
+                holder.userName.setText(model.getUserName());
+                Glide.with(holder.userIcon.getContext()).load(model.getImageList().get(model.getImageList().size() - 1)).into(holder.userIcon);
+            }else{
+                holder.userTime.setText("Tap to status update");
+                holder.userName.setText("My Status");
+            }
         } else {
+            holder.divider.setVisibility(View.GONE);
+            holder.userName.setText(model.getUserName());
+            holder.userTime.setVisibility(View.GONE);
             holder.recentUpdate.setVisibility(View.GONE);
+            if (model.getImageList().size() > 0)
+                Glide.with(holder.userIcon.getContext()).load(model.getImageList().get(model.getImageList().size() - 1)).into(holder.userIcon);
             holder.container.setVisibility(View.VISIBLE);
         }
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (position == 0) {
-                    listner.onStatusClick();
-                } else if (position == 1) {
-                    //do nothing
+                    if (model.getImageList().size() > 0) {
+                        CR.resources.clear();
+                        for (int i = 0; i < model.getImageList().size(); i++) {
+                            CR.resources.add(model.getImageList().get(i));
+                        }
+                        Intent i = new Intent(context, SelfStatusActivity.class);
+                        i.putExtra("model", model);
+                        i.putExtra("self", false);
+                        context.startActivity(i);
+                    } else {
+                        listner.onStatusClick();
+                    }
                 } else {
-                    Intent i = new Intent(context, StatusActivity.class);
-                    context.startActivity(i);
+                    if (model.getImageList().size() > 0) {
+                        CR.resources.clear();
+                        for (int i = 0; i < model.getImageList().size(); i++) {
+                            CR.resources.add(model.getImageList().get(i));
+                        }
+                        Intent i = new Intent(context, StatusActivity.class);
+                        i.putExtra("model", model);
+                        i.putExtra("self", true);
+                        context.startActivity(i);
+                    }
                 }
             }
         });
@@ -85,6 +119,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
         TextView userName, userTime;
         ConstraintLayout container;
         TextView recentUpdate;
+        View divider;
 
         public RecentHolder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +128,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
             userTime = itemView.findViewById(R.id.time);
             container = itemView.findViewById(R.id.container);
             recentUpdate = itemView.findViewById(R.id.recentUpdate);
+            divider = itemView.findViewById(R.id.devider_two);
 
         }
     }

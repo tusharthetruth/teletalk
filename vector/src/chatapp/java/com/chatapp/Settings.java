@@ -32,19 +32,20 @@ public class Settings {
     public static String SIPDomain = "";
 
     public static final String SIPServer = "209.126.68.132";
-    public static final String host="https://billingsystem.willssmartvoip.com/crm/wills_api/";
+    public static final String host = "https://billingsystem.willssmartvoip.com/crm/wills_api/";
 
-    public static final String OTP_REQUEST_API = host+"billing_auto_register/otp_send.php";
-    public static final String OTP_VERIFY_API = host+"billing_auto_register/otp_secure.php";
-    public static final String CONTACTS_SYNC_API = host+"billing_auto_register/sync_contacts.php";
-    public static final String BALANCE_API = host+"billing_balance/get_balance.php";
+    public static final String OTP_REQUEST_API = host + "billing_auto_register/otp_send.php";
+    public static final String OTP_VERIFY_API = host + "billing_auto_register/otp_secure.php";
+    public static final String CONTACTS_SYNC_API = host + "billing_auto_register/sync_contacts.php";
+    public static final String BALANCE_API = host + "billing_balance/get_balance.php";
     public static final String BALANCE_API_USD = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/get_balance_usd.php";
     public static final String SMS_A = "http://www.goip2call.com/crm/goip_api/billing_send_sms/send_web_sms.php";
     public static final String SMS_B = "http://www.goip2call.com/crm/goip_api/billing_send_sms/send_web_sms_bulk.php";
-    public static final String RATES_API = host+"billing_rates/get_rates.php";
-    public static final String BALANCE_TRANSFER_API = host+"billing_balance_transfer_balance/balance_transfer_org.php";
-    public static final String BALANCE_TRANSFER_HISTORY = host+"billing_balance_transfer_balance/balance_transfer_report.php";
-    public static final String VOUCHER_RECHARGE = host+"billing_voucher_recharge/refill_dialer_voucher.php";
+    public static final String RATES_API = host + "billing_rates/get_rates.php";
+    public static final String BALANCE_TRANSFER_API = host + "billing_balance_transfer_balance/balance_transfer_org.php";
+    public static final String BALANCE_TRANSFER_HISTORY = host + "billing_balance_transfer_balance/balance_transfer_report.php";
+    public static final String VOUCHER_RECHARGE = host + "billing_voucher_recharge/refill_dialer_voucher.php";
+    public static final String GET_USER_LIST = host + "status/status_list.php";
 
     final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
@@ -70,14 +71,15 @@ public class Settings {
             System.out.println(e.toString());
         }
 
-        return new String(Base64.encode(crypted,android.util.Base64.DEFAULT));
+        return new String(Base64.encode(crypted, android.util.Base64.DEFAULT));
     }
+
     public static char[] HEX_CHARS = "0123456789abcdef".toCharArray();
 
-    public static String asHex(byte[] buf){
+    public static String asHex(byte[] buf) {
         char[] chars = new char[2 * buf.length];
 
-        for (int i = 0; i < buf.length; ++i){
+        for (int i = 0; i < buf.length; ++i) {
             chars[2 * i] = HEX_CHARS[(buf[i] & 0xF0) >>> 4];
             chars[2 * i + 1] = HEX_CHARS[buf[i] & 0x0F];
         }

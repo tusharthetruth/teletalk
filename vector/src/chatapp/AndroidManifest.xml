@@ -6,13 +6,28 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.share.UserStatusActivity"></activity>
-        <activity android:name="com.chatapp.activity.TicketingActivity" />
-        <activity android:name="com.chatapp.activity.CourierActivity" />
-        <activity android:name="com.chatapp.activity.QrActivity" />
-        <activity android:name="com.chatapp.activity.TrackingActivity" />
-        <activity android:name="com.chatapp.activity.LawActivity" />
-        <activity android:name="com.chatapp.status_module.StatusActivity" />
+        <activity android:name="com.chatapp.activity.SelfStatusActivity"></activity>
+        <activity
+            android:name="com.chatapp.share.UserStatusActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.TicketingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.CourierActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.QrActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.TrackingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.LawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.status_module.StatusActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.chatapp.VideoChargeService"

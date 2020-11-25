@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.chatapp.C
-import com.chatapp.ChatMainActivity
-import com.chatapp.SettingsWebActivity
-import com.chatapp.TransferHistoryAcitivty
+import com.chatapp.*
 import com.chatapp.activity.*
 import com.chatapp.adapters.HomeAdapter
 import com.chatapp.share.UserStatusActivity
@@ -42,7 +39,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         rv.setLayoutManager(GridLayoutManager(activity, 3))
-        var adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
+        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
         rv.adapter = adapter
         status.setOnClickListener(this)
     }
@@ -62,7 +59,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
             }
             C.BuyCredit -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
+                val myIntent = Intent(context, ExtendedWebview::class.java)
                 myIntent.putExtra("Bundle", "Credit")
                 startActivity(myIntent)
             }
@@ -71,7 +68,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
             }
             C.MobileTopup -> {
-                val myIntent = Intent(context, SettingsWebActivity::class.java)
+                val myIntent = Intent(context, ExtendedWebview::class.java)
                 myIntent.putExtra("Bundle", "TopupA")
                 startActivity(myIntent)
             }
@@ -131,7 +128,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
             }
             C.WhyWill -> {
                 try {
-                    val myIntent = Intent(activity, SettingsWebActivity::class.java)
+                    val myIntent = Intent(activity, ExtendedWebview::class.java)
                     myIntent.putExtra("Bundle", "Why")
                     startActivity(myIntent)
                 } catch (e: ActivityNotFoundException) {
@@ -155,7 +152,6 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
         super.onResume()
         (activity as ChatMainActivity).hideItem();
         mSession = Matrix.getInstance(requireActivity()).defaultSession
-
         VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
     }
 

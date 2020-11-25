@@ -313,7 +313,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         });findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WalletActivity.this, SettingsWebActivity.class);
+                Intent i = new Intent(WalletActivity.this, ExtendedWebview.class);
                 i.putExtra("Bundle", "interswitchBuy");
                 startActivity(i);
 

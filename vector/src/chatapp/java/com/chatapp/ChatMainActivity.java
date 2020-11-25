@@ -693,7 +693,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View view) {
                 try {
-                    Intent myIntent = new Intent(ChatMainActivity.this, SettingsWebActivity.class);
+                    Intent myIntent = new Intent(ChatMainActivity.this, ExtendedWebview.class);
                     myIntent.putExtra("Bundle", "Why");
                     startActivity(myIntent);
                 } catch (ActivityNotFoundException e) {
@@ -833,7 +833,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                        Intent myIntent = new Intent(context, ExtendedWebview.class);
                         myIntent.putExtra("Bundle", "Credit");
                         startActivity(myIntent);
                     }
@@ -863,7 +863,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         findViewById(R.id.interswitchBuy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, SettingsWebActivity.class);
+                Intent i = new Intent(context, ExtendedWebview.class);
                 i.putExtra("Bundle", "interswitchBuy");
                 startActivity(i);
             }
@@ -874,7 +874,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                 setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(context, SettingsWebActivity.class);
+                        Intent i = new Intent(context, ExtendedWebview.class);
                         i.putExtra("Bundle", "videoplan");
                         startActivity(i);
                     }
@@ -884,7 +884,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "TopupA");
                 startActivity(myIntent);
             }
@@ -894,7 +894,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "ippbx");
                 startActivity(myIntent);
             }
@@ -904,7 +904,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "TopupB");
                 startActivity(myIntent);
             }
@@ -914,7 +914,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "data");
                 startActivity(myIntent);
             }
@@ -924,7 +924,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "electric");
                 startActivity(myIntent);
             }
@@ -934,7 +934,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                Intent myIntent = new Intent(context, SettingsWebActivity.class);
+                Intent myIntent = new Intent(context, ExtendedWebview.class);
                 myIntent.putExtra("Bundle", "tv");
                 startActivity(myIntent);
             }
