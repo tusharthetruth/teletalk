@@ -1,5 +1,6 @@
 package com.chatapp
 
+import android.preference.PreferenceManager
 import android.widget.Toast
 import im.vector.VectorApp
 
@@ -30,7 +31,12 @@ class C {
 
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
-
+        }
+        fun getUserName():String{
+            var userName = ""
+            var settings = PreferenceManager.getDefaultSharedPreferences(VectorApp.getInstance())
+            userName = settings?.getString("Username", "").toString()
+            return userName
         }
     }
 }

@@ -2,11 +2,13 @@ package com.chatapp.share;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 
 public class RecentModel implements Parcelable {
     String userName;
+    String fullName;
     ArrayList<String> imageList = new ArrayList<>();
 
     protected RecentModel(Parcel in) {
@@ -42,7 +44,11 @@ public class RecentModel implements Parcelable {
     };
 
     public String getUserName() {
-        return userName;
+        if (TextUtils.isEmpty(fullName))
+            return userName;
+        else {
+            return fullName;
+        }
     }
 
     public ArrayList<String> getImageList() {

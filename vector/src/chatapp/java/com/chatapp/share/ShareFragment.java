@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.FileUtils;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +72,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     private RecyclerView rv;
     private ConstraintLayout statusContainer;
     private RecentUpdateAdapter adapter;
-    List<LocalContactItem> localContactItemList;
+    public static List<LocalContactItem> localContactItemList;
     private VolleyApi volleyApi;
     private String CONTACT_STATUS = "CONTACT STATUS";
     SharedPreferences settings;
@@ -192,7 +195,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
             StatusApi getResponse = StatusApiClient.getRetrofit().create(StatusApi.class);
             RequestBody mFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
-            RequestBody userNameValue = RequestBody.create(okhttp3.MultipartBody.FORM,userName);
+            RequestBody userNameValue = RequestBody.create(okhttp3.MultipartBody.FORM, userName);
 
             Call<FileUploadResponse> call = getResponse.upload1(userNameValue, fileToUpload);
             call.enqueue(new Callback<FileUploadResponse>() {
@@ -284,6 +287,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
             } else {
                 RecentModel model = new RecentModel();
                 model.userName = entry.getKey();
+                model.fullName = getFullName(model.userName);
                 model.imageList.addAll(entry.getValue());
                 list.add(model);
             }
@@ -293,6 +297,16 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
         adapter.setListner(this);
         rv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    private String getFullName(String userName) {
+        String s = "";
+        for (LocalContactItem item : localContactItemList) {
+            if (userName.equalsIgnoreCase(item.Phone.replace(" ", ""))) {
+                return GetContactsName(item.ContactID);
+            }
+        }
+        return s;
     }
 
     ArrayList<String> userImages = new ArrayList<String>();
@@ -321,5 +335,20 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
 
     private void hidePg() {
         pg.setVisibility(View.GONE);
+    }
+
+    private String GetContactsName(String ContactID) {
+        String displayName = "";
+        Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, Uri.encode(ContactID));
+        Cursor c = getActivity().getContentResolver().query(lookupUri, new String[]{ContactsContract.Contacts.DISPLAY_NAME}, null, null, null);
+        try {
+            c.moveToFirst();
+            displayName = c.getString(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            c.close();
+        }
+        return displayName;
     }
 }

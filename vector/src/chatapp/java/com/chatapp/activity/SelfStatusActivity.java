@@ -10,12 +10,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chatapp.CR;
+import com.chatapp.fragments.SeenFragment;
 import com.chatapp.share.RecentModel;
 import com.chatapp.status_module.StoriesProgressView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import im.vector.R;
 
-public class SelfStatusActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener {
+public class SelfStatusActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener, SeenFragment.ISeenDismissListener {
 
     private static int PROGRESS_COUNT = 6;
 
@@ -49,6 +51,7 @@ public class SelfStatusActivity extends AppCompatActivity implements StoriesProg
     };
     RecentModel model = new RecentModel();
     boolean isSelf = false;
+    FloatingActionButton seen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,8 @@ public class SelfStatusActivity extends AppCompatActivity implements StoriesProg
         setContentView(R.layout.activity_self_status);
 
 
-        storiesProgressView =  findViewById(R.id.stories);
+        seen = findViewById(R.id.seen_button);
+        storiesProgressView = findViewById(R.id.stories);
         storiesProgressView.setStoriesCount(PROGRESS_COUNT);
         storiesProgressView.setStoryDuration(3000L);
         // storiesProgressView.setStoriesCountWithDurations(durations);
@@ -94,7 +98,24 @@ public class SelfStatusActivity extends AppCompatActivity implements StoriesProg
             }
         });
         skip.setOnTouchListener(onTouchListener);
+        SeenFragment.ISeenDismissListener l=this;
+        seen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    storiesProgressView.pause();
+                    Bundle b = new Bundle();
+                    b.putString("iurl", CR.resources.get(counter));
+                    SeenFragment f = SeenFragment.Companion.getInstance(b);
+                    f.setListener(l);
+                    f.show(getSupportFragmentManager(), "seen fragment");
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
+
 
     @Override
     public void onNext() {
@@ -127,5 +148,13 @@ public class SelfStatusActivity extends AppCompatActivity implements StoriesProg
         // Very important !
         storiesProgressView.destroy();
         super.onDestroy();
+    }
+
+    @Override
+    public void onDismissClick() {
+        try {
+            storiesProgressView.resume();
+        } catch (Exception e) {
+        }
     }
 }

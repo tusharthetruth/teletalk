@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/seen"
+        android:id="@+id/seen_button"
         android:layout_width="40dp"
         android:layout_height="@dimen/_40sdp"
         android:background="@color/black"

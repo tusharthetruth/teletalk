@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chatapp.CR;
 import com.chatapp.activity.SelfStatusActivity;
 import com.chatapp.share.RecentModel;
@@ -60,8 +61,12 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
             holder.divider.setVisibility(View.VISIBLE);
             if (model.getImageList().size() > 0) {
                 holder.userTime.setText("");
-                holder.userName.setText(model.getUserName());
-                Glide.with(holder.userIcon.getContext()).load(model.getImageList().get(model.getImageList().size() - 1)).into(holder.userIcon);
+//                holder.userName.setText(model.getUserName());
+                holder.userName.setText("Your status");
+                Glide.with(holder.userIcon.getContext()).load(model.getImageList().size()-1)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(holder.userIcon);
             }else{
                 holder.userTime.setText("Tap to status update");
                 holder.userName.setText("My Status");
