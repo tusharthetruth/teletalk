@@ -67,6 +67,11 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
                 myIntent.putExtra("Bundle", "Credit")
                 startActivity(myIntent)
             }
+            C.Meeting -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "meeting")
+                startActivity(myIntent)
+            }
             C.VoucherRecharge -> {
                 (activity as ChatMainActivity).voucherTransfer()
 

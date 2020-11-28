@@ -83,6 +83,9 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         if (url.equalsIgnoreCase("Why")) {
             url = "http://willssmartvoip.com/";
             setTitle("Why Wills ?");
+        }else if (url.equalsIgnoreCase("meeting")) {
+            url = "https://e-meeting.willssmartvoip.com/";
+            setTitle("Wills Meeting");
         } else if (url.equalsIgnoreCase("Education")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
