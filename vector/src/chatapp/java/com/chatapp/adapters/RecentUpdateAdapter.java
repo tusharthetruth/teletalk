@@ -19,9 +19,13 @@ import com.chatapp.activity.SelfStatusActivity;
 import com.chatapp.share.RecentModel;
 import com.chatapp.status_module.StatusActivity;
 
+import org.matrix.androidsdk.MXSession;
+
 import java.util.ArrayList;
 
+import im.vector.Matrix;
 import im.vector.R;
+import im.vector.util.VectorUtils;
 import im.vector.view.VectorCircularImageView;
 
 public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapter.RecentHolder> {
@@ -29,7 +33,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
     private ArrayList<RecentModel> list;
     private Context context;
     private IShareAdapterClickListner listner;
-
+    private MXSession mSession ;
     public IShareAdapterClickListner getListner() {
         return listner;
     }
@@ -63,11 +67,14 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
                 holder.userTime.setText("");
 //                holder.userName.setText(model.getUserName());
                 holder.userName.setText("Your status");
-                Glide.with(holder.userIcon.getContext()).load(model.getImageList().size()-1)
+                Glide.with(holder.userIcon.getContext()).load(model.getImageList().get(model.getImageList().size()-1))
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
+                        .placeholder(R.drawable.default_contact_avatar)
                         .into(holder.userIcon);
             }else{
+                mSession = Matrix.getInstance(context).getDefaultSession();
+                VectorUtils.loadUserAvatar(context, mSession, holder.userIcon, mSession.getMyUser());
                 holder.userTime.setText("Tap to status update");
                 holder.userName.setText("My Status");
             }

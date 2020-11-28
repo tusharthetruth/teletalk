@@ -31,6 +31,7 @@ public class SeenPeopleAdapter extends RecyclerView.Adapter<SeenPeopleAdapter.Se
         SeenPeopleModel s = list.get(position);
         holder.time.setText(s.getTime());
         holder.name.setText(s.getNo());
+        holder.icon.setImageResource(R.drawable.default_contact_avatar);
     }
 
     public SeenPeopleAdapter(ArrayList<SeenPeopleModel> list) {

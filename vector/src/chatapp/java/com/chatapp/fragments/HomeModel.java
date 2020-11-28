@@ -41,6 +41,7 @@ public class HomeModel {
         Integer[] iconList =
                 {
                         R.drawable.invite_friends,
+                        R.drawable.invite_friends,
                         R.drawable.settings,
                         R.drawable.my_balance,
                         R.drawable.buy_credit,
@@ -81,9 +82,11 @@ public class HomeModel {
                 "#4873a6",
                 "#5A5485",
                 "#524365",
+                "#3398dc"
         };
 
         String[] titles = {
+                C.Companion.getStatus(),
                 C.Companion.getInviteFriends(),
                 C.Companion.getSettings(),
                 C.Companion.getMyBalance(),

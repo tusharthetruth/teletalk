@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.FileUtils;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -132,9 +131,10 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
             object.put("username", userName);
             String otherContacts = userName;
             for (LocalContactItem item : localContactItemList) {
-                otherContacts = userName + "," + item.Phone;
+                otherContacts = otherContacts + "," + item.Phone;
             }
             object.put("phonenos", otherContacts);
+            Log.d("contacts",otherContacts.toString());
             showPg();
             String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_list.php";
 

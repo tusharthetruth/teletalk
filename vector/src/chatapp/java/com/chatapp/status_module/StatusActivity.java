@@ -2,7 +2,9 @@ package com.chatapp.status_module;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.chatapp.C;
 import com.chatapp.CR;
 import com.chatapp.network.VolleyApi;
 import com.chatapp.share.RecentModel;
@@ -31,7 +34,7 @@ import im.vector.R;
 public class StatusActivity extends AppCompatActivity implements StoriesProgressView.StoriesListener {
 
     private static int PROGRESS_COUNT = 6;
-
+String u="";
     private StoriesProgressView storiesProgressView;
     private ImageView image;
 
@@ -66,6 +69,8 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        u = settings.getString("Username", "");
         PROGRESS_COUNT = CR.resources.size();
         model = getIntent().getParcelableExtra("model");
         isSelf = getIntent().getBooleanExtra("self", false);
@@ -167,7 +172,7 @@ public class StatusActivity extends AppCompatActivity implements StoriesProgress
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user", model.getUserName());
+                params.put("user", u);
                 params.put("time", getTime());
                 params.put("imageID", CR.resources.get(counter));
                 return params;

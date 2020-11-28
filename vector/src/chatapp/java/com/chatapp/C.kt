@@ -6,6 +6,7 @@ import im.vector.VectorApp
 
 class C {
     companion object {
+        var Status = "Status"
         var InviteFriends = "InviteFriends"
         var Settings = "Settings"
         var MyBalance = "MyBalance"

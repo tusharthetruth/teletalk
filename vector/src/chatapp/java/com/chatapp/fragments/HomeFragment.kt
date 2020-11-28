@@ -46,6 +46,10 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
     override fun onHomeClick(title: String?) {
         when (title) {
+            C.Status -> {
+                startActivity(Intent(requireActivity(), UserStatusActivity::class.java))
+
+            }
             C.InviteFriends -> {
                 (activity as ChatMainActivity).invite()
 

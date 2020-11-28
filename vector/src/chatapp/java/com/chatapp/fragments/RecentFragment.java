@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import com.chatapp.ChatMainActivity;
 import com.chatapp.DialerActivity;
 import com.chatapp.InCallActivity;
+import com.chatapp.sip.api.ISipService;
 import com.chatapp.util.ChatUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.ListFragment;
@@ -189,10 +190,16 @@ public class RecentFragment extends ListFragment {
         }else if(recentItem.calltype==1){
            String PhoneNo = Items.get(position).phoneno;
 
-            Intent i = new Intent(getContext(), InCallActivity.class);
-            i.putExtra("CallType", "Outbound");
-            i.putExtra("PhoneNo", PhoneNo);
-            startActivity(i);
+            try {
+                ChatMainActivity superActivity = ((ChatMainActivity)getActivity());
+
+                ISipService service = superActivity.getConnectedService();
+                service.makeCall(PhoneNo, 1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
 /*
         PhoneNumber = Items.get(position).phoneno;
