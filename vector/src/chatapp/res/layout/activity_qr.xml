@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Transfer to Will Smart Users"
+            android:text="Transfer to Wills Smart Users"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
  <LinearLayout
