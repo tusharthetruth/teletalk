@@ -40,7 +40,7 @@ public class HomeModel {
         ArrayList<HomeModel> list = new ArrayList<>();
         Integer[] iconList =
                 {
-                        R.drawable.invite_friends,
+                        R.drawable.status_button ,
                         R.drawable.invite_friends,
                         R.drawable.settings,
                         R.drawable.my_balance,
