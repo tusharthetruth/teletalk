@@ -2200,40 +2200,44 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             public void onSwipeRight() {
                 super.onSwipeRight();
                 try {
-                    Log.d("touch", "swipe right");
-//                    com.chatapp.Animation.anim(contentView);
-//                    com.chatapp.Animation.anim(contentView.getRootView());
-                    com.chatapp.Animation.anim(convertView);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            com.chatapp.Animation.reversAnim(convertView);
+
+                    if (null != mVectorMessagesAdapterEventsListener) {
+                        if (position < getCount()) {
+                            mVectorMessagesAdapterEventsListener.onContentClick(position);
                         }
-                    },600);
-
-                    Activity attachedActivity = vectorRoomActivity;
-
-                    if ((null != attachedActivity) && (attachedActivity instanceof VectorRoomActivity)) {
-                        // Quote all paragraphs instead
-                        MessageRow row = getItem(position);
-                        Event event = row.getEvent();
-                        String textMsg = getEventText(contentView, event, msgType);
-                        String[] messageParagraphs = textMsg.split("\n\n");
-                        String quotedTextMsg = "";
-                        for (int i = 0; i < messageParagraphs.length; i++) {
-                            if (!messageParagraphs[i].trim().equals("")) {
-                                quotedTextMsg += "> " + messageParagraphs[i];
-                            }
-
-                            if (!((i + 1) == messageParagraphs.length)) {
-                                quotedTextMsg += "\n\n";
-                            }
-                        }
-                        ((VectorRoomActivity) attachedActivity).insertQuoteInTextEditor(quotedTextMsg + "\n\n");
                     }
-
-
-                    Toast.makeText(contentView.getContext(), "Quote Added", Toast.LENGTH_LONG).show();
+//                    Log.d("touch", "swipe right");
+//                    com.chatapp.Animation.anim(convertView);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            com.chatapp.Animation.reversAnim(convertView);
+//                        }
+//                    },600);
+//
+//                    Activity attachedActivity = vectorRoomActivity;
+//
+//                    if ((null != attachedActivity) && (attachedActivity instanceof VectorRoomActivity)) {
+//                        // Quote all paragraphs instead
+//                        MessageRow row = getItem(position);
+//                        Event event = row.getEvent();
+//                        String textMsg = getEventText(contentView, event, msgType);
+//                        String[] messageParagraphs = textMsg.split("\n\n");
+//                        String quotedTextMsg = "";
+//                        for (int i = 0; i < messageParagraphs.length; i++) {
+//                            if (!messageParagraphs[i].trim().equals("")) {
+//                                quotedTextMsg += "> " + messageParagraphs[i];
+//                            }
+//
+//                            if (!((i + 1) == messageParagraphs.length)) {
+//                                quotedTextMsg += "\n\n";
+//                            }
+//                        }
+//                        ((VectorRoomActivity) attachedActivity).insertQuoteInTextEditor(quotedTextMsg + "\n\n");
+//                    }
+//
+//
+//                    Toast.makeText(contentView.getContext(), "Quote Added", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                 }
             }

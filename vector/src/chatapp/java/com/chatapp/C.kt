@@ -22,7 +22,7 @@ class C {
         var Qr = "Qr"
         var Ticketing = "Ticketing"
         var Courier = "Courier"
-        var WillEducation = "WillEducation"
+        var WillEducation = "Will Education"
         var Medical = "Medical"
         var Law = "Law"
         var smartAgro = "smartAgro"

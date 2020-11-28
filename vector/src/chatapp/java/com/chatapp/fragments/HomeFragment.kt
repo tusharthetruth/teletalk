@@ -112,9 +112,9 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
             }
             C.WillEducation -> {
-                showErr()
-
-
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "Education")
+                startActivity(myIntent)
             }
             C.Medical -> {
                 showErr()

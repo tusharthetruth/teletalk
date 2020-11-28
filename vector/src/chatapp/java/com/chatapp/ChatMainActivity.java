@@ -1264,7 +1264,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     }
 
     public void invite() {
-        String shareBody = "Join me on Wills, this free video chat and messaging app is amazing. I like it! http://play.google.com/store/apps/details?id=com.wills\n";
+        String shareBody = "Join me on Will Smart Voip, this free video chat and messaging app is amazing. I like it! http://play.google.com/store/apps/details?id=com.wills\n";
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Wills Invite");
