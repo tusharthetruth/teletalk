@@ -21,8 +21,10 @@ import com.chatapp.InCallActivity;
 import com.chatapp.sip.api.ISipService;
 import com.chatapp.util.ChatUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.fragment.app.ListFragment;
 import androidx.appcompat.app.AlertDialog;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -133,7 +135,7 @@ public class RecentFragment extends ListFragment {
         //getListView().setDivider(null);
         listView1 = getListView();
         ArrayList<RecentItem> Items = new ArrayList<RecentItem>();
-        if(m_adapter==null) {
+        if (m_adapter == null) {
             m_adapter = new RecentAdapter(getActivity(), R.layout.layout_recent, Items);
             new JSONParse().execute();
             m_adapter.SetMXSession(mSession);
@@ -159,7 +161,7 @@ public class RecentFragment extends ListFragment {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
 //            throw new ClassCastException(activity.toString()
- //                   + " must implement OnFragmentInteractionListener");
+            //                   + " must implement OnFragmentInteractionListener");
         }
 
     }
@@ -171,27 +173,28 @@ public class RecentFragment extends ListFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         new JSONParse().execute();
         try {
             ((ChatMainActivity) getActivity()).hideItem();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         RecentItem recentItem = Items.get(position);
-        if(recentItem.calltype==2){
-            startCall(mSession,recentItem.phoneno,false);
-        }else if(recentItem.calltype==3){
-            startCall(mSession,recentItem.phoneno,true);
-        }else if(recentItem.calltype==1){
-           String PhoneNo = Items.get(position).phoneno;
+        if (recentItem.calltype == 2) {
+            startCall(mSession, recentItem.phoneno, false);
+        } else if (recentItem.calltype == 3) {
+            startCall(mSession, recentItem.phoneno, true);
+        } else if (recentItem.calltype == 1) {
+            String PhoneNo = Items.get(position).phoneno;
 
             try {
-                ChatMainActivity superActivity = ((ChatMainActivity)getActivity());
+                ChatMainActivity superActivity = ((ChatMainActivity) getActivity());
 
                 ISipService service = superActivity.getConnectedService();
                 service.makeCall(PhoneNo, 1);
@@ -240,41 +243,36 @@ public class RecentFragment extends ListFragment {
     }
 
 
-    private class JSONParse extends AsyncTask<String, String,ArrayList<RecentItem>> {
+    private class JSONParse extends AsyncTask<String, String, ArrayList<RecentItem>> {
         private ProgressDialog pDialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            /*
-            pDialog = new ProgressDialog(getActivity());
-            pDialog.setMessage("Getting Data ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-            */
-
         }
 
         @Override
         protected ArrayList<RecentItem> doInBackground(String... args) {
-
             ArrayList<RecentItem> recentItems = new ArrayList<RecentItem>();
-            if(getActivity() != null) {
-                RecentDBHandler recentDBHandler = new RecentDBHandler(getActivity());
-                List<RecentItem> recentItemList = recentDBHandler.GetRecentCalls(1);
+            try {
+                if (getActivity() != null) {
+                    RecentDBHandler recentDBHandler = new RecentDBHandler(getActivity());
+                    List<RecentItem> recentItemList = recentDBHandler.GetRecentCalls(1);
 
-                for (int i = 0; i < recentItemList.size(); i++) {
-                    RecentItem recentItem = recentItemList.get(i);
-                    if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, getActivity(),PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
-                        HashMap contact = getContactDisplayNameByNumber(recentItem.phoneno);
-                        recentItem.name = contact.get("name").toString();
-                        recentItem.id = contact.get("contactId").toString();
-                    } else {
-                        recentItem.id = "";
+                    for (int i = 0; i < recentItemList.size(); i++) {
+                        RecentItem recentItem = recentItemList.get(i);
+                        if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, getActivity(), PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+                            HashMap contact = getContactDisplayNameByNumber(recentItem.phoneno);
+                            recentItem.name = contact.get("name").toString();
+                            recentItem.id = contact.get("contactId").toString();
+                        } else {
+                            recentItem.id = "";
+                        }
+                        recentItems.add(recentItem);
                     }
-                    recentItems.add(recentItem);
                 }
+            } catch (Exception e) {
+
             }
             return recentItems;
 
@@ -282,23 +280,26 @@ public class RecentFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(final ArrayList<RecentItem> recentItems) {
-            if(getActivity() == null)
+            if (getActivity() == null)
                 return;
-
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    Items = recentItems;
-                    m_adapter = new RecentAdapter(getActivity(), R.layout.layout_recent, Items);
-                    m_adapter.SetMXSession(mSession);
-                    listView1.setAdapter(m_adapter);
-                    m_adapter.notifyDataSetChanged();
-                }
-            });
+            try {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Items = recentItems;
+                        m_adapter = new RecentAdapter(getActivity(), R.layout.layout_recent, Items);
+                        m_adapter.SetMXSession(mSession);
+                        listView1.setAdapter(m_adapter);
+                        m_adapter.notifyDataSetChanged();
+                    }
+                });
+            } catch (Exception e) {
+            }
         }
     }
 
     private class DeleteCDR extends AsyncTask<String, String, String> {
         private ProgressDialog pDialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -339,8 +340,8 @@ public class RecentFragment extends ListFragment {
         contact.put("name", name);
         contact.put("contactId", "");
         ContentResolver contentResolver = getActivity().getContentResolver();
-        Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
-                ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
+        Cursor contactLookup = contentResolver.query(uri, new String[]{BaseColumns._ID,
+                ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
 
         try {
             if (contactLookup != null && contactLookup.getCount() > 0) {
@@ -350,7 +351,7 @@ public class RecentFragment extends ListFragment {
                 contact.remove("name");
                 contact.put("name", name);
                 contact.remove("contactId");
-                contact.put("contactId",contactId);
+                contact.put("contactId", contactId);
             }
         } finally {
             if (contactLookup != null) {
@@ -379,14 +380,14 @@ public class RecentFragment extends ListFragment {
      *
      * @param isVideo true if the call is a video call
      */
-    private void startCall(final MXSession mSession, final String RoomID , final boolean isVideo) {
+    private void startCall(final MXSession mSession, final String RoomID, final boolean isVideo) {
         if (!mSession.isAlive()) {
             Log.e(LOG_TAG, "startCall : the session is not anymore valid");
             return;
         }
-        Room mRoom = mSession.getDataHandler().getRoom(RoomID,false);
+        Room mRoom = mSession.getDataHandler().getRoom(RoomID, false);
         // create the call object
-        mSession.mCallsManager.createCallInRoom(mRoom.getRoomId(),false, new ApiCallback<IMXCall>() {
+        mSession.mCallsManager.createCallInRoom(mRoom.getRoomId(), false, new ApiCallback<IMXCall>() {
             @Override
             public void onSuccess(final IMXCall call) {
                 getActivity().runOnUiThread(new Runnable() {
@@ -434,7 +435,7 @@ public class RecentFragment extends ListFragment {
                         return;
                     }
                     */
-                    startCall(mSession,RoomID,isVideo);
+                    startCall(mSession, RoomID, isVideo);
                 }
 
                 ChatUtils.displayToast(getActivity(), e.getLocalizedMessage());

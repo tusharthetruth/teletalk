@@ -68,7 +68,11 @@ abstract class VectorBaseFragment : Fragment() {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mUnBinder = ButterKnife.bind(this, view)
+        try {
+            mUnBinder = ButterKnife.bind(this, view)
+        } catch (e: Exception) {
+
+        }
     }
 
     @CallSuper

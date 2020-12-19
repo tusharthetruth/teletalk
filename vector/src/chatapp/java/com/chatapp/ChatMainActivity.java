@@ -310,13 +310,6 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
     private VideoPopupReceiver videoPopupReceiver;
 
-    private void setVideoPopUP() {
-        videoPopupReceiver = new VideoPopupReceiver(new Handler());
-        Intent i = new Intent(this, TrailDisplayService.class);
-        i.putExtra("r", videoPopupReceiver);
-        startService(i);
-
-    }
 
     class VideoPopupReceiver extends ResultReceiver {
 
@@ -331,13 +324,6 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
     }
 
-    private void startCallUpdate() {
-        try {
-            Intent i = new Intent(this, VideoChargeService.class);
-            startService(i);
-        } catch (Exception e) {
-        }
-    }
 
     private void onSyncListener() {
         try {
