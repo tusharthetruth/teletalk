@@ -307,256 +307,261 @@ public class VectorHomeActivity extends VectorAppCompatActivity implements Searc
 
     @Override
     public void initUiAndData() {
-        mFragmentManager = getSupportFragmentManager();
+        try {
+            mFragmentManager = getSupportFragmentManager();
 
-        if (CommonActivityUtils.shouldRestartApp(this)) {
-            Log.e(LOG_TAG, "Restart the application.");
-            CommonActivityUtils.restartApp(this);
-            return;
-        }
-
-        if (CommonActivityUtils.isGoingToSplash(this)) {
-            Log.d(LOG_TAG, "onCreate : Going to splash screen");
-            return;
-        }
-
-        // Waiting View
-        setWaitingView(findViewById(R.id.listView_spinner_views));
-
-        sharedInstance = this;
-
-        setupNavigation();
-
-        initSlidingMenu();
-
-        mSession = Matrix.getInstance(this).getDefaultSession();
-        mRoomsViewModel = new HomeRoomsViewModel(mSession);
-        // track if the application update
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int version = preferences.getInt(PreferencesManager.VERSION_BUILD, 0);
-
-        new ProposeLogout(mSession, this).process();
-
-        if (version != BuildConfig.VERSION_CODE) {
-            Log.d(LOG_TAG, "The application has been updated from version " + version + " to version " + BuildConfig.VERSION_CODE);
-
-            // TODO add some dedicated actions here
-
-            preferences.edit()
-                    .putInt(PreferencesManager.VERSION_BUILD, BuildConfig.VERSION_CODE)
-                    .apply();
-        }
-
-        // Use the SignOutViewModel, it observe the keys backup state and this is what we need here
-        SignOutViewModel model = ViewModelProviders.of(this).get(SignOutViewModel.class);
-
-        model.init(mSession);
-
-        model.getKeysBackupState().observe(this, keysBackupState -> {
-            if (keysBackupState == null) {
-                mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
-            } else {
-                switch (keysBackupState) {
-                    case Disabled:
-                        mKeysBackupBanner.render(new KeysBackupBanner.State.Setup(model.getNumberOfKeysToBackup()), false);
-                        break;
-                    case NotTrusted:
-                    case WrongBackUpVersion:
-                        // In this case, getCurrentBackupVersion() should not return ""
-                        mKeysBackupBanner.render(new KeysBackupBanner.State.Recover(model.getCurrentBackupVersion()), false);
-                        break;
-                    case WillBackUp:
-                    case BackingUp:
-                        mKeysBackupBanner.render(KeysBackupBanner.State.BackingUp.INSTANCE, false);
-                        break;
-                    case ReadyToBackUp:
-                        if (model.canRestoreKeys()) {
-                            mKeysBackupBanner.render(new KeysBackupBanner.State.Update(model.getCurrentBackupVersion()), false);
-                        } else {
-                            mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
-                        }
-                        break;
-                    default:
-                        mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
-                        break;
-                }
+            if (CommonActivityUtils.shouldRestartApp(this)) {
+                Log.e(LOG_TAG, "Restart the application.");
+                CommonActivityUtils.restartApp(this);
+                return;
             }
-        });
 
-        mKeysBackupBanner.setDelegate(this);
+            if (CommonActivityUtils.isGoingToSplash(this)) {
+                Log.d(LOG_TAG, "onCreate : Going to splash screen");
+                return;
+            }
 
-        // Check whether the user has agreed to the use of analytics tracking
+            // Waiting View
+            setWaitingView(findViewById(R.id.listView_spinner_views));
 
-        if (!PreferencesManager.didAskToUseAnalytics(this)) {
-            promptForAnalyticsTracking();
-        }
+            sharedInstance = this;
 
-        // process intent parameters
-        final Intent intent = getIntent();
+            setupNavigation();
 
-        if (intent.hasExtra(EXTRA_CLEAR_EXISTING_NOTIFICATION)) {
-            VectorApp.getInstance().getNotificationDrawerManager().clearAllEvents();
-            intent.removeExtra(EXTRA_CLEAR_EXISTING_NOTIFICATION);
-        }
+            initSlidingMenu();
 
-        if (!isFirstCreation()) {
-            // fix issue #1276
-            // if there is a saved instance, it means that onSaveInstanceState has been called.
-            // theses parameters must only be used once.
-            // The activity might have been created after being killed by android while the application is in background
-            intent.removeExtra(EXTRA_SHARED_INTENT_PARAMS);
-            intent.removeExtra(EXTRA_CALL_SESSION_ID);
-            intent.removeExtra(EXTRA_CALL_ID);
-            intent.removeExtra(EXTRA_CALL_UNKNOWN_DEVICES);
-            intent.removeExtra(EXTRA_WAITING_VIEW_STATUS);
-            intent.removeExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
-            intent.removeExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
-            intent.removeExtra(EXTRA_MEMBER_ID);
-            intent.removeExtra(EXTRA_GROUP_ID);
-            intent.removeExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI);
-        } else {
+            mSession = Matrix.getInstance(this).getDefaultSession();
+            mRoomsViewModel = new HomeRoomsViewModel(mSession);
+            // track if the application update
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            int version = preferences.getInt(PreferencesManager.VERSION_BUILD, 0);
 
-            if (intent.hasExtra(EXTRA_CALL_SESSION_ID) && intent.hasExtra(EXTRA_CALL_ID)) {
-                startCall(intent.getStringExtra(EXTRA_CALL_SESSION_ID),
-                        intent.getStringExtra(EXTRA_CALL_ID),
-                        (MXUsersDevicesMap<MXDeviceInfo>) intent.getSerializableExtra(EXTRA_CALL_UNKNOWN_DEVICES));
+            new ProposeLogout(mSession, this).process();
+
+            if (version != BuildConfig.VERSION_CODE) {
+                Log.d(LOG_TAG, "The application has been updated from version " + version + " to version " + BuildConfig.VERSION_CODE);
+
+                // TODO add some dedicated actions here
+
+                preferences.edit()
+                        .putInt(PreferencesManager.VERSION_BUILD, BuildConfig.VERSION_CODE)
+                        .apply();
+            }
+
+            // Use the SignOutViewModel, it observe the keys backup state and this is what we need here
+            SignOutViewModel model = ViewModelProviders.of(this).get(SignOutViewModel.class);
+
+            model.init(mSession);
+
+            model.getKeysBackupState().observe(this, keysBackupState -> {
+                if (keysBackupState == null) {
+                    mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
+                } else {
+                    switch (keysBackupState) {
+                        case Disabled:
+                            mKeysBackupBanner.render(new KeysBackupBanner.State.Setup(model.getNumberOfKeysToBackup()), false);
+                            break;
+                        case NotTrusted:
+                        case WrongBackUpVersion:
+                            // In this case, getCurrentBackupVersion() should not return ""
+                            mKeysBackupBanner.render(new KeysBackupBanner.State.Recover(model.getCurrentBackupVersion()), false);
+                            break;
+                        case WillBackUp:
+                        case BackingUp:
+                            mKeysBackupBanner.render(KeysBackupBanner.State.BackingUp.INSTANCE, false);
+                            break;
+                        case ReadyToBackUp:
+                            if (model.canRestoreKeys()) {
+                                mKeysBackupBanner.render(new KeysBackupBanner.State.Update(model.getCurrentBackupVersion()), false);
+                            } else {
+                                mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
+                            }
+                            break;
+                        default:
+                            mKeysBackupBanner.render(KeysBackupBanner.State.Hidden.INSTANCE, false);
+                            break;
+                    }
+                }
+            });
+
+            mKeysBackupBanner.setDelegate(this);
+
+            // Check whether the user has agreed to the use of analytics tracking
+
+            if (!PreferencesManager.didAskToUseAnalytics(this)) {
+                promptForAnalyticsTracking();
+            }
+
+            // process intent parameters
+            final Intent intent = getIntent();
+
+            if (intent.hasExtra(EXTRA_CLEAR_EXISTING_NOTIFICATION)) {
+                VectorApp.getInstance().getNotificationDrawerManager().clearAllEvents();
+                intent.removeExtra(EXTRA_CLEAR_EXISTING_NOTIFICATION);
+            }
+
+            if (!isFirstCreation()) {
+                // fix issue #1276
+                // if there is a saved instance, it means that onSaveInstanceState has been called.
+                // theses parameters must only be used once.
+                // The activity might have been created after being killed by android while the application is in background
+                intent.removeExtra(EXTRA_SHARED_INTENT_PARAMS);
                 intent.removeExtra(EXTRA_CALL_SESSION_ID);
                 intent.removeExtra(EXTRA_CALL_ID);
                 intent.removeExtra(EXTRA_CALL_UNKNOWN_DEVICES);
-            }
-
-            // the activity could be started with a spinner
-            // because there is a pending action (like universalLink processing)
-            if (intent.getBooleanExtra(EXTRA_WAITING_VIEW_STATUS, WAITING_VIEW_STOP)) {
-                showWaitingView();
-            } else {
-                hideWaitingView();
-            }
-            intent.removeExtra(EXTRA_WAITING_VIEW_STATUS);
-
-            mAutomaticallyOpenedRoomParams = (Map<String, Object>) intent.getSerializableExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
-            intent.removeExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
-
-            mUniversalLinkToOpen = intent.getParcelableExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
-            intent.removeExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
-
-            mMemberIdToOpen = intent.getStringExtra(EXTRA_MEMBER_ID);
-            intent.removeExtra(EXTRA_MEMBER_ID);
-
-            mGroupIdToOpen = intent.getStringExtra(EXTRA_GROUP_ID);
-            intent.removeExtra(EXTRA_GROUP_ID);
-
-            // the home activity has been launched with an universal link
-            if (intent.hasExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI)) {
-                Log.d(LOG_TAG, "Has an universal link");
-
-                final Uri uri = intent.getParcelableExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI);
+                intent.removeExtra(EXTRA_WAITING_VIEW_STATUS);
+                intent.removeExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
+                intent.removeExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
+                intent.removeExtra(EXTRA_MEMBER_ID);
+                intent.removeExtra(EXTRA_GROUP_ID);
                 intent.removeExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI);
+            } else {
 
-                // detect the room could be opened without waiting the next sync
-                Map<String, String> params = VectorUniversalLinkReceiver.parseUniversalLink(uri);
+                if (intent.hasExtra(EXTRA_CALL_SESSION_ID) && intent.hasExtra(EXTRA_CALL_ID)) {
+                    startCall(intent.getStringExtra(EXTRA_CALL_SESSION_ID),
+                            intent.getStringExtra(EXTRA_CALL_ID),
+                            (MXUsersDevicesMap<MXDeviceInfo>) intent.getSerializableExtra(EXTRA_CALL_UNKNOWN_DEVICES));
+                    intent.removeExtra(EXTRA_CALL_SESSION_ID);
+                    intent.removeExtra(EXTRA_CALL_ID);
+                    intent.removeExtra(EXTRA_CALL_UNKNOWN_DEVICES);
+                }
 
-                if ((null != params) && params.containsKey(PermalinkUtils.ULINK_ROOM_ID_OR_ALIAS_KEY)) {
-                    Log.d(LOG_TAG, "Has a valid universal link");
+                // the activity could be started with a spinner
+                // because there is a pending action (like universalLink processing)
+                if (intent.getBooleanExtra(EXTRA_WAITING_VIEW_STATUS, WAITING_VIEW_STOP)) {
+                    showWaitingView();
+                } else {
+                    hideWaitingView();
+                }
+                intent.removeExtra(EXTRA_WAITING_VIEW_STATUS);
 
-                    final String roomIdOrAlias = params.get(PermalinkUtils.ULINK_ROOM_ID_OR_ALIAS_KEY);
+                mAutomaticallyOpenedRoomParams = (Map<String, Object>) intent.getSerializableExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
+                intent.removeExtra(EXTRA_JUMP_TO_ROOM_PARAMS);
 
-                    // it is a room ID ?
-                    if (MXPatterns.isRoomId(roomIdOrAlias)) {
-                        Log.d(LOG_TAG, "Has a valid universal link to the room ID " + roomIdOrAlias);
-                        Room room = mSession.getDataHandler().getRoom(roomIdOrAlias, false);
+                mUniversalLinkToOpen = intent.getParcelableExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
+                intent.removeExtra(EXTRA_JUMP_TO_UNIVERSAL_LINK);
 
-                        if (null != room) {
-                            Log.d(LOG_TAG, "Has a valid universal link to a known room");
-                            // open the room asap
-                            mUniversalLinkToOpen = uri;
-                        } else {
-                            Log.d(LOG_TAG, "Has a valid universal link but the room is not yet known");
-                            // wait the next sync
-                            intent.putExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI, uri);
-                        }
-                    } else if (MXPatterns.isRoomAlias(roomIdOrAlias)) {
-                        Log.d(LOG_TAG, "Has a valid universal link of the room Alias " + roomIdOrAlias);
+                mMemberIdToOpen = intent.getStringExtra(EXTRA_MEMBER_ID);
+                intent.removeExtra(EXTRA_MEMBER_ID);
 
-                        showWaitingView();
+                mGroupIdToOpen = intent.getStringExtra(EXTRA_GROUP_ID);
+                intent.removeExtra(EXTRA_GROUP_ID);
 
-                        // it is a room alias
-                        // convert the room alias to room Id
-                        mSession.getDataHandler().roomIdByAlias(roomIdOrAlias, new SimpleApiCallback<String>() {
-                            @Override
-                            public void onSuccess(String roomId) {
-                                Log.d(LOG_TAG, "Retrieve the room ID " + roomId);
+                // the home activity has been launched with an universal link
+                if (intent.hasExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI)) {
+                    Log.d(LOG_TAG, "Has an universal link");
 
-                                getIntent().putExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI, uri);
+                    final Uri uri = intent.getParcelableExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI);
+                    intent.removeExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI);
 
-                                // the room exists, opens it
-                                if (null != mSession.getDataHandler().getRoom(roomId, false)) {
-                                    Log.d(LOG_TAG, "Find the room from room ID : process it");
-                                    processIntentUniversalLink();
-                                } else {
-                                    Log.d(LOG_TAG, "Don't know the room");
+                    // detect the room could be opened without waiting the next sync
+                    Map<String, String> params = VectorUniversalLinkReceiver.parseUniversalLink(uri);
+
+                    if ((null != params) && params.containsKey(PermalinkUtils.ULINK_ROOM_ID_OR_ALIAS_KEY)) {
+                        Log.d(LOG_TAG, "Has a valid universal link");
+
+                        final String roomIdOrAlias = params.get(PermalinkUtils.ULINK_ROOM_ID_OR_ALIAS_KEY);
+
+                        // it is a room ID ?
+                        if (MXPatterns.isRoomId(roomIdOrAlias)) {
+                            Log.d(LOG_TAG, "Has a valid universal link to the room ID " + roomIdOrAlias);
+                            Room room = mSession.getDataHandler().getRoom(roomIdOrAlias, false);
+
+                            if (null != room) {
+                                Log.d(LOG_TAG, "Has a valid universal link to a known room");
+                                // open the room asap
+                                mUniversalLinkToOpen = uri;
+                            } else {
+                                Log.d(LOG_TAG, "Has a valid universal link but the room is not yet known");
+                                // wait the next sync
+                                intent.putExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI, uri);
+                            }
+                        } else if (MXPatterns.isRoomAlias(roomIdOrAlias)) {
+                            Log.d(LOG_TAG, "Has a valid universal link of the room Alias " + roomIdOrAlias);
+
+                            showWaitingView();
+
+                            // it is a room alias
+                            // convert the room alias to room Id
+                            mSession.getDataHandler().roomIdByAlias(roomIdOrAlias, new SimpleApiCallback<String>() {
+                                @Override
+                                public void onSuccess(String roomId) {
+                                    Log.d(LOG_TAG, "Retrieve the room ID " + roomId);
+
+                                    getIntent().putExtra(VectorUniversalLinkReceiver.EXTRA_UNIVERSAL_LINK_URI, uri);
+
+                                    // the room exists, opens it
+                                    if (null != mSession.getDataHandler().getRoom(roomId, false)) {
+                                        Log.d(LOG_TAG, "Find the room from room ID : process it");
+                                        processIntentUniversalLink();
+                                    } else {
+                                        Log.d(LOG_TAG, "Don't know the room");
+                                    }
                                 }
+                            });
+                        }
+                    }
+                } else {
+                    Log.d(LOG_TAG, "create with no universal link");
+                }
+
+                if (intent.hasExtra(EXTRA_SHARED_INTENT_PARAMS)) {
+                    final Intent sharedFilesIntent = intent.getParcelableExtra(EXTRA_SHARED_INTENT_PARAMS);
+                    Log.d(LOG_TAG, "Has shared intent");
+
+                    if (mSession.getDataHandler().getStore().isReady()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d(LOG_TAG, "shared intent : The store is ready -> display sendFilesTo");
+                                CommonActivityUtils.sendFilesTo(VectorHomeActivity.this, sharedFilesIntent);
                             }
                         });
+                    } else {
+                        Log.d(LOG_TAG, "shared intent : Wait that the store is ready");
+                        mSharedFilesIntent = sharedFilesIntent;
                     }
+
+                    // ensure that it should be called once
+                    intent.removeExtra(EXTRA_SHARED_INTENT_PARAMS);
                 }
+            }
+
+            // check if  there is some valid session
+            // the home activity could be relaunched after an application crash
+            // so, reload the sessions before displaying the history
+            Collection<MXSession> sessions = Matrix.getMXSessions(VectorHomeActivity.this);
+            if (sessions.size() == 0) {
+                Log.e(LOG_TAG, "Weird : onCreate : no session");
+
+                if (null != Matrix.getInstance(this).getDefaultSession()) {
+                    Log.e(LOG_TAG, "No loaded session : reload them");
+                    // start splash activity and stop here
+                    startActivity(new Intent(VectorHomeActivity.this, SplashActivity.class));
+                    finish();
+                    return;
+                }
+            }
+
+            final View selectedMenu;
+            if (isFirstCreation()) {
+                selectedMenu = mBottomNavigationView.findViewById(R.id.bottom_action_home);
             } else {
-                Log.d(LOG_TAG, "create with no universal link");
+                selectedMenu = mBottomNavigationView.findViewById(getSavedInstanceState().getInt(CURRENT_MENU_ID, R.id.bottom_action_home));
+            }
+            if (selectedMenu != null) {
+                selectedMenu.performClick();
             }
 
-            if (intent.hasExtra(EXTRA_SHARED_INTENT_PARAMS)) {
-                final Intent sharedFilesIntent = intent.getParcelableExtra(EXTRA_SHARED_INTENT_PARAMS);
-                Log.d(LOG_TAG, "Has shared intent");
+            // initialize the public rooms list
+            PublicRoomsManager.getInstance().setSession(mSession);
+            PublicRoomsManager.getInstance().refreshPublicRoomsCount(null);
 
-                if (mSession.getDataHandler().getStore().isReady()) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(LOG_TAG, "shared intent : The store is ready -> display sendFilesTo");
-                            CommonActivityUtils.sendFilesTo(VectorHomeActivity.this, sharedFilesIntent);
-                        }
-                    });
-                } else {
-                    Log.d(LOG_TAG, "shared intent : Wait that the store is ready");
-                    mSharedFilesIntent = sharedFilesIntent;
-                }
+            initViews();
+        } catch (Exception e) {
+            startActivity(new Intent(this, com.chatapp.SplashActivity.class));
 
-                // ensure that it should be called once
-                intent.removeExtra(EXTRA_SHARED_INTENT_PARAMS);
-            }
         }
-
-        // check if  there is some valid session
-        // the home activity could be relaunched after an application crash
-        // so, reload the sessions before displaying the history
-        Collection<MXSession> sessions = Matrix.getMXSessions(VectorHomeActivity.this);
-        if (sessions.size() == 0) {
-            Log.e(LOG_TAG, "Weird : onCreate : no session");
-
-            if (null != Matrix.getInstance(this).getDefaultSession()) {
-                Log.e(LOG_TAG, "No loaded session : reload them");
-                // start splash activity and stop here
-                startActivity(new Intent(VectorHomeActivity.this, SplashActivity.class));
-                finish();
-                return;
-            }
-        }
-
-        final View selectedMenu;
-        if (isFirstCreation()) {
-            selectedMenu = mBottomNavigationView.findViewById(R.id.bottom_action_home);
-        } else {
-            selectedMenu = mBottomNavigationView.findViewById(getSavedInstanceState().getInt(CURRENT_MENU_ID, R.id.bottom_action_home));
-        }
-        if (selectedMenu != null) {
-            selectedMenu.performClick();
-        }
-
-        // initialize the public rooms list
-        PublicRoomsManager.getInstance().setSession(mSession);
-        PublicRoomsManager.getInstance().refreshPublicRoomsCount(null);
-
-        initViews();
     }
 
     /**

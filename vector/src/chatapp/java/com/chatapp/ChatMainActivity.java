@@ -418,16 +418,18 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
-        MyPresenceManager.createPresenceManager(this, Matrix.getInstance(this).getSessions());
-        MyPresenceManager.advertiseAllOnline();
+        try {
+            MyPresenceManager.createPresenceManager(this, Matrix.getInstance(this).getSessions());
+            MyPresenceManager.advertiseAllOnline();
 
-        VectorApp.getInstance().getNotificationDrawerManager().homeActivityDidResume(mSession != null ? mSession.getMyUserId() : null);
+            VectorApp.getInstance().getNotificationDrawerManager().homeActivityDidResume(mSession != null ? mSession.getMyUserId() : null);
 
-        mVectorPendingCallView.checkPendingCall();
+            mVectorPendingCallView.checkPendingCall();
 
 
-        checkNotificationPrivacySetting();
-        VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
+            checkNotificationPrivacySetting();
+            VectorUtils.loadUserAvatar(this, mSession, profileImge, mSession.getMyUser());
+        }catch (Exception e){}
 
     }
 

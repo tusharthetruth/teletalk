@@ -145,8 +145,10 @@ class EventStreamServiceX : VectorService() {
     private enum class ServiceState {
         // Initial state
         INIT,
+
         // Service is started for a Catchup. Once the catchup is finished the service will be stopped
         CATCHUP,
+
         // Service is started, and session is monitored
         STARTED
     }
@@ -615,46 +617,57 @@ class EventStreamServiceX : VectorService() {
          * ========================================================================================== */
 
         fun onApplicationStarted(context: Context) {
-            sendAction(context, ACTION_START)
+            if (context != null)
+                sendAction(context, ACTION_START)
         }
 
         fun onLogout(context: Context) {
-            sendAction(context, ACTION_LOGOUT)
+            if (context != null)
+                sendAction(context, ACTION_LOGOUT)
         }
 
         fun onAppGoingToForeground(context: Context) {
+            if (context != null)
             sendAction(context, ACTION_GO_TO_FOREGROUND)
         }
 
         fun onAppGoingToBackground(context: Context) {
-            sendAction(context, ACTION_GO_TO_BACKGROUND)
+            if (context != null)
+                sendAction(context, ACTION_GO_TO_BACKGROUND)
         }
 
         fun onPushUpdate(context: Context) {
-            sendAction(context, ACTION_PUSH_UPDATE)
+            if (context != null)
+                sendAction(context, ACTION_PUSH_UPDATE)
         }
 
         fun onPushReceived(context: Context) {
+            if (context != null)
             sendAction(context, ACTION_PUSH_RECEIVED)
         }
 
         fun onSimulatedPushReceived(context: Context) {
+            if (context != null)
             sendAction(context, ACTION_SIMULATED_PUSH_RECEIVED, true)
         }
 
         fun onApplicationStopped(context: Context) {
-            sendAction(context, ACTION_STOP)
+            if (context != null)
+                sendAction(context, ACTION_STOP)
         }
 
         fun onBootComplete(context: Context) {
+            if (context != null)
             sendAction(context, ACTION_BOOT_COMPLETE, true)
         }
 
         fun onApplicationUpgrade(context: Context) {
-            sendAction(context, ACTION_APPLICATION_UPGRADE, true)
+            if (context != null)
+                sendAction(context, ACTION_APPLICATION_UPGRADE, true)
         }
 
         fun onForcePermanentEventListening(context: Context) {
+            if (context != null)
             sendAction(context, ACTION_SIMULATED_PERMANENT_LISTENING, true)
         }
 

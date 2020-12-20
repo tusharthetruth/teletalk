@@ -16,6 +16,7 @@
 
 package im.vector.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -41,6 +42,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import im.vector.R;
+import im.vector.activity.SplashActivity;
 import im.vector.adapters.HomeRoomAdapter;
 import im.vector.ui.themes.ThemeUtils;
 import im.vector.util.HomeRoomsViewModel;
@@ -107,13 +109,18 @@ public class HomeFragment extends AbsHomeFragment implements HomeRoomAdapter.OnS
         mSecondaryColor = ThemeUtils.INSTANCE.getColor(getActivity(), R.attr.vctr_tab_home_secondary);
         mFabColor = ContextCompat.getColor(getActivity(), R.color.tab_rooms);
         mFabPressedColor = ContextCompat.getColor(getActivity(), R.color.tab_rooms_secondary);
+        try {
+            initViews();
 
-        initViews();
-        // Eventually restore the pattern of adapter after orientation change
-        for (HomeSectionView homeSectionView : mHomeSectionViews) {
-            homeSectionView.setCurrentFilter(mCurrentFilter);
+// Eventually restore the pattern of adapter after orientation change
+            for (HomeSectionView homeSectionView : mHomeSectionViews) {
+                homeSectionView.setCurrentFilter(mCurrentFilter);
+            }
+            mActivity.showWaitingView();
+        } catch (Exception e) {
+            startActivity(new Intent(getActivity(), com.chatapp.SplashActivity.class));
+            getActivity().finish();
         }
-        mActivity.showWaitingView();
     }
 
     @Override

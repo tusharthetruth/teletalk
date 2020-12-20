@@ -16,12 +16,14 @@
 
 package im.vector.features.logout
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import im.vector.R
+import im.vector.activity.SplashActivity
 import im.vector.activity.VectorHomeActivity
 import im.vector.util.PreferencesManager
 import org.matrix.androidsdk.MXSession
@@ -66,26 +68,30 @@ class ProposeLogout(private val session: MXSession,
     }
 
     private fun showDialog() {
-        val v = LayoutInflater.from(activity).inflate(R.layout.dialog_html_text, null)
+        try {
+            val v = LayoutInflater.from(activity).inflate(R.layout.dialog_html_text, null)
 
-        v.findViewById<TextView>(R.id.dialog_text).text = activity.getString(R.string.security_warning_identity_server,
-                session.homeServerConfig.identityServerUri.toString(),
-                session.homeServerConfig.identityServerUri.toString())
+            v.findViewById<TextView>(R.id.dialog_text).text = activity.getString(R.string.security_warning_identity_server,
+                    session.homeServerConfig.identityServerUri.toString(),
+                    session.homeServerConfig.identityServerUri.toString())
 
-        AlertDialog.Builder(activity)
-                .setTitle(R.string.dialog_title_warning)
-                .setIcon(R.drawable.vector_warning_red)
-                .setView(v)
-                .setCancelable(false)
-                .setPositiveButton(R.string.ssl_logout_account) { _, _ ->
-                    activity.signOut(false)
-                }
-                .setNegativeButton(R.string.ignore) { _, _ ->
-                    preferences.edit {
-                        remove(ACCESS_TOKEN_HASH)
+            AlertDialog.Builder(activity)
+                    .setTitle(R.string.dialog_title_warning)
+                    .setIcon(R.drawable.vector_warning_red)
+                    .setView(v)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ssl_logout_account) { _, _ ->
+                        activity.signOut(false)
                     }
-                }
-                .show()
+                    .setNegativeButton(R.string.ignore) { _, _ ->
+                        preferences.edit {
+                            remove(ACCESS_TOKEN_HASH)
+                        }
+                    }
+                    .show()
+        } catch (e: Exception) {
+            activity.startActivity(Intent(activity, SplashActivity::class.java))
+        }
     }
 
     companion object {

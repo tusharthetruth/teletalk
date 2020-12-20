@@ -69,15 +69,16 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
             Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
             Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
         }
-        try{
-        val pm:PowerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val isScreenOn = if (Build.VERSION.SDK_INT >= 20) pm.isInteractive else pm.isScreenOn // check if screen is on
+        try {
+            val pm: PowerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+            val isScreenOn = if (Build.VERSION.SDK_INT >= 20) pm.isInteractive else pm.isScreenOn // check if screen is on
 
-        if (!isScreenOn) {
-            val wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock")
-            wl.acquire(3000) //set your time in milliseconds
-        }}catch (e:java.lang.Exception)
-        {}
+            if (!isScreenOn) {
+                val wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock")
+                wl.acquire(3000) //set your time in milliseconds
+            }
+        } catch (e: java.lang.Exception) {
+        }
         //safe guard
         val pushManager = Matrix.getInstance(applicationContext).pushManager
         if (!pushManager.areDeviceNotificationsAllowed()) {
@@ -216,7 +217,8 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
 
                     if (notifiableEvent is NotifiableMessageEvent) {
                         if (TextUtils.isEmpty(notifiableEvent.senderName)) {
-                            notifiableEvent.senderName = data["sender_display_name"] ?: data["sender"] ?: ""
+                            notifiableEvent.senderName = data["sender_display_name"]
+                                    ?: data["sender"] ?: ""
                         }
                         if (TextUtils.isEmpty(notifiableEvent.roomName)) {
                             notifiableEvent.roomName = findRoomNameBestEffort(data, session) ?: ""

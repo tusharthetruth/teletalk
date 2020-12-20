@@ -18,6 +18,7 @@
 package im.vector.activity
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
@@ -44,6 +45,7 @@ import im.vector.ui.themes.ThemeUtils
 import im.vector.util.AssetReader
 import im.vector.util.BugReporter
 import org.matrix.androidsdk.core.Log
+import java.lang.Exception
 
 /**
  * Parent class for all Activities in Vector application
@@ -88,26 +90,30 @@ abstract class VectorAppCompatActivity : BaseMvRxActivity() {
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        try {
+            ThemeUtils.setActivityTheme(this, getOtherThemes())
 
-        ThemeUtils.setActivityTheme(this, getOtherThemes())
+            doBeforeSetContentView()
 
-        doBeforeSetContentView()
+            setContentView(getLayoutRes())
 
-        setContentView(getLayoutRes())
+            unBinder = ButterKnife.bind(this)
 
-        unBinder = ButterKnife.bind(this)
+            this.savedInstanceState = savedInstanceState
 
-        this.savedInstanceState = savedInstanceState
+            initUiAndData()
 
-        initUiAndData()
-
-        val titleRes = getTitleRes()
-        if (titleRes != -1) {
-            supportActionBar?.let {
-                it.setTitle(titleRes)
-            } ?: run {
-                setTitle(titleRes)
+            val titleRes = getTitleRes()
+            if (titleRes != -1) {
+                supportActionBar?.let {
+                    it.setTitle(titleRes)
+                } ?: run {
+                    setTitle(titleRes)
+                }
             }
+        }catch (e:Exception){
+            startActivity(Intent(this, com.chatapp.SplashActivity::class.java))
+
         }
     }
 

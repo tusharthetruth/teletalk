@@ -195,170 +195,172 @@ public class VectorApp extends MultiDexApplication {
     public void onCreate() {
         Log.d(LOG_TAG, "onCreate");
         super.onCreate();
-try{
-        mLifeCycleListener = new VectorLifeCycleObserver();
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(mLifeCycleListener);
+        try {
+            mLifeCycleListener = new VectorLifeCycleObserver();
+            ProcessLifecycleOwner.get().getLifecycle().addObserver(mLifeCycleListener);
 
-        if (BuildConfig.DEBUG) {
-            Stetho.initializeWithDefaults(this);
-        }
+            if (BuildConfig.DEBUG) {
+                Stetho.initializeWithDefaults(this);
+            }
 
-        VectorUtils.initAvatarColors(this);
-        mNotificationDrawerManager = new NotificationDrawerManager(this);
-        NotificationUtils.INSTANCE.createNotificationChannels(this);
+            VectorUtils.initAvatarColors(this);
+            mNotificationDrawerManager = new NotificationDrawerManager(this);
+            NotificationUtils.INSTANCE.createNotificationChannels(this);
 
-        // init the REST client
-        MXSession.initUserAgent(this, BuildConfig.FLAVOR_DESCRIPTION);
+            // init the REST client
+            MXSession.initUserAgent(this, BuildConfig.FLAVOR_DESCRIPTION);
 
 //        VectorUncaughtExceptionHandler.INSTANCE.activate();
 
-        instance = this;
-        mCallsManager = new CallsManager(this);
-        mAppAnalytics = new AppAnalytics(this, new MatomoAnalytics(this));
-        mDecryptionFailureTracker = new DecryptionFailureTracker(mAppAnalytics);
+            instance = this;
+            mCallsManager = new CallsManager(this);
+            mAppAnalytics = new AppAnalytics(this, new MatomoAnalytics(this));
+            mDecryptionFailureTracker = new DecryptionFailureTracker(mAppAnalytics);
 
-        mActivityTransitionTimer = null;
-        mActivityTransitionTimerTask = null;
+            mActivityTransitionTimer = null;
+            mActivityTransitionTimerTask = null;
 
-        if (PreferencesManager.useDefaultTurnServer(this)) {
-            MXCallsManager.defaultStunServerUri = getString(R.string.default_stun_server);
-        } else {
-            MXCallsManager.defaultStunServerUri = null;
-        }
-
-        VECTOR_VERSION_STRING = Matrix.getInstance(this).getVersion(true, true);
-        // not the first launch
-        if (null != Matrix.getInstance(this).getDefaultSession()) {
-            SDK_VERSION_STRING = Matrix.getInstance(this).getDefaultSession().getVersion(true);
-        } else {
-            SDK_VERSION_STRING = "";
-        }
-
-        VectorUncaughtExceptionHandler.INSTANCE.setVersions(VECTOR_VERSION_STRING, SDK_VERSION_STRING);
-
-        mLogsDirectoryFile = new File(getCacheDir().getAbsolutePath() + "/logs");
-
-        org.matrix.androidsdk.core.Log.setLogDirectory(mLogsDirectoryFile);
-        org.matrix.androidsdk.core.Log.init("RiotLog");
-
-        // log the application version to trace update
-        // useful to track backward compatibility issues
-
-        Log.d(LOG_TAG, "----------------------------------------------------------------");
-        Log.d(LOG_TAG, "----------------------------------------------------------------");
-        Log.d(LOG_TAG, " Application version: " + VECTOR_VERSION_STRING);
-        Log.d(LOG_TAG, " SDK version: " + SDK_VERSION_STRING);
-        Log.d(LOG_TAG, " Local time: " + (new SimpleDateFormat("MM-dd HH:mm:ss.SSSZ", Locale.US)).format(new Date()));
-        Log.d(LOG_TAG, "----------------------------------------------------------------");
-        Log.d(LOG_TAG, "----------------------------------------------------------------\n\n\n\n");
-
-        mRageShake = new RageShake(this);
-
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            final Map<String, String> mLocalesByActivity = new HashMap<>();
-
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                Log.d(LOG_TAG, "onActivityCreated " + activity);
-                mCreatedActivities.add(activity.toString());
-                // matomo
-                onNewScreen(activity);
+            if (PreferencesManager.useDefaultTurnServer(this)) {
+                MXCallsManager.defaultStunServerUri = getString(R.string.default_stun_server);
+            } else {
+                MXCallsManager.defaultStunServerUri = null;
             }
 
-            @Override
-            public void onActivityStarted(Activity activity) {
-                Log.d(LOG_TAG, "onActivityStarted " + activity);
+            VECTOR_VERSION_STRING = Matrix.getInstance(this).getVersion(true, true);
+            // not the first launch
+            if (null != Matrix.getInstance(this).getDefaultSession()) {
+                SDK_VERSION_STRING = Matrix.getInstance(this).getDefaultSession().getVersion(true);
+            } else {
+                SDK_VERSION_STRING = "";
             }
 
-            /**
-             * Compute the locale status value
-             * @param activity the activity
-             * @return the local status value
-             */
-            private String getActivityLocaleStatus(Activity activity) {
-                return VectorLocale.INSTANCE.getApplicationLocale().toString()
-                        + "_" + FontScale.INSTANCE.getFontScalePrefValue()
-                        + "_" + ThemeUtils.INSTANCE.getApplicationTheme(activity);
-            }
+            VectorUncaughtExceptionHandler.INSTANCE.setVersions(VECTOR_VERSION_STRING, SDK_VERSION_STRING);
 
-            @Override
-            public void onActivityResumed(final Activity activity) {
-                Log.d(LOG_TAG, "onActivityResumed " + activity);
-                setCurrentActivity(activity);
+            mLogsDirectoryFile = new File(getCacheDir().getAbsolutePath() + "/logs");
 
-                String activityKey = activity.toString();
+            org.matrix.androidsdk.core.Log.setLogDirectory(mLogsDirectoryFile);
+            org.matrix.androidsdk.core.Log.init("RiotLog");
 
-                if (mLocalesByActivity.containsKey(activityKey)) {
-                    String prevActivityLocale = mLocalesByActivity.get(activityKey);
+            // log the application version to trace update
+            // useful to track backward compatibility issues
 
-                    if (!TextUtils.equals(prevActivityLocale, getActivityLocaleStatus(activity))) {
-                        Log.d(LOG_TAG, "## onActivityResumed() : restart the activity " + activity
-                                + " because of the locale update from " + prevActivityLocale + " to " + getActivityLocaleStatus(activity));
+            Log.d(LOG_TAG, "----------------------------------------------------------------");
+            Log.d(LOG_TAG, "----------------------------------------------------------------");
+            Log.d(LOG_TAG, " Application version: " + VECTOR_VERSION_STRING);
+            Log.d(LOG_TAG, " SDK version: " + SDK_VERSION_STRING);
+            Log.d(LOG_TAG, " Local time: " + (new SimpleDateFormat("MM-dd HH:mm:ss.SSSZ", Locale.US)).format(new Date()));
+            Log.d(LOG_TAG, "----------------------------------------------------------------");
+            Log.d(LOG_TAG, "----------------------------------------------------------------\n\n\n\n");
+
+            mRageShake = new RageShake(this);
+
+            registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+                final Map<String, String> mLocalesByActivity = new HashMap<>();
+
+                @Override
+                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                    Log.d(LOG_TAG, "onActivityCreated " + activity);
+                    mCreatedActivities.add(activity.toString());
+                    // matomo
+                    onNewScreen(activity);
+                }
+
+                @Override
+                public void onActivityStarted(Activity activity) {
+                    Log.d(LOG_TAG, "onActivityStarted " + activity);
+                }
+
+                /**
+                 * Compute the locale status value
+                 * @param activity the activity
+                 * @return the local status value
+                 */
+                private String getActivityLocaleStatus(Activity activity) {
+                    return VectorLocale.INSTANCE.getApplicationLocale().toString()
+                            + "_" + FontScale.INSTANCE.getFontScalePrefValue()
+                            + "_" + ThemeUtils.INSTANCE.getApplicationTheme(activity);
+                }
+
+                @Override
+                public void onActivityResumed(final Activity activity) {
+                    Log.d(LOG_TAG, "onActivityResumed " + activity);
+                    setCurrentActivity(activity);
+
+                    String activityKey = activity.toString();
+
+                    if (mLocalesByActivity.containsKey(activityKey)) {
+                        String prevActivityLocale = mLocalesByActivity.get(activityKey);
+
+                        if (!TextUtils.equals(prevActivityLocale, getActivityLocaleStatus(activity))) {
+                            Log.d(LOG_TAG, "## onActivityResumed() : restart the activity " + activity
+                                    + " because of the locale update from " + prevActivityLocale + " to " + getActivityLocaleStatus(activity));
+                            restartActivity(activity);
+                            return;
+                        }
+                    }
+
+                    // it should never happen as there is a broadcast receiver (mLanguageReceiver)
+                    if (!TextUtils.equals(Locale.getDefault().toString(), VectorLocale.INSTANCE.getApplicationLocale().toString())) {
+                        Log.d(LOG_TAG, "## onActivityResumed() : the locale has been updated to " + Locale.getDefault().toString()
+                                + ", restore the expected value " + VectorLocale.INSTANCE.getApplicationLocale().toString());
+                        updateApplicationSettings(VectorLocale.INSTANCE.getApplicationLocale(),
+                                FontScale.INSTANCE.getFontScalePrefValue(),
+                                ThemeUtils.INSTANCE.getApplicationTheme(activity));
                         restartActivity(activity);
-                        return;
+                    }
+
+                    PermissionsToolsKt.logPermissionStatuses(VectorApp.this);
+                }
+
+                @Override
+                public void onActivityPaused(Activity activity) {
+                    Log.d(LOG_TAG, "onActivityPaused " + activity);
+                    mLocalesByActivity.put(activity.toString(), getActivityLocaleStatus(activity));
+                    setCurrentActivity(null);
+                    onAppPause();
+                }
+
+                @Override
+                public void onActivityStopped(Activity activity) {
+                    Log.d(LOG_TAG, "onActivityStopped " + activity);
+                }
+
+                @Override
+                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                    Log.d(LOG_TAG, "onActivitySaveInstanceState " + activity);
+                }
+
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    Log.d(LOG_TAG, "onActivityDestroyed " + activity);
+                    mCreatedActivities.remove(activity.toString());
+                    mLocalesByActivity.remove(activity.toString());
+
+                    if (mCreatedActivities.size() > 1) {
+                        Log.d(LOG_TAG, "onActivityDestroyed : \n" + mCreatedActivities);
                     }
                 }
+            });
 
-                // it should never happen as there is a broadcast receiver (mLanguageReceiver)
-                if (!TextUtils.equals(Locale.getDefault().toString(), VectorLocale.INSTANCE.getApplicationLocale().toString())) {
-                    Log.d(LOG_TAG, "## onActivityResumed() : the locale has been updated to " + Locale.getDefault().toString()
-                            + ", restore the expected value " + VectorLocale.INSTANCE.getApplicationLocale().toString());
-                    updateApplicationSettings(VectorLocale.INSTANCE.getApplicationLocale(),
-                            FontScale.INSTANCE.getFontScalePrefValue(),
-                            ThemeUtils.INSTANCE.getApplicationTheme(activity));
-                    restartActivity(activity);
-                }
-
-                PermissionsToolsKt.logPermissionStatuses(VectorApp.this);
+            // create the markdown parser
+            try {
+                mMarkdownParser = new VectorMarkdownParser(this);
+            } catch (Exception e) {
+                // reported by GA
+                Log.e(LOG_TAG, "cannot create the mMarkdownParser " + e.getMessage(), e);
             }
 
-            @Override
-            public void onActivityPaused(Activity activity) {
-                Log.d(LOG_TAG, "onActivityPaused " + activity);
-                mLocalesByActivity.put(activity.toString(), getActivityLocaleStatus(activity));
-                setCurrentActivity(null);
-                onAppPause();
-            }
+            // track external language updates
+            // local update from the settings
+            // or screen rotation !
+            registerReceiver(mLanguageReceiver, new IntentFilter(Intent.ACTION_LOCALE_CHANGED));
+            registerReceiver(mLanguageReceiver, new IntentFilter(Intent.ACTION_CONFIGURATION_CHANGED));
 
-            @Override
-            public void onActivityStopped(Activity activity) {
-                Log.d(LOG_TAG, "onActivityStopped " + activity);
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                Log.d(LOG_TAG, "onActivitySaveInstanceState " + activity);
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                Log.d(LOG_TAG, "onActivityDestroyed " + activity);
-                mCreatedActivities.remove(activity.toString());
-                mLocalesByActivity.remove(activity.toString());
-
-                if (mCreatedActivities.size() > 1) {
-                    Log.d(LOG_TAG, "onActivityDestroyed : \n" + mCreatedActivities);
-                }
-            }
-        });
-
-        // create the markdown parser
-        try {
-            mMarkdownParser = new VectorMarkdownParser(this);
+            PreferencesManager.fixMigrationIssues(this);
+            initApplicationLocale();
+            visitSessionVariables();
         } catch (Exception e) {
-            // reported by GA
-            Log.e(LOG_TAG, "cannot create the mMarkdownParser " + e.getMessage(), e);
         }
-
-        // track external language updates
-        // local update from the settings
-        // or screen rotation !
-        registerReceiver(mLanguageReceiver, new IntentFilter(Intent.ACTION_LOCALE_CHANGED));
-        registerReceiver(mLanguageReceiver, new IntentFilter(Intent.ACTION_CONFIGURATION_CHANGED));
-
-        PreferencesManager.fixMigrationIssues(this);
-        initApplicationLocale();
-        visitSessionVariables();}catch (Exception e){}
     }
 
     @Override
