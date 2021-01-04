@@ -135,8 +135,8 @@ android {
         chatapp {
             applicationId "com.wills"
             // use the version name
-            versionCode 4
-            versionName "1.0.4"
+            versionCode 7
+            versionName "1.0.7"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
             buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"G\""
             buildConfigField "String", "FLAVOR_DESCRIPTION", "\"GooglePlay\""
