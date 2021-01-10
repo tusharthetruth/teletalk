@@ -32,12 +32,7 @@ ext.abiVersionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2, "x86": 3, "x86_64": 4].
 
 android {
     compileSdkVersion 29
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
@@ -135,8 +130,8 @@ android {
         chatapp {
             applicationId "com.wills"
             // use the version name
-            versionCode 7
-            versionName "1.0.7"
+            versionCode 8
+            versionName "1.0.8"
             buildConfigField "boolean", "ALLOW_FCM_USE", "true"
             buildConfigField "String", "SHORT_FLAVOR_DESCRIPTION", "\"G\""
             buildConfigField "String", "FLAVOR_DESCRIPTION", "\"GooglePlay\""
@@ -164,6 +159,7 @@ android {
     }
 
     lintOptions {
+        checkReleaseBuilds false
         lintConfig file("lint.xml")
     }
 
