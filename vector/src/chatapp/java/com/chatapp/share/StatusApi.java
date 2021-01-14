@@ -1,5 +1,7 @@
 package com.chatapp.share;
 
+import com.google.gson.JsonElement;
+
 import java.io.File;
 
 import okhttp3.MultipartBody;

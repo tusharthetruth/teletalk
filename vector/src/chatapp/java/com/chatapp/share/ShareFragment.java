@@ -324,7 +324,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
     @Override
     public void onStatusClick() {
         Pix.start(this, Options.init().
-                setCount(3).
+                setCount(1).
                 setExcludeVideos(false).
                 setVideoDurationLimitinSeconds(10).
                 setRequestCode(100));

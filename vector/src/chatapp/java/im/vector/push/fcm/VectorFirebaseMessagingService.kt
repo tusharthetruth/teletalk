@@ -32,6 +32,7 @@ import im.vector.BuildConfig
 import im.vector.Matrix
 import im.vector.R
 import im.vector.VectorApp
+import im.vector.fragments.roomwidgets.RoomWidgetPermissionViewModel.Companion.LOG_TAG
 import im.vector.notifications.NotifiableEventResolver
 import im.vector.notifications.NotifiableMessageEvent
 import im.vector.notifications.SimpleNotifiableEvent
@@ -65,10 +66,10 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
      */
     override fun onMessageReceived(message: RemoteMessage) {
 
-        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
             Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
-            Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
-        }
+//            Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
+//        }
         try {
             val pm: PowerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
             val isScreenOn = if (Build.VERSION.SDK_INT >= 20) pm.isInteractive else pm.isScreenOn // check if screen is on
@@ -114,9 +115,9 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun onMessageReceivedInternal(data: Map<String, String>, pushManager: PushManager) {
         try {
-            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                 Log.i(LOG_TAG, "## onMessageReceivedInternal() : $data")
-            }
+//            }
             // update the badge counter
             val unreadCount = data.get("unread")?.let { Integer.parseInt(it) } ?: 0
             BadgeProxy.updateBadgeCount(applicationContext, unreadCount)
@@ -209,9 +210,9 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
 
                 if (notifiableEvent == null) {
                     Log.e(LOG_TAG, "Unsupported notifiable event ${eventId}")
-                    if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//                    if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                         Log.e(LOG_TAG, "--> ${event}")
-                    }
+//                    }
                 } else {
 
 

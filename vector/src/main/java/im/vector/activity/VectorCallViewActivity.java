@@ -744,6 +744,12 @@ public class VectorCallViewActivity extends VectorAppCompatActivity implements S
             initBackLightManagement();
             CallsManager.getSharedInstance().setCallActivity(this);
             CallSoundsManager.getSharedInstance(this).addAudioConfigurationListener(mAudioConfigListener);
+            try {
+                mCall.getCallView().setRotation(90);
+                mCall.getCallView().setRotation(180);
+                mCallView.setRotation(90);
+            } catch (Exception e) {
+            }
         } else {
             finish();
         }

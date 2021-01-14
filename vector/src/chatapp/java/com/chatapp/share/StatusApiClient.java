@@ -1,5 +1,8 @@
 package com.chatapp.share;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -16,6 +19,10 @@ public class StatusApiClient {
     private static String BASE_URL = "https://billingsystem.willssmartvoip.com/";
 
     static Retrofit getRetrofit() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -24,7 +31,7 @@ public class StatusApiClient {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build();
     }

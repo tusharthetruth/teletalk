@@ -97,12 +97,12 @@ android {
     buildTypes {
         debug {
 
-            resValue "bool", "debug_mode", "true"
-            resValue "string", "git_revision", "\"${gitRevision()}\""
-            resValue "string", "git_revision_date", "\"${gitRevisionDate()}\""
-            resValue "string", "git_branch_name", "\"${gitBranchName()}\""
-            resValue "string", "build_number", rootProject.ext.buildNumberProp
-            buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
+//            resValue "bool", "debug_mode", "true"
+//            resValue "string", "git_revision", "\"${gitRevision()}\""
+//            resValue "string", "git_revision_date", "\"${gitRevisionDate()}\""
+//            resValue "string", "git_branch_name", "\"${gitBranchName()}\""
+//            resValue "string", "build_number", rootProject.ext.buildNumberProp
+//            buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             minifyEnabled false
             splits.abi.enable false
             splits.density.enable = false
@@ -111,12 +111,12 @@ android {
         }
 
         release {
-            resValue "bool", "debug_mode", "false"
-            resValue "string", "git_revision", "\"${gitRevision()}\""
-            resValue "string", "git_revision_date", "\"${gitRevisionDate()}\""
-            resValue "string", "git_branch_name", "\"${gitBranchName()}\""
-            resValue "string", "build_number", rootProject.ext.buildNumberProp
-            buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
+//            resValue "bool", "debug_mode", "false"
+//            resValue "string", "git_revision", "\"${gitRevision()}\""
+//            resValue "string", "git_revision_date", "\"${gitRevisionDate()}\""
+//            resValue "string", "git_branch_name", "\"${gitBranchName()}\""
+//            resValue "string", "build_number", rootProject.ext.buildNumberProp
+//            buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

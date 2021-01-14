@@ -86,9 +86,9 @@ class EventStreamServiceX : VectorService() {
      */
     private val mEventsListener = object : MXEventListener() {
         override fun onBingEvent(event: Event, roomState: RoomState, bingRule: BingRule) {
-            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                 Log.i(LOG_TAG, "%%%%%%%%  MXEventListener: the event $event")
-            }
+//            }
 
             Log.i(LOG_TAG, "prepareNotification : " + event.eventId + " in " + roomState.roomId)
             val session = Matrix.getMXSession(applicationContext, event.matrixId)

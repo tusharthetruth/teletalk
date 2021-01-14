@@ -192,9 +192,9 @@ class NotifiableEventResolver(val context: Context) {
                     isPushGatewayEvent = false)
         } else {
             Log.e(LOG_TAG, "## unsupported notifiable event for eventId [${event.eventId}]")
-            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                 Log.e(LOG_TAG, "## unsupported notifiable event for event [${event}]")
-            }
+//            }
             //TODO generic handling?
         }
         return null

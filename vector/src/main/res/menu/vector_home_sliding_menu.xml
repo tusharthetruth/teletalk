@@ -50,7 +50,7 @@
             android:title="@string/room_sliding_menu_third_party_notices" />
     </group>
 
-    <group android:visible="@bool/debug_mode">
+    <group android:visible="false">
         <item
             android:id="@+id/sliding_menu_debug"
             android:title="@string/debug_screen" />

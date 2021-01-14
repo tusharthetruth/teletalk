@@ -61,10 +61,10 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
      */
     override fun onMessageReceived(message: RemoteMessage) {
 
-        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
             Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
             Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
-        }
+//        }
 
         //safe guard
         val pushManager = Matrix.getInstance(applicationContext).pushManager
@@ -101,9 +101,9 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun onMessageReceivedInternal(data: Map<String, String>, pushManager: PushManager) {
         try {
-            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                 Log.i(LOG_TAG, "## onMessageReceivedInternal() : $data")
-            }
+//            }
             // update the badge counter
             val unreadCount = data.get("unread")?.let { Integer.parseInt(it) } ?: 0
             BadgeProxy.updateBadgeCount(applicationContext, unreadCount)
@@ -196,9 +196,9 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
 
                 if (notifiableEvent == null) {
                     Log.e(LOG_TAG, "Unsupported notifiable event ${eventId}")
-                    if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//                    if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                         Log.e(LOG_TAG, "--> ${event}")
-                    }
+//                    }
                 } else {
 
 

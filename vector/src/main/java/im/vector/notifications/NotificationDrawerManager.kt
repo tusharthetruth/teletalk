@@ -91,9 +91,9 @@ class NotificationDrawerManager(val context: Context) {
     fun onNotifiableEventReceived(notifiableEvent: NotifiableEvent) {
         //If we support multi session, event list should be per userId
         //Currently only manage single session
-        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
             Log.d(LOG_TAG, "%%%%%%%% onNotifiableEventReceived $notifiableEvent")
-        }
+//        }
         synchronized(eventList) {
             val existing = eventList.firstOrNull { it.eventId == notifiableEvent.eventId }
             if (existing != null) {

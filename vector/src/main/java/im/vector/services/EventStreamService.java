@@ -190,9 +190,9 @@ public class EventStreamService extends Service {
     private final MXEventListener mEventsListener = new MXEventListener() {
         @Override
         public void onBingEvent(Event event, RoomState roomState, BingRule bingRule) {
-            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
+//            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
                 Log.d(LOG_TAG, "%%%%%%%%  MXEventListener: the event " + event);
-            }
+//            }
             // privacy
             //Log.d(LOG_TAG, "onBingEvent : the event " + event);
             //Log.d(LOG_TAG, "onBingEvent : the bingRule " + bingRule);

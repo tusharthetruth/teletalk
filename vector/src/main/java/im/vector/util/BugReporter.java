@@ -219,7 +219,7 @@ public class BugReporter {
                             .addFormDataPart("user_id", userId)
                             .addFormDataPart("device_id", deviceId)
                             .addFormDataPart("version", Matrix.getInstance(context).getVersion(true, false))
-                            .addFormDataPart("branch_name", context.getString(R.string.git_branch_name))
+//                            .addFormDataPart("branch_name", context.getString(R.string.git_branch_name))
                             .addFormDataPart("matrix_sdk_version", matrixSdkVersion)
                             .addFormDataPart("olm_version", olmVersion)
                             .addFormDataPart("device", Build.MODEL.trim())
@@ -232,10 +232,10 @@ public class BugReporter {
                             .addFormDataPart("default_app_language", SystemUtilsKt.getDeviceLocale(context).toString())
                             .addFormDataPart("theme", ThemeUtils.INSTANCE.getApplicationTheme(context));
 
-                    String buildNumber = context.getString(R.string.build_number);
-                    if (!TextUtils.isEmpty(buildNumber) && !buildNumber.equals("0")) {
-                        builder.addFormDataPart("build_number", buildNumber);
-                    }
+//                    String buildNumber = context.getString(R.string.build_number);
+//                    if (!TextUtils.isEmpty(buildNumber) && !buildNumber.equals("0")) {
+//                        builder.addFormDataPart("build_number", buildNumber);
+//                    }
 
                     // add the gzipped files
                     for (File file : gzippedFiles) {
@@ -273,7 +273,7 @@ public class BugReporter {
                     // add some github labels
                     builder.addFormDataPart("label", BuildConfig.VERSION_NAME);
                     builder.addFormDataPart("label", BuildConfig.FLAVOR_DESCRIPTION);
-                    builder.addFormDataPart("label", context.getString(R.string.git_branch_name));
+//                    builder.addFormDataPart("label", context.getString(R.string.git_branch_name));
 
                     if (getCrashFile(context).exists()) {
                         builder.addFormDataPart("label", "crash");

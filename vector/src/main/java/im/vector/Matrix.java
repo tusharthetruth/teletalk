@@ -264,20 +264,20 @@ public class Matrix {
             Log.e(LOG_TAG, "## versionName() : failed " + e.getMessage(), e);
         }
 
-        String gitVersion = mAppContext.getString(R.string.git_revision);
-        String buildNumber = mAppContext.getString(R.string.build_number);
+//        String gitVersion = mAppContext.getString(R.string.git_revision);
+//        String buildNumber = mAppContext.getString(R.string.build_number);
 
-        if ((useBuildNumber) && !TextUtils.equals(buildNumber, "0")) {
-            gitVersion = "b" + buildNumber;
-            longformat = false;
-        }
+//        if ((useBuildNumber) && !TextUtils.equals(buildNumber, "0")) {
+//            gitVersion = "b" + buildNumber;
+//            longformat = false;
+//        }
 
-        if (longformat) {
-            String date = mAppContext.getString(R.string.git_revision_date);
-            versionName += " (" + flavor + gitVersion + "-" + date + ")";
-        } else {
-            versionName += " (" + flavor + gitVersion + ")";
-        }
+//        if (longformat) {
+//            String date = mAppContext.getString(R.string.git_revision_date);
+//            versionName += " (" + flavor + gitVersion + "-" + date + ")";
+//        } else {
+//            versionName += " (" + flavor + gitVersion + ")";
+//        }
 
         return versionName;
     }
