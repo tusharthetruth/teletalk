@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chatapp.CR;
 import com.chatapp.activity.SelfStatusActivity;
+import com.chatapp.activity.SelfStatusActivity2;
+import com.chatapp.activity.StatusActivity2;
 import com.chatapp.share.RecentModel;
 import com.chatapp.status_module.StatusActivity;
 
@@ -96,7 +98,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
                         for (int i = 0; i < model.getImageList().size(); i++) {
                             CR.resources.add(model.getImageList().get(i));
                         }
-                        Intent i = new Intent(context, SelfStatusActivity.class);
+                        Intent i = new Intent(context, SelfStatusActivity2.class);
                         i.putExtra("model", model);
                         i.putExtra("self", false);
                         context.startActivity(i);
@@ -109,7 +111,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
                         for (int i = 0; i < model.getImageList().size(); i++) {
                             CR.resources.add(model.getImageList().get(i));
                         }
-                        Intent i = new Intent(context, StatusActivity.class);
+                        Intent i = new Intent(context, StatusActivity2.class);
                         i.putExtra("model", model);
                         i.putExtra("self", true);
                         context.startActivity(i);

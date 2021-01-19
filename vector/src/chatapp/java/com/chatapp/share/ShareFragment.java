@@ -279,6 +279,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
         ArrayList<RecentModel> list = new ArrayList<>();
         userImages.clear();
         userRecentModel.userName = userName;
+        userRecentModel.imageList.clear();
         for (Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
             if (entry.getKey().equalsIgnoreCase(userName)) {
