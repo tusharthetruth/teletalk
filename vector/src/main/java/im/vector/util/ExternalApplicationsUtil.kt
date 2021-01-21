@@ -35,6 +35,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 private const val LOG_TAG = "ExternalApplicationsUtil"
 
 /**
@@ -239,6 +240,8 @@ fun openMedia(activity: Activity, savedMediaPath: String, mimeType: String) {
     } catch (activityNotFoundException: ActivityNotFoundException) {
         activity.toast(R.string.error_no_external_application_found)
     }
+
+
 }
 
 /**

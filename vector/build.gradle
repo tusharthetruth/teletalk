@@ -321,6 +321,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     // appfdroid flavor only
     chatappImplementation 'com.squareup.picasso:picasso:2.5.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     // Test
     testImplementation 'junit:junit:4.12' // Test

@@ -51,6 +51,7 @@ allprojects {
                 includeGroupByRegex "com\\.github\\.chrisbanes"
             }
         }
+
         // Jitsi repo
         maven {
             url "https://github.com/vector-im/jitsi_libre_maven/raw/master/releases"

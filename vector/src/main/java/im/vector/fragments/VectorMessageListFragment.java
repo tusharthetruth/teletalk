@@ -41,6 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
+import com.chatapp.audio_record_view.AudioPlayer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -905,7 +906,8 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                                         if (menuAction == ACTION_VECTOR_SAVE) {
                                             Toast.makeText(getActivity(), getText(R.string.media_slider_saved), Toast.LENGTH_LONG).show();
                                         } else {
-                                            ExternalApplicationsUtilKt.openMedia(getActivity(), savedMediaPath, mediaMimeType);
+                                            AudioPlayer player2 = new AudioPlayer(getActivity(),BuildConfig.APPLICATION_ID + ".fileProvider",getActivity().isFinishing(),getActivity().getSupportFragmentManager(),savedMediaPath,0);
+//                                            ExternalApplicationsUtilKt.openMedia(getActivity(), savedMediaPath, mediaMimeType);
                                         }
                                     }
                                 }
