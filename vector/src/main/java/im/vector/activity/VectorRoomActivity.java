@@ -30,9 +30,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Vibrator;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -50,6 +52,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +65,9 @@ import androidx.fragment.app.FragmentManager;
 import com.chatapp.ChatMainActivity;
 import com.chatapp.Settings;
 import com.chatapp.VideoMinuteService;
+import com.chatapp.audio_record_view.AttachmentOption;
+import com.chatapp.audio_record_view.AttachmentOptionsListener;
+import com.chatapp.audio_record_view.AudioRecordView;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
@@ -97,6 +103,8 @@ import org.matrix.androidsdk.rest.model.StateEvent;
 import org.matrix.androidsdk.rest.model.User;
 import org.matrix.androidsdk.rest.model.message.Message;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -155,6 +163,17 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         MatrixMessageListFragment.IOnScrollListener,
         VectorMessageListFragment.VectorMessageListFragmentListener,
         VectorReadReceiptsDialogFragment.VectorReadReceiptsDialogFragmentListener {
+
+    private AudioRecordView audioRecordView;
+    private static final String AUDIO_RECORDER_FILE_EXT_3GP = ".3gp";
+    private static final String AUDIO_RECORDER_FILE_EXT_MP4 = ".mp4";
+    private static final String AUDIO_RECORDER_FOLDER = "AudioFiles";
+    private MediaRecorder recorder = null;
+    private int currentFormat = 0;
+    private int output_formats[] = { MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.OutputFormat.THREE_GPP };
+    private String file_exts[] = { AUDIO_RECORDER_FILE_EXT_MP4, AUDIO_RECORDER_FILE_EXT_3GP };
+    private File currentAudioFile = null;
+
 
     // the session
     public static final String EXTRA_MATRIX_ID = MXCActionBarActivity.EXTRA_MATRIX_ID;
@@ -295,8 +314,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @BindView(R.id.room_header_avatar)
     ImageView mActionBarHeaderRoomAvatar;
 
-    @BindView(R.id.send_voice)
-    ImageView sendVoice;
+//    @BindView(R.id.send_voice)
+//    ImageView sendVoice;
 
     // notifications area
     @BindView(R.id.room_notifications_area)
@@ -635,6 +654,92 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     @Override
     public void initUiAndData() {
+        audioRecordView = new AudioRecordView();
+        audioRecordView.initView((FrameLayout) findViewById(R.id.send_msg_view_main),this);
+        audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), new AttachmentOptionsListener() {
+            @Override
+            public void onClick(AttachmentOption attachmentOption) {
+
+            }
+        });
+        audioRecordView.removeAttachmentOptionAnimation(false);
+        mSendingMessagesLayout = findViewById(R.id.send_msg_view_main);
+        audioRecordView.getSendView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendTextMessage();
+            }
+        });
+
+        audioRecordView.getAttachmentView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSendClick();
+            }
+        });
+        audioRecordView.setRecordingListener(new AudioRecordView.RecordingListener() {
+            @Override
+            public void onRecordingStarted() {
+                startRecording();
+            }
+
+            @Override
+            public void onRecordingLocked() {
+
+            }
+
+            @Override
+            public void onRecordingCompleted() {
+                stopRecording();
+                sendAudio();
+            }
+
+            @Override
+            public void onRecordingCanceled() {
+                stopRecording();
+                deleteRecording();
+            }
+        });
+
+        audioRecordView.getMessageView().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                if (null != mRoom) {
+                    MXLatestChatMessageCache latestChatMessageCache = mLatestChatMessageCache;
+                    String textInPlace = latestChatMessageCache.getLatestText(VectorRoomActivity.this, mRoom.getRoomId());
+
+                    // check if there is really an update
+                    // avoid useless updates (initializations..)
+                    if (!mIgnoreTextUpdate && !textInPlace.equals(mEditText.getText().toString())) {
+                        latestChatMessageCache.updateLatestMessage(VectorRoomActivity.this, mRoom.getRoomId(), mEditText.getText().toString());
+                        handleTypingNotification(mEditText.getText().length() != 0);
+                    }
+
+                    manageSendMoreButtons();
+                    refreshCallButtons(true);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Auto completion mode management
+                // The auto completion mode depends on the first character of the message
+                audioRecordView.getMessageView().updateAutoCompletionMode(false);
+            }
+        });
+
+        audioRecordView.getCallView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStartCallClick();
+            }
+        });
+
+
         setWaitingView(findViewById(R.id.main_progress_layout));
         vectorRoomActivity = this;
         if (CommonActivityUtils.shouldRestartApp(this)) {
@@ -1042,6 +1147,9 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                         findViewById(R.id.jump_to_first_unread));
             }
         }
+
+        findViewById(R.id.room_self_avatar).setVisibility(View.GONE);
+        findViewById(R.id.room_sending_message_layout).setVisibility(View.GONE);
 
         Log.d(LOG_TAG, "End of create");
     }
@@ -1969,6 +2077,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         mIsMarkDowning = true;
 
         String textToSend = mEditText.getText().toString().trim();
+        textToSend = audioRecordView.getMessageView().getText().toString();
 
         final boolean handleSlashCommand;
         if (textToSend.startsWith("\\/")) {
@@ -1989,6 +2098,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                         enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
                         sendMessage(text, TextUtils.equals(text, htmlText) ? null : htmlText, Message.FORMAT_MATRIX_HTML, handleSlashCommand);
                         mEditText.setText("");
+                        audioRecordView.getMessageView().setText("");
                     }
                 });
             }
@@ -2720,9 +2830,12 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             if ((null == call) && (null == activeWidget)) {
                 mStartCallLayout.setVisibility((isCallSupported && (mEditText.getText().length() == 0
                         || PreferencesManager.sendMessageWithEnter(this))) ? View.VISIBLE : View.GONE);
+                audioRecordView.getCallView().setVisibility((isCallSupported && (mEditText.getText().length() == 0
+                        || PreferencesManager.sendMessageWithEnter(this))) ? View.VISIBLE : View.GONE);
                 mStopCallLayout.setVisibility(View.GONE);
             } else if (null != activeWidget) {
                 mStartCallLayout.setVisibility(View.GONE);
+                audioRecordView.getCallView().setVisibility(View.GONE);
                 mStopCallLayout.setVisibility(View.GONE);
             } else {
                 IMXCall roomCall = mSession.mCallsManager.getCallWithRoomId(mRoom.getRoomId());
@@ -2732,6 +2845,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 call.addListener(mCallListener);
 
                 mStartCallLayout.setVisibility(View.GONE);
+                audioRecordView.getCallView().setVisibility(View.GONE);
                 mStopCallLayout.setVisibility((call == roomCall) ? View.VISIBLE : View.GONE);
             }
 
@@ -4115,10 +4229,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         CallsManager.getSharedInstance().onHangUp(null);
     }
 
-    @OnClick(R.id.send_voice)
-    void onSendVoiceClick() {
-        launchAudioRecorderIntent();
-    }
+//    @OnClick(R.id.send_voice)
+//    void onSendVoiceClick() {
+//        launchAudioRecorderIntent();
+//    }
 
     @OnClick(R.id.room_button_margin_right)
     void onMarginRightClick() {
@@ -4131,5 +4245,93 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         } else if (mSendImageView.getVisibility() == View.VISIBLE) {
             mSendImageView.performClick();
         }
+    }
+    private void getFilename(){
+        String filepath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File file = new File(filepath,getString(R.string.riot_app_name) + "/" + AUDIO_RECORDER_FOLDER);
+        try {
+            file.mkdirs();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        /*
+        if(!file.exists()){
+            file.mkdirs();
+        }
+         */
+        currentAudioFile = new File(file, "AUD-"+
+                android.text.format.DateFormat.format("yyyyMMdd", new java.util.Date()).toString() +
+                "-" + System.currentTimeMillis() + file_exts[currentFormat]);
+
+/*        return (file.getAbsolutePath() + "/AUD-"+
+                android.text.format.DateFormat.format("yyyyMMdd", new java.util.Date()).toString() +
+                "-" + System.currentTimeMillis() + file_exts[currentFormat]);
+
+ */
+    }
+    private void startRecording(){
+        getFilename();
+//        currentAudioFile = getFilename();
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(output_formats[currentFormat]);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(currentAudioFile.getPath());
+        recorder.setOnErrorListener(errorListener);
+        recorder.setOnInfoListener(infoListener);
+
+        try {
+            recorder.prepare();
+            recorder.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private MediaRecorder.OnErrorListener errorListener = new MediaRecorder.OnErrorListener() {
+        @Override
+        public void onError(MediaRecorder mr, int what, int extra) {
+            Log.e(LOG_TAG, "Error: " + what + ", " + extra);
+        }
+    };
+
+    private MediaRecorder.OnInfoListener infoListener = new MediaRecorder.OnInfoListener() {
+        @Override
+        public void onInfo(MediaRecorder mr, int what, int extra) {
+            Log.d(LOG_TAG, "Warning: " + what + ", " + extra);
+        }
+    };
+
+    private void stopRecording(){
+        try{
+        if(null != recorder){
+            recorder.stop();
+            recorder.reset();
+            recorder.release();
+            recorder = null;
+        }}catch (Exception e){}
+    }
+    private void deleteRecording(){
+        if (null != currentAudioFile) {
+            /*File file = new File(currentAudioFile);
+            if (file.exists()) {
+                file.delete();
+            }
+             */
+            currentAudioFile.delete();
+        }
+        currentAudioFile = null;
+    }
+    private void sendAudio(){
+        List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
+        if (null != currentAudioFile) {
+            if (0 == sharedDataItems.size()) {
+                sharedDataItems.add(new RoomMediaMessage(Uri.fromFile(currentAudioFile)));
+            }
+        }
+        mVectorRoomMediasSender.sendMedias(sharedDataItems);
+        currentAudioFile = null;
     }
 }
