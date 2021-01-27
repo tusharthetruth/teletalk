@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso
 import im.vector.R
 import kotlinx.android.synthetic.chatapp.activity_self_status2.*
 import java.lang.System.load
+import java.net.URLConnection
 
 class StatusActivity2 : AppCompatActivity(), MomentzCallback {
 
@@ -38,23 +39,21 @@ class StatusActivity2 : AppCompatActivity(), MomentzCallback {
         val internetLoadedVideo = VideoView(this)
         val l = ArrayList<MomentzView>()
 
-//        CR.resources.clear()
-//        CR.resources.add("https://homepages.cae.wisc.edu/~ece533/images/airplane.png")
-//        CR.resources.add("https://cdn.searchenginejournal.com/wp-content/uploads/2018/04/durable-urls.png")
-//        CR.resources.add("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-//        CR.resources.add("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
-//        CR.resources.add("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4")
 
         for (path in CR.resources) {
-                if (path.contains(".mp4", ignoreCase = true)
-                        || path.contains(".avi", ignoreCase = true)
-                        || path.contains(".flv", ignoreCase = true)
-                        || path.contains(".flv", ignoreCase = true)
-                ){
+            val mimeType = URLConnection.guessContentTypeFromName(path)
+            val isVideo = mimeType != null && mimeType.startsWith("video")
+
+//                if (path.contains(".mp4", ignoreCase = true)
+//                        || path.contains(".avi", ignoreCase = true)
+//                        || path.contains(".flv", ignoreCase = true)
+//                        || path.contains(".flv", ignoreCase = true)
+//                )
+            if (isVideo) {
 
                 l.add(MomentzView(internetLoadedVideo, 60))
             } else {
-                l.add(MomentzView(internetLoadedImageView, 15))
+                l.add(MomentzView(internetLoadedImageView, 10))
             }
         }
         Momentz(this, l, container, this).start()
@@ -75,12 +74,13 @@ class StatusActivity2 : AppCompatActivity(), MomentzCallback {
             val url = CR.resources.get(index)
             Picasso.with(this).invalidate(url);
             Picasso.with(this).load(CR.resources.get(index))
-                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .into(view, object : Callback {
                         override fun onSuccess() {
                             momentz.resume()
                         }
+
                         override fun onError() {
 
                         }

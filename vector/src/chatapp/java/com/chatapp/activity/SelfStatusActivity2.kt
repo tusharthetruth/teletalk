@@ -6,16 +6,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import android.widget.VideoView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bolaware.viewstimerstory.Momentz
 import com.bolaware.viewstimerstory.MomentzCallback
 import com.bolaware.viewstimerstory.MomentzView
-import com.bumptech.glide.GenericTransitionOptions.with
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
 import com.chatapp.CR
 import com.chatapp.fragments.SeenFragment
 import com.chatapp.fragments.SeenFragment.Companion.getInstance
@@ -26,7 +22,7 @@ import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import im.vector.R
 import kotlinx.android.synthetic.chatapp.activity_self_status2.*
-import org.matrix.androidsdk.rest.model.RequestOwnershipParams.Companion.with
+import java.net.URLConnection
 
 class SelfStatusActivity2 : AppCompatActivity(), MomentzCallback, SeenFragment.ISeenDismissListener {
 
@@ -42,11 +38,15 @@ class SelfStatusActivity2 : AppCompatActivity(), MomentzCallback, SeenFragment.I
         val internetLoadedVideo = VideoView(this)
         val l = ArrayList<MomentzView>()
         for (path in CR.resources) {
-            if (path.contains(".mp4", ignoreCase = true)
-                    || path.contains(".avi", ignoreCase = true)
-                    || path.contains(".flv", ignoreCase = true)
-                    || path.contains(".flv", ignoreCase = true)
-            ) {
+            val mimeType = URLConnection.guessContentTypeFromName(path)
+            val isVideo = mimeType != null && mimeType.startsWith("video")
+//            if (path.contains(".mp4", ignoreCase = true)
+//                    || path.contains(".avi", ignoreCase = true)
+//                    || path.contains(".flv", ignoreCase = true)
+//                    || path.contains(".flv", ignoreCase = true)
+//            )
+            if(isVideo)
+            {
                 l.add(MomentzView(internetLoadedVideo, 60))
             } else {
                 l.add(MomentzView(internetLoadedImageView, 10))

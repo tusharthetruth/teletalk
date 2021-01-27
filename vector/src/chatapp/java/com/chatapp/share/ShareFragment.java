@@ -1,6 +1,7 @@
 package com.chatapp.share;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -24,6 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.abedelazizshe.lightcompressorlibrary.CompressionListener;
+import com.abedelazizshe.lightcompressorlibrary.VideoCompressor;
+import com.abedelazizshe.lightcompressorlibrary.VideoQuality;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -45,6 +50,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +67,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.accounts.AccountManager.KEY_PASSWORD;
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 
 /**
@@ -134,7 +142,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
                 otherContacts = otherContacts + "," + item.Phone;
             }
             object.put("phonenos", otherContacts);
-            Log.d("contacts",otherContacts.toString());
+            Log.d("contacts", otherContacts.toString());
             showPg();
             String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_list.php";
 
@@ -181,11 +189,80 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
                 if (resultCode == Activity.RESULT_OK) {
                     ArrayList<String> returnValue = new ArrayList<>();
                     returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS);
-                    uploadFiles(returnValue);
+                    String p = returnValue.get(0);
+                    String mimeType = URLConnection.guessContentTypeFromName(p);
+                    boolean isVideo = mimeType != null && mimeType.startsWith("video");
+                    if (isVideo) {
+                        compressedVideo(returnValue.get(0));
+                    } else {
+                        uploadFiles(returnValue);
+                    }
                 }
             }
             break;
         }
+    }
+    private ProgressDialog dialog;
+
+    private void compressedVideo(String path) {
+        File desFile = new File(getActivity().getExternalFilesDir(null) + "/" + File.separator + "test.mp4");
+        try {
+            desFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File f = getActivity().getExternalFilesDir("wills");
+        VideoCompressor.start(path, desFile.getPath(), new CompressionListener() {
+            @Override
+            public void onStart() {
+                // Compression start
+                dialog = new ProgressDialog(getActivity());
+                dialog.setMessage("Preparing...");
+
+            }
+
+            @Override
+            public void onSuccess() {
+                // On Compression success
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                ArrayList<String> list = new ArrayList<>();
+                list.add(desFile.getPath());
+                uploadFiles(list);
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                // On Failure
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"Failed",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(float v) {
+                // Update UI with progress value
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        dialog.show();
+
+
+//                        progress.setText(progressPercent + "%");
+//                        progressBar.setProgress((int) progressPercent);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled() {
+                // On Cancelled
+            }
+        }, VideoQuality.MEDIUM, false, false);
     }
 
     private void uploadFiles(ArrayList<String> returnValue) {

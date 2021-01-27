@@ -1,3 +1,4 @@
+include ':lightcompressor'
 include ':momentz'
 include ':vector', ':pix'
 include ':appintro'

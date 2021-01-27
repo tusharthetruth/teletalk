@@ -15,13 +15,13 @@ class MyProgressBar : ProgressBar {
     private var objectAnimator = ObjectAnimator.ofInt(this, "progress", this.progress, 100)
     private var hasStarted: Boolean = false
     private val timeWatcher: ProgressTimeWatcher
-    private var mProgressDrawable : Int = R.drawable.green_lightgrey_drawable
+    private var mProgressDrawable: Int = R.drawable.green_lightgrey_drawable
 
-    constructor(context: Context, index: Int, durationInSeconds: Int, timeWatcher: ProgressTimeWatcher,  @DrawableRes mProgressDrawable : Int = R.drawable.green_lightgrey_drawable ) : super(
-        context,
-        null,
-        0,
-        android.R.style.Widget_ProgressBar_Horizontal
+    constructor(context: Context, index: Int, durationInSeconds: Int, timeWatcher: ProgressTimeWatcher, @DrawableRes mProgressDrawable: Int = R.drawable.green_lightgrey_drawable) : super(
+            context,
+            null,
+            0,
+            android.R.style.Widget_ProgressBar_Horizontal
     ) {
         this.durationInSeconds = durationInSeconds
         this.index = index
@@ -33,8 +33,8 @@ class MyProgressBar : ProgressBar {
     private fun initView() {
 
         val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT, 1f
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1f
         )
 
         params.marginEnd = 5f.toPixel(context)
@@ -91,14 +91,17 @@ class MyProgressBar : ProgressBar {
     }
 
     fun resumeProgress() {
-        if (hasStarted) {
-            objectAnimator.apply {
-                resume()
+        try {
+            if (hasStarted) {
+                objectAnimator.apply {
+                    resume()
+                }
             }
+        } catch (e: Exception) {
         }
     }
 
-    fun editDurationAndResume(newDurationInSecons: Int){
+    fun editDurationAndResume(newDurationInSecons: Int) {
         this.durationInSeconds = newDurationInSecons
         cancelProgress()
         startProgress()
