@@ -40,7 +40,7 @@ public class HomeModel {
         ArrayList<HomeModel> list = new ArrayList<>();
         Integer[] iconList =
                 {
-                        R.drawable.status_button ,
+                        R.drawable.status_button,
                         R.drawable.invite_friends,
                         R.drawable.settings,
                         R.drawable.my_balance,
@@ -62,6 +62,7 @@ public class HomeModel {
                         R.drawable.law_enforcement,
                         R.drawable.agro_farming,
                         R.drawable.city_guide,
+                        R.drawable.my_number,
                         R.drawable.why_wills,
                         R.drawable.logout
                 };
@@ -83,7 +84,7 @@ public class HomeModel {
                 "#4873a6",
                 "#5A5485",
                 "#524365",
-                "#3398dc"
+                "#3398dc", "#39a8f0",
         };
 
         String[] titles = {
@@ -109,6 +110,7 @@ public class HomeModel {
                 C.Companion.getLaw(),
                 C.Companion.getSmartAgro(),
                 C.Companion.getSmartCityGuide(),
+                C.Companion.getMyNumber(),
                 C.Companion.getWhyWill(),
                 C.Companion.getLogout()
         };

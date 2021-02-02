@@ -49,6 +49,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -1665,7 +1666,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             final ImageView imageTypeView = convertView.findViewById(R.id.messagesAdapter_image_type);
 
             if (null != imageTypeView) {
-                imageTypeView.setImageResource(Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype) ? R.drawable.filetype_audio : R.drawable.filetype_attachment);
+                imageTypeView.setImageResource(Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype) ? R.drawable.filetype_audio : R.drawable.camera_play);
             }
             imageTypeView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -1674,6 +1675,20 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 
             View fileLayout = convertView.findViewById(R.id.messagesAdapter_file_layout);
             manageSubView(position, convertView, fileLayout, ROW_TYPE_FILE);
+
+//            if (Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype)) {
+                imageTypeView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                         if (null != mVectorMessagesAdapterEventsListener) {
+                    if (position < getCount()) {
+                        mVectorMessagesAdapterEventsListener.onContentClick(position);
+                    }
+                }
+                    }
+                });
+
+//            }
 
             addContentViewListeners(convertView, fileTextView, position, ROW_TYPE_FILE);
         } catch (Exception e) {
@@ -2164,15 +2179,18 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 //        });
 
         contentView.setOnTouchListener(new OnSwipeTouchListener(vectorRoomActivity) {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return super.onTouch(view, motionEvent);
-//            }
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                runAnimation(convertView);
+                reply(position, convertView, contentView, msgType);
+                return super.onTouch(view, motionEvent);
+            }
 
 
             @Override
             public void onLongClick() {
                 super.onLongClick();
+
                 if (position < getCount()) {
                     MessageRow row = getItem(position);
                     Event event = row.getEvent();
@@ -2189,6 +2207,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             @Override
             public void onClick() {
                 super.onClick();
+
                 if (null != mVectorMessagesAdapterEventsListener) {
                     if (position < getCount()) {
                         mVectorMessagesAdapterEventsListener.onContentClick(position);
@@ -2199,14 +2218,32 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             @Override
             public void onSwipeRight() {
                 super.onSwipeRight();
-                try {
+                runAnimation(convertView);
+                reply(position, convertView, contentView, msgType);
+            }
 
-                    if (null != mVectorMessagesAdapterEventsListener) {
-                        if (position < getCount()) {
-                            mVectorMessagesAdapterEventsListener.onContentClick(position);
-                        }
-                    }
-//                    Log.d("touch", "swipe right");
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                Log.d("touch", "swipe left");
+                runAnimation(convertView);
+                reply(position, convertView, contentView, msgType);
+            }
+        });
+
+    }
+
+    private void reply(int position, View convertView, View contentView, int msgType) {
+        try {
+
+//            if (null != mVectorMessagesAdapterEventsListener) {
+//                if (position < getCount()) {
+//                    mVectorMessagesAdapterEventsListener.onContentClick(position);
+//                }
+//            }
+            runAnimation(convertView);
+//            runAnimation(contentView);
+
 //                    com.chatapp.Animation.anim(convertView);
 //                    new Handler().postDelayed(new Runnable() {
 //                        @Override
@@ -2214,42 +2251,32 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 //                            com.chatapp.Animation.reversAnim(convertView);
 //                        }
 //                    },600);
-//
-//                    Activity attachedActivity = vectorRoomActivity;
-//
-//                    if ((null != attachedActivity) && (attachedActivity instanceof VectorRoomActivity)) {
-//                        // Quote all paragraphs instead
-//                        MessageRow row = getItem(position);
-//                        Event event = row.getEvent();
-//                        String textMsg = getEventText(contentView, event, msgType);
-//                        String[] messageParagraphs = textMsg.split("\n\n");
-//                        String quotedTextMsg = "";
-//                        for (int i = 0; i < messageParagraphs.length; i++) {
-//                            if (!messageParagraphs[i].trim().equals("")) {
-//                                quotedTextMsg += "> " + messageParagraphs[i];
-//                            }
-//
-//                            if (!((i + 1) == messageParagraphs.length)) {
-//                                quotedTextMsg += "\n\n";
-//                            }
-//                        }
-//                        ((VectorRoomActivity) attachedActivity).insertQuoteInTextEditor(quotedTextMsg + "\n\n");
-//                    }
-//
-//
-//                    Toast.makeText(contentView.getContext(), "Quote Added", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
+
+            Activity attachedActivity = vectorRoomActivity;
+
+            if ((null != attachedActivity) && (attachedActivity instanceof VectorRoomActivity)) {
+                // Quote all paragraphs instead
+                MessageRow row = getItem(position);
+                Event event = row.getEvent();
+                String textMsg = getEventText(contentView, event, msgType);
+                String[] messageParagraphs = textMsg.split("\n\n");
+                String quotedTextMsg = "";
+                for (int i = 0; i < messageParagraphs.length; i++) {
+                    if (!messageParagraphs[i].trim().equals("")) {
+                        quotedTextMsg += "> " + messageParagraphs[i];
+                    }
+
+                    if (!((i + 1) == messageParagraphs.length)) {
+                        quotedTextMsg += "\n\n";
+                    }
                 }
+                ((VectorRoomActivity) attachedActivity).insertQuoteInTextEditor(quotedTextMsg + "\n\n");
             }
 
-            @Override
-            public void onSwipeLeft() {
-                super.onSwipeLeft();
-                Log.d("touch", "swipe left");
 
-            }
-        });
-
+//                    Toast.makeText(contentView.getContext(), "Quote Added", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+        }
     }
 
     /*
@@ -2942,4 +2969,16 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             }
         }
     }
+
+    private void runAnimation(View view) {
+        TranslateAnimation animation = new TranslateAnimation(0.0f, 100.0f, 0.0f, 0.0f); // new TranslateAnimation (float fromXDelta,float toXDelta, float fromYDelta, float toYDelta)
+
+        animation.setDuration(1000); // animation duration
+        animation.setRepeatCount(1); // animation repeat count
+        animation.setRepeatMode(2); // repeat animation (left to right, right to left)
+
+        animation.setFillAfter(true);
+        view.startAnimation(animation);
+    }
+
 }

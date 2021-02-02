@@ -149,6 +149,16 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
             C.Logout -> {
                 (activity as ChatMainActivity).logout()
             }
+            C.MyNumber -> {
+                try {
+                    val myIntent = Intent(activity, ExtendedWebview::class.java)
+                    myIntent.putExtra("Bundle", "MyNumber")
+                    startActivity(myIntent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(activity, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
         }
     }
 

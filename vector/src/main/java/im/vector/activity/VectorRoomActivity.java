@@ -2699,10 +2699,13 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     public void insertQuoteInTextEditor(String quote) {
         if (!TextUtils.isEmpty(quote)) {
             if (TextUtils.isEmpty(mEditText.getText())) {
-                mEditText.setText("");
-                mEditText.append(quote);
+                audioRecordView.getMessageView().setText("");
+//                mEditText.setText("");
+                audioRecordView.getMessageView().append(quote);
+//                mEditText.append(quote);
             } else {
-                mEditText.getText().insert(mEditText.getSelectionStart(), "\n" + quote);
+                audioRecordView.getMessageView().getText().insert(audioRecordView.getMessageView().getSelectionStart(), "\n" + quote);
+//                mEditText.getText().insert(mEditText.getSelectionStart(), "\n" + quote);
             }
         }
     }

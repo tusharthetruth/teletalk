@@ -30,6 +30,7 @@ class C {
         var WhyWill = "WhyWill"
         var Logout = "Logout"
         var Meeting = "Meeting"
+        var MyNumber = "My Number"
 
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
