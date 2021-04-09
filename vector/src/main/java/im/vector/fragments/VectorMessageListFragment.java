@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -884,7 +885,11 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                        final EncryptedFileInfo encryptedFileInfo) {
         // Sanitize file name in case `m.body` contains a path.
         final String trimmedFileName = new File(filename).getName();
-
+        File f = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + trimmedFileName);
+        if (f.exists()) {
+            AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), f.getAbsolutePath()   , 0);
+            return;
+        }
         final MXMediaCache mediasCache = Matrix.getInstance(getActivity()).getMediaCache();
         // check if the media has already been downloaded
         if (mediasCache.isMediaCached(mediaUrl, mediaMimeType)) {
@@ -906,7 +911,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                                         if (menuAction == ACTION_VECTOR_SAVE) {
                                             Toast.makeText(getActivity(), getText(R.string.media_slider_saved), Toast.LENGTH_LONG).show();
                                         } else {
-                                            AudioPlayer player2 = new AudioPlayer(getActivity(),BuildConfig.APPLICATION_ID + ".fileProvider",getActivity().isFinishing(),getActivity().getSupportFragmentManager(),savedMediaPath,0);
+                                            AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), savedMediaPath, 0);
 //                                            ExternalApplicationsUtilKt.openMedia(getActivity(), savedMediaPath, mediaMimeType);
                                         }
                                     }
