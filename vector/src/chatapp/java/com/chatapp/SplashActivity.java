@@ -18,6 +18,7 @@ package com.chatapp;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -25,13 +26,20 @@ import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -97,10 +105,39 @@ public class SplashActivity extends AppCompatActivity {
         txtTerms = (TextView) findViewById(R.id.txtPrivacy_Terms);
         txtTerms.setClickable(true);
         txtTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String text = "Agree to your <a href=\"https://willssmartvoip.com/privacy-policy/\">Privacy</a> and <a href=\"https://willssmartvoip.com/privacy-policy/\">Terms Conditions</a>";
-        txtTerms.setText(Html.fromHtml(text));
-        btnGetStarted = (Button)findViewById(R.id.loginSplashSubmit);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+        String privacy = "https://willssmartvoip.com/privacy-policy/";
+        String text1 = "Agree to your <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color=#ffffffff>Privacy</font></a> and <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color='#ffffffff'>Terms Conditions</font></a>";
+        String text = "Agree to your Privacy and Terms Conditions";
+        SpannableStringBuilder s = new SpannableStringBuilder(text);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 14, 21, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 32, 42, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//        s.setSpan(new ClickableSpan() {
+//            @Override
+//            public void onClick(@NonNull View widget) {
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(privacy));
+//                startActivity(i);
+//            }
+//        },14,21,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+//        s.setSpan(new ClickableSpan() {
+//            @Override
+//            public void onClick(@NonNull View widget) {
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse(privacy));
+//                startActivity(i);
+//            }
+//        },32,42,Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        txtTerms.setText(s);
+        txtTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(privacy));
+                startActivity(i);
+            }
+        });
+        btnGetStarted = (Button) findViewById(R.id.loginSplashSubmit);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +146,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
         ImageView iv = findViewById(R.id.loginSplashLogo);
-        Glide.with(this).asGif().load(R.raw.wills).into(iv);
+//        Glide.with(this).asGif().load(R.raw.wills).into(iv);
         txtTerms.setVisibility(View.GONE);
         btnGetStarted.setVisibility(View.GONE);
         progressBar.setIndeterminate(true);
@@ -122,11 +159,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         List<MXSession> sessions = Matrix.getInstance(getApplicationContext()).getSessions();
-        if (sessions.size()==0) {
+        if (sessions.size() == 0) {
             progressBar.setVisibility(View.GONE);
             txtTerms.setVisibility(View.VISIBLE);
             btnGetStarted.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             progressBar.setVisibility(View.VISIBLE);
             txtTerms.setVisibility(View.GONE);
             btnGetStarted.setVisibility(View.GONE);

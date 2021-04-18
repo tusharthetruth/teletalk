@@ -18,6 +18,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="text_color">@color/colorPrimary</color>
+    <color name="wills_login_bg_color">#288C22</color>
 
     <color name="chat_background_color">#fef9f6</color>
 
@@ -318,5 +319,6 @@
     <color name="progress_max_active">@color/white</color>
 
     <color name="gray_scale">#8affffff</color>
+    <color name="gray_color">#7D7D7D</color>
 
 </resources>

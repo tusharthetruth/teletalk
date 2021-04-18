@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,8 +65,8 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     private TextView otpMsg, otpTimmer;
     private PinView otpCode;
-    private Button buttonCheckOtp;
-    private Button reSendOtp;
+    private FrameLayout buttonCheckOtp;
+    private FrameLayout reSendOtp;
     private ProgressDialog pDialog;
     private String CCode, PhoneNo;
     private final LoginHandler mLoginHandler = new LoginHandler();
@@ -86,9 +87,8 @@ public class VerifyOtpActivity extends AppCompatActivity {
         otpMsg = (TextView) findViewById(R.id.otp_info);
         otpTimmer = (TextView) findViewById(R.id.otp_timmer);
         otpCode = (PinView) findViewById(R.id.OTPView);
-        buttonCheckOtp = (Button) findViewById(R.id.btnCheckOtp);
-        reSendOtp = (Button) findViewById(R.id.reSendOtp);
-
+        buttonCheckOtp =  findViewById(R.id.btnCheckOtp);
+        reSendOtp =  findViewById(R.id.reSendOtp);
         otpMsg.setText("Please enter the One Time PIN which you have received on  +" + CCode + PhoneNo + " or Re-generate the One Time PIN");
         MyCount counter = new MyCount(100000, 1000);
         counter.start();

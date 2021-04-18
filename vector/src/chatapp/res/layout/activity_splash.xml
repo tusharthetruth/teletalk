@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash_bg_color">
+    android:background="@drawable/welcome_screen">
 
     <ImageView
         android:id="@+id/loginSplashLogo"
@@ -13,7 +13,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:tintMode="screen"
         android:scaleType="centerCrop"
-        android:src="@drawable/wills_bg"
+        android:src="@drawable/welcome_screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +28,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
         android:text="Get Started"
+        android:textColor="@color/white"
         android:transitionName="loginSubmitTransition"
         app:layout_constraintBottom_toTopOf="@+id/txtPrivacy_Terms"
         app:layout_constraintEnd_toEndOf="parent"

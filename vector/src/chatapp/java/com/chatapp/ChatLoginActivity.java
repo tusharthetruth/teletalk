@@ -67,7 +67,7 @@ public class ChatLoginActivity extends AppCompatActivity {
 
         FcmHelper.ensureFcmTokenIsRetrieved(this);
         ImageView iv = findViewById(R.id.imgProfile);
-        Glide.with(this).asGif().load(R.raw.wills).into(iv);
+//        Glide.with(this).asGif().load(R.raw.wills).into(iv);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean ShowWelcome = settings.getBoolean("ShowWelcome",true);
