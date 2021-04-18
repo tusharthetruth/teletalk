@@ -1343,13 +1343,13 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     }
 
     public void hideItem() {
-        try {
-            toolbar.setNavigationIcon(null);
-            getSupportActionBar().setDisplayShowHomeEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            navigationView.setVisibility(View.GONE);// to hide Navigation icon
-        } catch (Exception e) {
-        }
+//        try {
+//            toolbar.setNavigationIcon(null);
+//            getSupportActionBar().setDisplayShowHomeEnabled(false);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//            navigationView.setVisibility(View.GONE);// to hide Navigation icon
+//        } catch (Exception e) {
+//        }
     }
 
     public ISipService getConnectedService() {
