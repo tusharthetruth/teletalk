@@ -25,6 +25,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
     protected static final String ARG_DESC = "desc";
     protected static final String ARG_DESC_TYPEFACE = "desc_typeface";
     protected static final String ARG_DESC_TYPEFACE_RES = "desc_typeface_res";
+    protected static final String ARG_INDICATOR_DRAWABLE = "indicator_drawable";
     protected static final String ARG_DRAWABLE = "drawable";
     protected static final String ARG_BG_COLOR = "bg_color";
     protected static final String ARG_TITLE_COLOR = "title_color";
@@ -32,7 +33,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
 
     private static final String TAG = LogHelper.makeLogTag(AppIntroBaseFragment.class);
 
-    private int drawable, bgColor, titleColor, descColor, layoutId;
+    private int drawable, bgColor, titleColor, descColor, layoutId,indicatorIcon;
     private String title, description;
     private TypefaceContainer titleTypeface, descTypeface;
 
@@ -49,6 +50,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
 
             int argsTitleTypefaceRes = getArguments().getInt(ARG_TITLE_TYPEFACE_RES);
             int argsDescTypefaceRes = getArguments().getInt(ARG_DESC_TYPEFACE_RES);
+            indicatorIcon = getArguments().getInt(ARG_INDICATOR_DRAWABLE);
 
             drawable = getArguments().getInt(ARG_DRAWABLE);
 
@@ -84,6 +86,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
             bgColor = savedInstanceState.getInt(ARG_BG_COLOR);
             titleColor = savedInstanceState.getInt(ARG_TITLE_COLOR);
             descColor = savedInstanceState.getInt(ARG_DESC_COLOR);
+            indicatorIcon = savedInstanceState.getInt(ARG_INDICATOR_DRAWABLE);
         }
     }
 
@@ -97,6 +100,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
         TextView descriptionText = view.findViewById(R.id.description);
         ImageView slideImage = view.findViewById(R.id.image);
         mainLayout = view.findViewById(R.id.main);
+        ImageView indicator = view.findViewById(R.id.indicator);
 
         titleText.setText(title);
         if (titleColor != 0) {
@@ -110,6 +114,7 @@ public abstract class AppIntroBaseFragment extends Fragment implements ISlideSel
         }
         slideImage.setImageResource(drawable);
         mainLayout.setBackgroundColor(bgColor);
+        indicator.setImageResource(indicatorIcon);
 
         return view;
     }

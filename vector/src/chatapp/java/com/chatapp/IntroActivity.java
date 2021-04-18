@@ -37,15 +37,26 @@ public class IntroActivity extends AppIntro2 {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addSlide(AppIntro2Fragment.newInstance("Transfer Money","Easy to transfer your Phone Credits",R.drawable.intro_transfer_money,getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)) );
-        addSlide(AppIntro2Fragment.newInstance("System Support", "Any time Can get Customer Support 24/7", R.drawable.intro_customer_support, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        addSlide(AppIntro2Fragment.newInstance("Mobile Topup", "Easy to Transfer your Mobile To Mobile TopUp", R.drawable.intro_topup, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        addSlide(AppIntro2Fragment.newInstance("Rate Plans", "There are various Rate Plans", R.drawable.intro_rates_plan, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        /*
-        addSlide(AppIntro2Fragment.newInstance("Contacts ", "We need to read your contacts to sync with your friends.", R.drawable.contact_selector, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        addSlide(AppIntro2Fragment.newInstance("Microphone ", "We need to use microphone to make phone calls.", R.drawable.mic_icon, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        addSlide(AppIntro2Fragment.newInstance("Camera ", "We need to use camera to make video calls.", R.drawable.video_icon, getResources().getColor(R.color.white),getResources().getColor(R.color.black),getResources().getColor(R.color.black_overlay)));
-        */
+        addSlide(
+                AppIntro2Fragment.newInstance(
+                        "Transfer Money",
+                        "Easy to transfer your Phone Credits",
+                        R.drawable.starter,getResources().getColor(R.color.white),
+                        getResources().getColor(R.color.colorPrimary),
+                        getResources().getColor(R.color.black_overlay),
+                        R.drawable.i1)
+        );
+        addSlide(AppIntro2Fragment.
+                newInstance("System Support", "Any time Can get Customer Support 24/7", R.drawable.starter1, getResources().getColor(R.color.white),getResources().getColor(R.color.colorPrimary),getResources().getColor(R.color.black_overlay),
+                R.drawable.i2));
+        addSlide(AppIntro2Fragment.newInstance(
+                "Mobile Topup",
+                "Easy to Transfer your Mobile To Mobile TopUp",
+                R.drawable.starter2, getResources().getColor(R.color.white),
+                getResources().getColor(R.color.colorPrimary),getResources().
+                        getColor(R.color.black_overlay),R.drawable.i3));
+        addSlide(AppIntro2Fragment.newInstance("Rate Plans", "There are various Rate Plans", R.drawable.starter3, getResources().getColor(R.color.white),getResources().getColor(R.color.colorPrimary),getResources().
+                getColor(R.color.black_overlay),R.drawable.i4));
 
         showSkipButton(false);
 

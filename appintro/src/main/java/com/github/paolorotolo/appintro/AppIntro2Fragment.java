@@ -39,6 +39,16 @@ public final class AppIntro2Fragment extends AppIntroBaseFragment {
                                                @DrawableRes int imageDrawable,
                                                @ColorInt int bgColor,
                                                @ColorInt int titleColor,
+                                               @ColorInt int descColor,
+                                               @DrawableRes int icon) {
+        return newInstance(title, null, description, null,
+                imageDrawable, bgColor, titleColor, descColor,icon);
+    }
+    public static AppIntroFragment newInstance(CharSequence title,
+                                               CharSequence description,
+                                               @DrawableRes int imageDrawable,
+                                               @ColorInt int bgColor,
+                                               @ColorInt int titleColor,
                                                @ColorInt int descColor) {
         return newInstance(title, null, description, null,
                 imageDrawable, bgColor, titleColor, descColor);
@@ -164,10 +174,33 @@ public final class AppIntro2Fragment extends AppIntroBaseFragment {
 
         args.putInt(ARG_DRAWABLE, sliderPage.getImageDrawable());
         args.putInt(ARG_BG_COLOR, sliderPage.getBgColor());
+        args.putInt(ARG_INDICATOR_DRAWABLE, sliderPage.getIcon());
         slides.setArguments(args);
 
         return slides;
     }
+    public static AppIntroFragment newInstance(CharSequence title,
+                                               String titleTypefaceUrl,
+                                               CharSequence description,
+                                               String descTypefaceUrl,
+                                               @DrawableRes int imageDrawable,
+                                               @ColorInt int bgColor,
+                                               @ColorInt int titleColor,
+                                               @ColorInt int descColor,
+                                               @DrawableRes int icon) {
+        SliderPage sliderPage = new SliderPage();
+        sliderPage.setTitle(title);
+        sliderPage.setTitleTypeface(titleTypefaceUrl);
+        sliderPage.setDescription(description);
+        sliderPage.setDescTypeface(descTypefaceUrl);
+        sliderPage.setImageDrawable(imageDrawable);
+        sliderPage.setBgColor(bgColor);
+        sliderPage.setTitleColor(titleColor);
+        sliderPage.setDescColor(descColor);
+        sliderPage.setIcon(icon);
+        return newInstance(sliderPage);
+    }
+
 
     @Override
     protected int getLayoutId() {

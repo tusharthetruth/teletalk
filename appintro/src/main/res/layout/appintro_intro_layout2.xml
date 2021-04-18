@@ -36,7 +36,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            >
 
             <FrameLayout
                 android:id="@+id/indicator_container"
@@ -76,10 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:contentDescription="@string/app_intro_next_button"
-                app:srcCompat="@drawable/ic_appintro_arrow_forward_white"
+                app:srcCompat="@drawable/next"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -88,11 +86,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:visibility="gone"
                 android:contentDescription="@string/app_intro_done_button"
-                app:srcCompat="@drawable/ic_appintro_done_white"
+                app:srcCompat="@drawable/done"
                 tools:ignore="ContentDescription" />
         </FrameLayout>
     </LinearLayout>
