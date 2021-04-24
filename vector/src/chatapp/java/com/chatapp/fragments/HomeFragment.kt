@@ -3,15 +3,24 @@ package com.chatapp.fragments
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.chatapp.*
 import com.chatapp.activity.*
 import com.chatapp.adapters.HomeAdapter
+import com.chatapp.home.HomeSecond
+import com.chatapp.home.Home_first
 import com.chatapp.share.UserStatusActivity
 import com.chatapp.status_module.StatusActivity
 import im.vector.Matrix
@@ -19,7 +28,11 @@ import im.vector.R
 import im.vector.activity.VectorSettingsActivity
 import im.vector.util.VectorUtils
 import kotlinx.android.synthetic.chatapp.fragment_home2.*
+import org.json.JSONObject
 import org.matrix.androidsdk.MXSession
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -37,11 +50,15 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vp.adapter  = VPAdapter(childFragmentManager)
+        prev_page.setOnClickListener(this)
+        next_page.setOnClickListener(this)
+        mSession = Matrix.getInstance(activity).defaultSession
+        GetBalance()
 
-        rv.setLayoutManager(GridLayoutManager(activity, 3))
-        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
-        rv.adapter = adapter
-        status.setOnClickListener(this)
+//        rv.setLayoutManager(GridLayoutManager(activity, 3))
+//        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
+//        rv.adapter = adapter
     }
 
     override fun onHomeClick(title: String?) {
@@ -171,14 +188,90 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
         super.onResume()
         (activity as ChatMainActivity).hideItem();
         mSession = Matrix.getInstance(requireActivity()).defaultSession
-        VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
+//        VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
+    }
+
+    public class VPAdapter(supportFragmentManager: FragmentManager) : FragmentStatePagerAdapter(supportFragmentManager) {
+        var list: ArrayList<Fragment> = ArrayList()
+        lateinit var title: ArrayList<String>
+
+        init {
+
+            list.add(Home_first())
+            list.add(HomeSecond())
+        }
+
+        override fun getItem(position: Int): Fragment {
+            return list.get(position)
+        }
+
+        override fun getCount(): Int {
+            return list.size
+        }
+
     }
 
     override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.status -> {
-                startActivity(Intent(requireActivity(), UserStatusActivity::class.java))
+        when (v?.id) {
+            R.id.prev_page -> {
+                vp.setCurrentItem(0, true)
+                prev_page.visibility = View.GONE
+                next_page.visibility = View.VISIBLE
             }
+            R.id.next_page -> {
+                vp.setCurrentItem(1, true)
+                prev_page.visibility = View.VISIBLE
+                next_page.visibility = View.GONE
+
+            }
+        }
+    }
+
+    private fun GetBalance() {
+        try {
+            val settings = PreferenceManager.getDefaultSharedPreferences(activity)
+            val cust_id = Settings.asHex(Settings.encrypt(settings.getString("Username", ""), Settings.ENC_KEY).toByteArray())
+            val cust_pass = Settings.asHex(Settings.encrypt(settings.getString("Password", ""), Settings.ENC_KEY).toByteArray())
+            val url = Settings.BALANCE_API
+            val queue = Volley.newRequestQueue(activity)
+            val sr: StringRequest = object : StringRequest(Method.POST, url, Response.Listener { response ->
+                var response = response
+                try {
+//                    balancePg.setVisibility(View.GONE)
+                    response = response.trim { it <= ' ' }
+                    val json = JSONObject(response)
+                    if (!json.isNull("credit")) {
+                        val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+                        var UserCurrency = json.getString("currency").substring(0, 3)
+                        format.currency = Currency.getInstance(UserCurrency)
+                        val balanceVal = format.format(json.getDouble("credit"))
+                        activity?.runOnUiThread(Runnable { balance.text = balanceVal })
+                    } else {
+
+                    }
+                } catch (e: Exception) {
+
+                }
+            }, Response.ErrorListener { error ->
+
+            }) {
+                override fun getParams(): Map<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    params["cust_id"] = cust_id
+                    params["cust_pass"] = cust_pass
+                    return params
+                }
+
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    params["Content-Type"] = "application/x-www-form-urlencoded"
+                    return params
+                }
+            }
+            queue.add(sr)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

@@ -677,7 +677,19 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
 
     private void setMenuClick() {
-        findViewById(R.id.why).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.goip_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VectorSettingsActivity.class);
+                startActivity(intent);            }
+        });
+        findViewById(R.id.goip_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+        findViewById(R.id.goip_why).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -692,20 +704,15 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         });
 
 
-        findViewById(R.id.invite).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.goip_invited).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Join me on Wills Smart Voip, this free video chat and messaging app is amazing. I like it! www.cerilog.net";
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Wills Invite");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
+              invite();
             }
         });
 
 
-        findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.goip_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, VectorSettingsActivity.class);

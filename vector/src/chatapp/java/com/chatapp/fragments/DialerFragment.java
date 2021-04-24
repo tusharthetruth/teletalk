@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.Image;
 import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,9 +114,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         ImageButton btn0 = (ImageButton) vDialerFragment.findViewById(R.id.zero);
         ImageButton btnstar = (ImageButton) vDialerFragment.findViewById(R.id.star);
         ImageButton btnpound = (ImageButton) vDialerFragment.findViewById(R.id.pound);
-        ImageButton btnCall = (ImageButton) vDialerFragment.findViewById(R.id.btn_dialpad_call);
-        ImageButton btnDelete = (ImageButton) vDialerFragment.findViewById(R.id.btn_dialpad_delete);
-        ImageButton btnContact = (ImageButton) vDialerFragment.findViewById(R.id.btn_dialpad_contact);
+        ImageView btnCall = (ImageView) vDialerFragment.findViewById(R.id.btn_dialpad_call);
+        ImageView btnDelete = (ImageView) vDialerFragment.findViewById(R.id.btn_dialpad_delete);
+        ImageView btnContact = (ImageView) vDialerFragment.findViewById(R.id.btn_dialpad_contact);
 
         txtStatus = (TextView)vDialerFragment.findViewById(R.id.txtRegStatus);
         txtStatus.setText("");
@@ -471,7 +473,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        balance.setText(String.format("Bal : $%s", s));
+                                        balance.setText(String.format("$%s", s));
                                     }
                                 });
                             }

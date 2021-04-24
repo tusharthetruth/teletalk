@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/toolbar_bottom_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- Use standard android.R class list id instead of app specific id. This is just useful for

@@ -79,6 +79,14 @@ public class RoomListAdapter extends RecyclerView.Adapter<RoomListAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
 
+        if (position == 0) {
+            holder.card_view.setBackground(context.getResources().getDrawable(R.drawable.chat_list_bg));
+        } else if (position % 2 == 0) {
+            holder.card_view.setBackground(context.getResources().getDrawable(R.drawable.chat_list_bg_3));
+        } else {
+            holder.card_view.setBackground(context.getResources().getDrawable(R.drawable.chat_list_bg_2));
+        }
+
         summary = roomList.get(position);
         Room room = session.getDataHandler().getStore().getRoom(summary.getRoomId());
         if (TextUtils.isEmpty(room.getAvatarUrl())) {

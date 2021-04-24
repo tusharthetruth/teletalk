@@ -18,10 +18,12 @@ import android.provider.ContactsContract;
 import com.chatapp.ChatMainActivity;
 import com.chatapp.DialerActivity;
 import com.chatapp.InCallActivity;
+import com.chatapp.fragments.recentfilter.RecentFilterDialogFragment;
 import com.chatapp.sip.api.ISipService;
 import com.chatapp.util.ChatUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 import androidx.appcompat.app.AlertDialog;
 
@@ -29,6 +31,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -102,7 +107,7 @@ public class RecentFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -448,5 +453,22 @@ public class RecentFragment extends ListFragment {
                 Log.e(LOG_TAG, "## startCall() failed " + e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.recent_search, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            RecentFilterDialogFragment recentFragment = RecentFilterDialogFragment.newInstance(new Bundle());
+            recentFragment.show(getChildFragmentManager(), "call search");
+        }
+        return super.onOptionsItemSelected(item);
+
+
     }
 }

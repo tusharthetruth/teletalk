@@ -320,5 +320,11 @@
 
     <color name="gray_scale">#8affffff</color>
     <color name="gray_color">#7D7D7D</color>
+    <color name="chat_gray">#F5F5F5</color>
+    <string name="first_color">#0B5D93</string>
+    <string name="second_color">#9AD8F2</string>
+    <color name="cb_bg_color">#E7EAEE</color>
+    <color name="cb_bg_value">#C5E1A5</color>
+    <color name="dialer_color">#dfe8f7</color>
 
 </resources>
