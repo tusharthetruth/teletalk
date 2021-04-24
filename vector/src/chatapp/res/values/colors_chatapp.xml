@@ -325,6 +325,6 @@
     <string name="second_color">#9AD8F2</string>
     <color name="cb_bg_color">#E7EAEE</color>
     <color name="cb_bg_value">#C5E1A5</color>
-    <color name="dialer_color">#dfe8f7</color>
+    <color name="dialer_color">#DCEDC8</color>
 
 </resources>
