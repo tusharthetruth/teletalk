@@ -311,4 +311,51 @@ public class HomeModel {
         return list;
 
     }
+    public static ArrayList<HomeModel> getSecHomeList() {
+        ArrayList<HomeModel> list = new ArrayList<>();
+        Integer[] iconList = {
+                R.drawable.data_bundle,
+                R.drawable.electricity,
+                R.drawable.tv_recharge,
+                R.drawable.my_number,
+                R.drawable.profile,
+                R.drawable.why};
+        String[] colorList = {
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+        };
+
+        String[] titles = {
+                C.Companion.getDataBundle(),
+                C.Companion.getElectric(),
+                C.Companion.getTV(),
+                C.Companion.getMyNumber(),
+                C.Companion.getUpdateProfile(),
+                C.Companion.getWhyWill()
+        };
+        for (int i = 0; i < iconList.length; i++) {
+            HomeModel model = new HomeModel();
+            model.colorCode = colorList[i];
+            model.name = titles[i];
+            model.icon = iconList[i];
+            list.add(model);
+
+        }
+        return list;
+
+    }
 }

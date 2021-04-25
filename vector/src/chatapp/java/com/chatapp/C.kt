@@ -31,6 +31,9 @@ class C {
         var Logout = "Logout"
         var Meeting = "Meeting"
         var MyNumber = "My Number"
+        var DataBundle = "Data Bundle"
+        var Electric = "Electric Bill"
+        var TV = "Television Bill"
 
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()

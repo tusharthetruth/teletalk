@@ -206,7 +206,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
             list.add(Home_first())
             list.add(HomeSecond())
-            list.add(HomeFragmentThird())
+//            list.add(HomeFragmentThird())
         }
 
         override fun getItem(position: Int): Fragment {
@@ -224,7 +224,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
             R.id.prev_page -> {
                 if (vp.currentItem == 1) {
                     vp.setCurrentItem(0, true)
-                    prev_page.visibility = View.INVISIBLE
+                    prev_page.visibility = View.GONE
                     next_page.visibility = View.VISIBLE
                 } else if (vp.currentItem == 2) {
                     vp.setCurrentItem(1, true)
@@ -236,7 +236,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
                 if (vp.currentItem == 0) {
                     vp.setCurrentItem(1, true)
                     prev_page.visibility = View.VISIBLE
-                    next_page.visibility = View.VISIBLE
+                    next_page.visibility = View.GONE
                 } else if (vp.currentItem == 1) {
                     vp.setCurrentItem(2, true)
                     prev_page.visibility = View.VISIBLE

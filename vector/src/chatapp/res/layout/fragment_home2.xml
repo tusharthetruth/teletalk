@@ -156,7 +156,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/page_prev"
             android:paddingStart="-25dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

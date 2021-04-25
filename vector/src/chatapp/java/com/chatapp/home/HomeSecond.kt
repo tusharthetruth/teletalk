@@ -48,7 +48,7 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv.layoutManager = GridLayoutManager(activity, 3)
-        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getSecondHomeList(), this)
+        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getSecHomeList(), this)
         rv.adapter = adapter
 
 
@@ -134,6 +134,18 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
                 startActivity(myIntent)
             }
             C.Medical -> {
+                showErr()
+
+            }
+            C.DataBundle -> {
+                showErr()
+
+            }
+            C.TV -> {
+                showErr()
+
+            }
+            C.Electric -> {
                 showErr()
 
             }
