@@ -47,7 +47,7 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rv.setLayoutManager(GridLayoutManager(activity, 3))
+        rv.layoutManager = GridLayoutManager(activity, 3)
         val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getSecondHomeList(), this)
         rv.adapter = adapter
 

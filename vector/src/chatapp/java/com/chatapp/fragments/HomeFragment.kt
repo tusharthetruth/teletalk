@@ -50,7 +50,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vp.adapter  = VPAdapter(childFragmentManager)
+        vp.adapter = VPAdapter(childFragmentManager)
         prev_page.setOnClickListener(this)
         next_page.setOnClickListener(this)
         mSession = Matrix.getInstance(activity).defaultSession
@@ -189,6 +189,13 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
         (activity as ChatMainActivity).hideItem();
         mSession = Matrix.getInstance(requireActivity()).defaultSession
 //        VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)
+        name.setText(mSession?.getMyUser()?.displayname)
+        var tmp: Array<String>? = mSession?.myUserId?.split("@".toRegex())?.toTypedArray()
+        tmp?.let {
+            tmp->
+            val tmp1 = tmp[1].split(":".toRegex()).toTypedArray()
+            contact.text = tmp1[0]
+        }
     }
 
     public class VPAdapter(supportFragmentManager: FragmentManager) : FragmentStatePagerAdapter(supportFragmentManager) {
@@ -199,6 +206,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
             list.add(Home_first())
             list.add(HomeSecond())
+            list.add(HomeFragmentThird())
         }
 
         override fun getItem(position: Int): Fragment {
@@ -214,14 +222,26 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.prev_page -> {
-                vp.setCurrentItem(0, true)
-                prev_page.visibility = View.GONE
-                next_page.visibility = View.VISIBLE
+                if (vp.currentItem == 1) {
+                    vp.setCurrentItem(0, true)
+                    prev_page.visibility = View.INVISIBLE
+                    next_page.visibility = View.VISIBLE
+                } else if (vp.currentItem == 2) {
+                    vp.setCurrentItem(1, true)
+                    prev_page.visibility = View.VISIBLE
+                    next_page.visibility = View.VISIBLE
+                }
             }
             R.id.next_page -> {
-                vp.setCurrentItem(1, true)
-                prev_page.visibility = View.VISIBLE
-                next_page.visibility = View.GONE
+                if (vp.currentItem == 0) {
+                    vp.setCurrentItem(1, true)
+                    prev_page.visibility = View.VISIBLE
+                    next_page.visibility = View.VISIBLE
+                } else if (vp.currentItem == 1) {
+                    vp.setCurrentItem(2, true)
+                    prev_page.visibility = View.VISIBLE
+                    next_page.visibility = View.INVISIBLE
+                }
 
             }
         }

@@ -98,9 +98,6 @@ public class HomeModel {
                 C.Companion.getMobileTopup(),
                 C.Companion.getMobileTransfer(),
                 C.Companion.getTrnasferHistory(),
-//                C.Companion.getContactBackup(),
-//                C.Companion.getTracking(),
-//                C.Companion.getDid(),
                 C.Companion.getMeeting(),
                 C.Companion.getUpdateProfile(),
                 C.Companion.getQr(),
@@ -129,16 +126,16 @@ public class HomeModel {
 
     public static ArrayList<HomeModel> getFirstHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
-        Integer[] iconList = {R.drawable.chat_video,
-                R.drawable.profile_scroll,
-                R.drawable.invite_friends_scroll,
-                R.drawable.chat_video_conferencing_scroll,
-                R.drawable.vouchare_recharge_scorll,
-                R.drawable.directcall_scroll,
-                R.drawable.transfer_credit_scroll,
+        Integer[] iconList = {
+                R.drawable.status,
+                R.drawable.invite_friends,
+                R.drawable.settings,
+                R.drawable.mybalance,
+                R.drawable.buy_credit,
+                R.drawable.voucher,
+                R.drawable.mobile_topup,
+                R.drawable.balance_transfer,
                 R.drawable.transfer_history,
-                R.drawable.airtime_scroll,
-//                R.drawable.airtime_scroll,
         };
         String[] colorList = {
                 VectorApp.getInstance().getString(R.string.first_color),
@@ -157,38 +154,18 @@ public class HomeModel {
                 VectorApp.getInstance().getString(R.string.second_color),
                 VectorApp.getInstance().getString(R.string.second_color),
                 VectorApp.getInstance().getString(R.string.first_color),
-//                VectorApp.getInstance().getString(R.string.first_color),
-//                VectorApp.getInstance().getString(R.string.second_color)
         };
-//        String[] colorList = {
-//                "#3398dc",
-//                "#39a8f0",
-//                "#268bcf",
-//                "#1c81c5",
-//                "#0b73ba",
-//                "#0064a8",
-//                "#0064a8",
-//                "#00579a",
-//                "#005095",
-//                "#40c9c4",
-//                "#10a19c",
-//                "#4c98cf",
-//                "#2481c5",
-//                "#4873a6",
-//                "#5A5485",
-//                "#524365",
-//        };
 
         String[] titles = {
+                C.Companion.getStatus(),
                 C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
+                C.Companion.getSettings(),
+                C.Companion.getMyBalance(),
+                C.Companion.getBuyCredit(),
+                C.Companion.getVoucherRecharge(),
+                C.Companion.getMobileTopup(),
+                C.Companion.getMobileTransfer(),
+                C.Companion.getTrnasferHistory(),
 //                C.Companion.getTOPB(),
                 C.Companion.getInviteFriends(),
                 C.Companion.getInviteFriends(),
@@ -210,17 +187,24 @@ public class HomeModel {
         return list;
 
     }
+
     public static ArrayList<HomeModel> getSecondHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
         Integer[] iconList = {
-                R.drawable.databundle_scroll,
-                R.drawable.electricy_billpay_scroll,
-                R.drawable.tv_bill_scroll,
-                R.drawable.transfer_credit_scroll,
-//                R.drawable.smsb,
-                R.drawable.recent_info_icon,
-                R.drawable.why_scroll,
-                R.drawable.logout_scroll};
+                R.drawable.e_meeting,
+                R.drawable.profile,
+                R.drawable.qr,
+                R.drawable.book_ticket,
+                R.drawable.courier,
+                R.drawable.education,
+                R.drawable.medical,
+                R.drawable.law,
+                R.drawable.farming,
+//                R.drawable.city_guide,
+//                R.drawable.my_number,
+//                R.drawable.why_wills,
+//                R.drawable.logout
+                };
         String[] colorList = {
                 VectorApp.getInstance().getString(R.string.first_color),
                 VectorApp.getInstance().getString(R.string.second_color),
@@ -238,47 +222,83 @@ public class HomeModel {
                 VectorApp.getInstance().getString(R.string.second_color),
                 VectorApp.getInstance().getString(R.string.second_color),
                 VectorApp.getInstance().getString(R.string.first_color),
-//                VectorApp.getInstance().getString(R.string.first_color),
-//                VectorApp.getInstance().getString(R.string.second_color)
         };
-//        String[] colorList = {
-//                "#3398dc",
-//                "#39a8f0",
-//                "#268bcf",
-//                "#1c81c5",
-//                "#0b73ba",
-//                "#0064a8",
-//                "#0064a8",
-//                "#00579a",
-//                "#005095",
-//                "#40c9c4",
-//                "#10a19c",
-//                "#4c98cf",
-//                "#2481c5",
-//                "#4873a6",
-//                "#5A5485",
-//                "#524365",
-//        };
 
         String[] titles = {
-//                C.Companion.getWALLET_BALANCE(),
-//                C.Companion.getBUY_CREDIT(),
-//                C.Companion.getINVITE_FRIEND(),
-//                C.Companion.getCHAT_VIDEO_CONFERENCE(),
-//                C.Companion.getVR(),
-//                C.Companion.getDIRECT_CALL(),
-//                C.Companion.getTRANSFER_CREDIT(),
-//                C.Companion.getTRNASFER_CREDIT_HISTORY(),
-//                C.Companion.getIMAT(),
-//                C.Companion.getTOPB(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-//                C.Companion.getVT(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends(),
-                C.Companion.getInviteFriends()
+                C.Companion.getMeeting(),
+                C.Companion.getUpdateProfile(),
+                C.Companion.getQr(),
+                C.Companion.getTicketing(),
+                C.Companion.getCourier(),
+                C.Companion.getWillEducation(),
+                C.Companion.getMedical(),
+                C.Companion.getLaw(),
+                C.Companion.getSmartAgro(),
+//                C.Companion.getSmartCityGuide(),
+//                C.Companion.getMyNumber(),
+//                C.Companion.getWhyWill(),
+//                C.Companion.getLogout()
+        };
+        for (int i = 0; i < iconList.length; i++) {
+            HomeModel model = new HomeModel();
+            model.colorCode = colorList[i];
+            model.name = titles[i];
+            model.icon = iconList[i];
+            list.add(model);
+
+        }
+        return list;
+
+    }
+    public static ArrayList<HomeModel> getThirdHomeList() {
+        ArrayList<HomeModel> list = new ArrayList<>();
+        Integer[] iconList = {
+//                R.drawable.meeting,
+//                R.drawable.update_profile,
+//                R.drawable.qr_code,
+//                R.drawable.ticketing,
+//                R.drawable.courier,
+//                R.drawable.wills_smart_education,
+//                R.drawable.wills_smart_medical,
+//                R.drawable.law_enforcement,
+//                R.drawable.agro_farming,
+                R.drawable.city,
+                R.drawable.my_number,
+                R.drawable.why,
+                R.drawable.logout};
+        String[] colorList = {
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.second_color),
+                VectorApp.getInstance().getString(R.string.first_color),
+        };
+
+        String[] titles = {
+//                C.Companion.getMeeting(),
+//                C.Companion.getUpdateProfile(),
+//                C.Companion.getQr(),
+//                C.Companion.getTicketing(),
+//                C.Companion.getCourier(),
+//                C.Companion.getWillEducation(),
+//                C.Companion.getMedical(),
+//                C.Companion.getLaw(),
+//                C.Companion.getSmartAgro(),
+                C.Companion.getSmartCityGuide(),
+                C.Companion.getMyNumber(),
+                C.Companion.getWhyWill(),
+                C.Companion.getLogout()
         };
         for (int i = 0; i < iconList.length; i++) {
             HomeModel model = new HomeModel();
