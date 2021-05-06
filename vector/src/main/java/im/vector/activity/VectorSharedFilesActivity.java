@@ -147,6 +147,7 @@ public class VectorSharedFilesActivity extends VectorAppCompatActivity {
 
             // files to share
             activityIntent.putExtra(VectorHomeActivity.EXTRA_SHARED_INTENT_PARAMS, shareIntent);
+            activityIntent.putExtra("data",getIntent());
         }
 
         startActivity(activityIntent);

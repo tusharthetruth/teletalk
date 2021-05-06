@@ -100,8 +100,7 @@ public class ChatListFragment extends Fragment {
         rvChatList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     fabChat.show();
                 }
                 super.onScrollStateChanged(recyclerView, newState);
@@ -111,8 +110,7 @@ public class ChatListFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 ||dy<0 && fabChat.isShown())
-                {
+                if (dy > 0 || dy < 0 && fabChat.isShown()) {
                     fabChat.hide();
                 }
             }
@@ -235,9 +233,10 @@ public class ChatListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-try {
-    Matrix.getInstance(mContext).getDefaultSession().getDataHandler().removeListener(mLiveEventListener);
-}catch (Exception e){}
+        try {
+            Matrix.getInstance(mContext).getDefaultSession().getDataHandler().removeListener(mLiveEventListener);
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -253,7 +252,8 @@ try {
         super.onResume();
         try {
             ((ChatMainActivity) getActivity()).hideItem();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         callAdapter();
     }
 

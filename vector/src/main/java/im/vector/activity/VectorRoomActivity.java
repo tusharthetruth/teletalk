@@ -4337,4 +4337,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         mVectorRoomMediasSender.sendMedias(sharedDataItems);
         currentAudioFile = null;
     }
+
+
+
+
 }

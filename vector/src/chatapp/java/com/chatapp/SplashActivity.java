@@ -219,7 +219,7 @@ public class SplashActivity extends AppCompatActivity {
         if (!hasCorruptedStore()) {
             // Go to the home page
             Intent intent = new Intent(this, ChatMainActivity.class);
-
+            intent.putExtra("data",getIntent());
             Bundle receivedBundle = getIntent().getExtras();
 
             if (null != receivedBundle) {
