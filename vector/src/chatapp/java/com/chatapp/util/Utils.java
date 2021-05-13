@@ -5,10 +5,15 @@ package com.chatapp.util;
  */
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
+import android.telephony.TelephonyManager;
 
 import com.chatapp.fragments.ContactsListFragment;
+
+import im.vector.R;
 
 
 /**
@@ -16,7 +21,9 @@ import com.chatapp.fragments.ContactsListFragment;
  */
 public class Utils {
     // Prevents instantiation.
-    private Utils() {}
+    private Utils() {
+    }
+
     /**
      * Enables strict mode. This should only be called when debugging the application and is useful
      * for finding some potential bugs or best practice violations.
@@ -50,6 +57,7 @@ public class Utils {
             StrictMode.setVmPolicy(vmPolicyBuilder.build());
         }
     }
+
     /**
      * Uses static final constants to detect if the device's platform version is Gingerbread or
      * later.
@@ -57,6 +65,7 @@ public class Utils {
     public static boolean hasGingerbread() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
     }
+
     /**
      * Uses static final constants to detect if the device's platform version is Honeycomb or
      * later.
@@ -64,6 +73,7 @@ public class Utils {
     public static boolean hasHoneycomb() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     }
+
     /**
      * Uses static final constants to detect if the device's platform version is Honeycomb MR1 or
      * later.
@@ -71,11 +81,31 @@ public class Utils {
     public static boolean hasHoneycombMR1() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
     }
+
     /**
      * Uses static final constants to detect if the device's platform version is ICS or
      * later.
      */
     public static boolean hasICS() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    }
+
+    public static String getCountryZipCode(Activity activity) {
+
+        String CountryID = "";
+        String CountryZipCode = "";
+
+        TelephonyManager manager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        //getNetworkCountryIso
+        CountryID = manager.getSimCountryIso().toUpperCase();
+        String[] rl = activity.getResources().getStringArray(R.array.CountryCodes);
+        for (int i = 0; i < rl.length; i++) {
+            String[] g = rl[i].split(",");
+            if (g[1].trim().equals(CountryID.trim())) {
+                CountryZipCode = g[0];
+                break;
+            }
+        }
+        return CountryZipCode;
     }
 }

@@ -16,18 +16,21 @@
             style="@style/NewDialtactsDialpadButtonStyle"
             android:background="@drawable/dialer_top_left"
             android:contentDescription="@string/description_image_button_one"
+            android:padding="@dimen/_10sdp"
             android:src="@drawable/dial_num_1" />
 
         <ImageButton
             android:id="@+id/two"
             style="@style/NewDialtactsDialpadButtonStyle"
             android:background="@drawable/new_table_row_bg"
+            android:padding="@dimen/_10sdp"
             android:contentDescription="@string/description_image_button_two"
             android:src="@drawable/dial_num_2" />
 
         <ImageButton
             android:id="@+id/three"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/drawable_top_right"
             android:contentDescription="@string/description_image_button_three"
             android:src="@drawable/dial_num_3" />
@@ -40,6 +43,7 @@
         <ImageButton
             android:id="@+id/four"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/new_table_row_bg"
             android:contentDescription="@string/description_image_button_four"
             android:src="@drawable/dial_num_4" />
@@ -47,6 +51,7 @@
         <ImageButton
             android:id="@+id/five"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/new_table_row_bg"
             android:contentDescription="@string/description_image_button_five"
             android:src="@drawable/dial_num_5" />
@@ -54,6 +59,7 @@
         <ImageButton
             android:id="@+id/six"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/new_table_row_bg"
             android:contentDescription="@string/description_image_button_six"
             android:src="@drawable/dial_num_6" />
@@ -66,6 +72,7 @@
         <ImageButton
             android:id="@+id/seven"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/new_table_row_bg"
             android:contentDescription="@string/description_image_button_seven"
             android:src="@drawable/dial_num_7" />
@@ -74,12 +81,14 @@
             android:id="@+id/eight"
             style="@style/NewDialtactsDialpadButtonStyle"
             android:background="@drawable/new_table_row_bg"
+            android:padding="@dimen/_10sdp"
             android:contentDescription="@string/description_image_button_eight"
             android:src="@drawable/dial_num_8" />
 
         <ImageButton
             android:id="@+id/nine"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/new_table_row_bg"
             android:contentDescription="@string/description_image_button_nine"
             android:src="@drawable/dial_num_9" />
@@ -92,6 +101,7 @@
         <ImageButton
             android:id="@+id/star"
             style="@style/NewDialtactsDialpadButtonStyle"
+            android:padding="@dimen/_10sdp"
             android:background="@drawable/dialer_bottom_left"
             android:contentDescription="@string/description_image_button_star"
             android:src="@drawable/dial_num_star" />
@@ -100,6 +110,7 @@
             android:id="@+id/zero"
             style="@style/NewDialtactsDialpadButtonStyle"
             android:background="@drawable/new_table_row_bg"
+            android:padding="@dimen/_10sdp"
             android:contentDescription="@string/description_image_button_zero"
             android:src="@drawable/dial_num_0" />
 
@@ -107,6 +118,7 @@
             android:id="@+id/pound"
             style="@style/NewDialtactsDialpadButtonStyle"
             android:background="@drawable/dialer_bottom_right"
+            android:padding="@dimen/_10sdp"
             android:contentDescription="@string/description_image_button_pound"
             android:src="@drawable/dial_num_pound" />
     </TableRow>

@@ -115,7 +115,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
-            android:id="@+id/dialdigits"
+
+        android:id="@+id/dialdigits"
             style="@style/DialtactsDigitsTextAppearance"
             android:layout_width="0dp"
             android:layout_height="@dimen/dialer_phoneno_edittext_height"
@@ -161,7 +162,7 @@
     <include
         layout="@layout/dialpad"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_250sdp"
+        android:layout_height="@dimen/_220sdp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"

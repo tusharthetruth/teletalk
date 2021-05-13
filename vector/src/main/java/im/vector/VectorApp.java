@@ -39,6 +39,8 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.multidex.MultiDexApplication;
 
 import com.facebook.stetho.Stetho;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.call.MXCallsManager;
@@ -196,6 +198,7 @@ public class VectorApp extends MultiDexApplication {
         Log.d(LOG_TAG, "onCreate");
         super.onCreate();
         try {
+            EmojiManager.install(new GoogleEmojiProvider());
             mLifeCycleListener = new VectorLifeCycleObserver();
             ProcessLifecycleOwner.get().getLifecycle().addObserver(mLifeCycleListener);
 

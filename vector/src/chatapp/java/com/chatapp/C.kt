@@ -34,6 +34,8 @@ class C {
         var DataBundle = "Data Bundle"
         var Electric = "Electric Bill"
         var TV = "Television Bill"
+        var MONEYTRANSFER = "Money Transfer"
+        var SMS = "Send Sms"
 
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()

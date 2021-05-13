@@ -129,18 +129,28 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         }else if (url.equalsIgnoreCase("data")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";;
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";;
             setTitle("Data Bundle Topup");
         }else if (url.equalsIgnoreCase("electric")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_electricity_payment_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_electricity_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
             setTitle("Electricity Bill's Payment");
         }else if (url.equalsIgnoreCase("tv")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_dth_payment_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_television_app.php?pr_login=9" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
             setTitle("Television Bill's Payment");
+        }else if (url.equalsIgnoreCase("moneytransfer")) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_money.php?pr_login=9" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            setTitle("Money Transfer");
+        }else if (url.equalsIgnoreCase("sms")) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+            url = "https://billingsystem.willssmartvoip.com/crm/customer/sendsms.php?pr_login=9" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            setTitle("SMS");
         }
     }
 

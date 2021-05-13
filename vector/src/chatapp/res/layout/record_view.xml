@@ -98,7 +98,7 @@
                             android:layout_marginBottom="2dp"
                             android:padding="8dp"
                             android:src="@drawable/emoji_ic"
-                            android:visibility="gone"/>
+                            android:visibility="visible"/>
 
                         <im.vector.view.VectorAutoCompleteTextView
                             android:id="@+id/editTextMessage"

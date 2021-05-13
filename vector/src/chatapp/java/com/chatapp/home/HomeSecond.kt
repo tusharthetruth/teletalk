@@ -138,16 +138,35 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
 
             }
             C.DataBundle -> {
-                showErr()
-
+                val myIntent1 = Intent(context, ExtendedWebview::class.java)
+                myIntent1.putExtra("Bundle", "data")
+                startActivity(myIntent1)
             }
             C.TV -> {
-                showErr()
+                val myIntent2 = Intent(context, ExtendedWebview::class.java)
+                myIntent2.putExtra("Bundle", "tv")
+                startActivity(myIntent2)
 
             }
             C.Electric -> {
-                showErr()
-
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "electric")
+                startActivity(myIntent)
+            }
+            C.Electric -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "electric")
+                startActivity(myIntent)
+            }
+            C.SMS -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "sms")
+                startActivity(myIntent)
+            }
+            C.MONEYTRANSFER -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "moneytransfer")
+                startActivity(myIntent)
             }
             C.Law -> {
                 startActivity(Intent(activity, LawActivity::class.java))

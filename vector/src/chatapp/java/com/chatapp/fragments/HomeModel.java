@@ -317,6 +317,8 @@ public class HomeModel {
                 R.drawable.data_bundle,
                 R.drawable.electricity,
                 R.drawable.tv_recharge,
+                R.drawable.transer_to_mobile_money,
+                R.drawable.send_msg_ic,
                 R.drawable.my_number,
                 R.drawable.profile,
                 R.drawable.why};
@@ -343,6 +345,8 @@ public class HomeModel {
                 C.Companion.getDataBundle(),
                 C.Companion.getElectric(),
                 C.Companion.getTV(),
+                C.Companion.getMONEYTRANSFER(),
+                C.Companion.getSMS(),
                 C.Companion.getMyNumber(),
                 C.Companion.getUpdateProfile(),
                 C.Companion.getWhyWill()

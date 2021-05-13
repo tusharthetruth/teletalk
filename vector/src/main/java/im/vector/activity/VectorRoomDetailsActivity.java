@@ -28,6 +28,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
 import org.matrix.androidsdk.core.Log;
 import org.matrix.androidsdk.fragments.MatrixMessageListFragment;
@@ -42,6 +44,7 @@ import im.vector.contacts.ContactsManager;
 import im.vector.fragments.VectorRoomDetailsMembersFragment;
 import im.vector.fragments.VectorRoomSettingsFragment;
 import im.vector.fragments.VectorSearchRoomFilesListFragment;
+import im.vector.util.EmojiKt;
 import im.vector.util.PermissionsToolsKt;
 
 /**
@@ -111,7 +114,6 @@ public class VectorRoomDetailsActivity extends MXCActionBarActivity implements T
     @Override
     public void initUiAndData() {
         configureToolbar();
-
         if (CommonActivityUtils.shouldRestartApp(this)) {
             Log.e(LOG_TAG, "Restart the application.");
             CommonActivityUtils.restartApp(this);

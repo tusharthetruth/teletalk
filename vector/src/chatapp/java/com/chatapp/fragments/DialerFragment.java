@@ -6,18 +6,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.Image;
 import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,11 +39,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.chatapp.ChatMainActivity;
-import com.chatapp.InCallActivity;
+import com.chatapp.PrefixEditText;
 import com.chatapp.Settings;
 import com.chatapp.sip.api.ISipService;
 import com.chatapp.sip.utils.AccountListUtils;
 import com.chatapp.util.RecentDBHandler;
+import com.chatapp.util.Utils;
 
 import org.json.JSONObject;
 
@@ -118,10 +122,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         ImageView btnDelete = (ImageView) vDialerFragment.findViewById(R.id.btn_dialpad_delete);
         ImageView btnContact = (ImageView) vDialerFragment.findViewById(R.id.btn_dialpad_contact);
 
-        txtStatus = (TextView)vDialerFragment.findViewById(R.id.txtRegStatus);
+        txtStatus = (TextView) vDialerFragment.findViewById(R.id.txtRegStatus);
         txtStatus.setText("");
 
-        txtDialNumber = (EditText)vDialerFragment.findViewById(R.id.dialdigits);
+        txtDialNumber = vDialerFragment.findViewById(R.id.dialdigits);
         txtDialNumber.setText("");
 /*
         txtDialNumber.setOnTouchListener(new View.OnTouchListener() {
@@ -163,7 +167,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         btn0.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "+");
                 return true;
             }
@@ -199,6 +203,33 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         return vDialerFragment;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String countryZipCode = Utils.getCountryZipCode(getActivity());
+        txtDialNumber.setText(countryZipCode);
+        txtDialNumber.setSelection(countryZipCode.length());
+        Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
+        txtDialNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().startsWith(countryZipCode)){
+                    txtDialNumber.setText(countryZipCode);
+                    Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
+                }
+            }
+        });
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -217,7 +248,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         timer = new Timer();
@@ -225,20 +256,21 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
         timer.schedule(timerTask, 1000, 1000);
 
         //updateStatus(MainActivity.RegStatus);
-        if (ExPhone!=null){
-            if (!ExPhone.equals("")){
+        if (ExPhone != null) {
+            if (!ExPhone.equals("")) {
                 txtDialNumber.setText(ExPhone);
                 txtDialNumber.setSelection(txtDialNumber.getText().length());
-                ExPhone="";
+                ExPhone = "";
             }
         }
         try {
             ((ChatMainActivity) getActivity()).hideItem();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         timer.cancel();
         timer = null;
         super.onPause();
@@ -266,83 +298,83 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.zero:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "0");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_0, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.one:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "1");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_1, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.two:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "2");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_2, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.three:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "3");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_3, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.four:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "4");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_4, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.five:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "5");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_5, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.six:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "6");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_6, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.seven:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "7");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_7, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.eight:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "8");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_8, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.nine:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "9");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_9, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.star:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "*");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_S, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.pound:
-                if(txtDialNumber.getText().length()<16)
+                if (txtDialNumber.getText().length() < 16)
                     txtDialNumber.getText().insert(txtDialNumber.getSelectionStart(), "#");
                 dtmfGenerator.startTone(ToneGenerator.TONE_DTMF_P, 1000);
                 dtmfGenerator.stopTone();
                 break;
             case R.id.btn_dialpad_delete:
-                if (txtDialNumber.getText().toString().length()>0) {
+                if (txtDialNumber.getText().toString().length() > 0) {
                     int selectionStart = txtDialNumber.getSelectionStart();
-                    if(selectionStart>0) {
+                    if (selectionStart > 0) {
                         String s = txtDialNumber.getText().toString();
                         String beforeCursor = s.substring(0, selectionStart - 1);
                         String afterCursor = s.substring(selectionStart, s.length());
@@ -358,7 +390,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_dialpad_contact:
 
-                if (txtDialNumber.getText().toString().length()>0) {
+                if (txtDialNumber.getText().toString().length() > 0) {
                     Intent intent = new Intent(ContactsContract.Intents.SHOW_OR_CREATE_CONTACT, Uri.parse("tel:" + txtDialNumber.getText()));
                     intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
                     startActivity(intent);
@@ -367,18 +399,18 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
             case R.id.btn_dialpad_call:
                 String PhoneNo = txtDialNumber.getText().toString();
-                if (PhoneNo.length()==0){
+                if (PhoneNo.length() == 0) {
                     RecentDBHandler recentDBHandler = new RecentDBHandler(getContext());
                     txtDialNumber.setText(recentDBHandler.LastCalledNo());
-                }else if (PhoneNo.length() > 7) {
+                } else if (PhoneNo.length() > 7) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_MICROPHONE);
                     } else {
                         OnCallButtonClick();
                     }
 
-                }else {
-                    Toast.makeText(getContext() , "Please check the phone number",
+                } else {
+                    Toast.makeText(getContext(), "Please check the phone number",
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -387,10 +419,11 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
     private void OnCallButtonClick() {
 
         if (accountStatusDisplay.availableForCalls) {
-            final String PhoneNo = txtDialNumber.getText().toString().replace("+","");
+            final String PhoneNo = txtDialNumber.getText().toString().replace("+", "");
             if (PhoneNo.length() > 7) {
 
 //                Intent i = new Intent(getContext(), InCallActivity.class);
@@ -399,7 +432,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 //                startActivity(i);
 
                 try {
-                    ChatMainActivity superActivity = ((ChatMainActivity)getActivity());
+                    ChatMainActivity superActivity = ((ChatMainActivity) getActivity());
                     ISipService service = superActivity.getConnectedService();
                     service.makeCall(PhoneNo, 1);
 
@@ -409,10 +442,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
                 txtDialNumber.setText("");
             } else {
-                Toast.makeText(getContext() , "Please check the phone number",
+                Toast.makeText(getContext(), "Please check the phone number",
                         Toast.LENGTH_LONG).show();
             }
-        }else {
+        } else {
             Toast.makeText(getContext(), "App Not registered. Check your internet connection and restart the app.",
                     Toast.LENGTH_LONG).show();
         }
@@ -467,7 +500,7 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
                             final Double d = json.getDouble("credit");
 //                            DecimalFormat df2 = new DecimalFormat("#.##");
 //                            String s = df2.format(d);
-                            String s=String.valueOf(d);
+                            String s = String.valueOf(d);
 
                             if (getActivity() != null) {
                                 getActivity().runOnUiThread(new Runnable() {

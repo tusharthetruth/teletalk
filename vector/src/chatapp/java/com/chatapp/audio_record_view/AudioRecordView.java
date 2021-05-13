@@ -24,12 +24,16 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.widget.TextViewCompat;
+
+import com.vanniktech.emoji.EmojiEditText;
+import com.vanniktech.emoji.EmojiPopup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -181,6 +185,17 @@ public class AudioRecordView {
                 R.anim.jump);
         animJumpFast = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.jump_fast);
+//        FrameLayout root=view.findViewById(R.id.root);
+//
+//        imageViewEmoji.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(root).build(et);
+//                emojiPopup.toggle(); // Toggles visibility of the Popup.
+//                emojiPopup.dismiss(); // Dismisses the Popup.
+//                emojiPopup.isShowing();
+//            }
+//        });
 
         setupRecording();
         //setupAttachmentOptions();
