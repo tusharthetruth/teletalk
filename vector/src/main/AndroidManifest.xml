@@ -42,6 +42,7 @@
 
     <!-- disable the battery optimisation on some devices to let the background sync works -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- videocall feature -->
     <!-- android.permission.CAMERA defines android.hardware.camera -->
@@ -98,7 +99,9 @@
     <!-- bluetooth headset -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="false"

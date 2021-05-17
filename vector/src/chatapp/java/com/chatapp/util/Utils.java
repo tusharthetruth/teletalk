@@ -7,6 +7,7 @@ package com.chatapp.util;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.StrictMode;
 import android.telephony.TelephonyManager;
@@ -108,4 +109,6 @@ public class Utils {
         }
         return CountryZipCode;
     }
+
+    public static Intent shareIntent=null;
 }

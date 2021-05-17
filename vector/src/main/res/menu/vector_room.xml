@@ -5,6 +5,12 @@
     tools:context="org.matrix.vector.activity.RoomActivity">
 
     <item
+        android:id="@+id/ic_location"
+        android:icon="@drawable/location"
+        android:title="@string/location"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/ic_action_search_in_room"
         android:icon="@drawable/ic_material_search_white"
         android:title="@string/room_menu_search"
@@ -14,8 +20,7 @@
         android:id="@+id/ic_action_matrix_apps"
         android:icon="@drawable/apps_icon"
         android:title="@string/room_add_matrix_apps"
-        app:showAsAction="collapseActionView"
-        />
+        app:showAsAction="collapseActionView" />
 
     <item
         android:id="@+id/ic_action_room_resend_unsent"

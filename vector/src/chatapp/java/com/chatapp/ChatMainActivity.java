@@ -77,6 +77,7 @@ import com.chatapp.sip.utils.PreferencesWrapper;
 import com.chatapp.sip.wizards.WizardIface;
 import com.chatapp.sip.wizards.impl.Basic;
 import com.chatapp.util.ContactsSync;
+import com.chatapp.util.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -289,6 +290,11 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 
         if (mVectorPendingCallView.getVisibility() == View.VISIBLE) {
             showDialer();
+        }
+        if(Utils.shareIntent!=null){
+            navView.setSelectedItemId(R.id.navigation_chat);
+            MenuItem item = navView.getMenu().findItem(R.id.navigation_chat);
+            item.setChecked(true);
         }
     }
 

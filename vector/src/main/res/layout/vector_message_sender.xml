@@ -25,6 +25,7 @@
         android:singleLine="true"
         android:textColor="@android:color/white"
         android:textSize="15sp"
+        android:textColorLink="@color/red_500"
         android:textStyle="bold"
         tools:text="One very long sender name for testing purpose" />
 

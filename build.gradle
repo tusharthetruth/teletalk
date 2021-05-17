@@ -7,7 +7,9 @@ buildscript {
         google()
         maven {
             url "https://plugins.gradle.org/m2/"
-        }
+        } // this line
+        maven { url 'https://jitpack.io' } // this line
+
         jcenter()
     }
     dependencies {

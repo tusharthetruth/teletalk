@@ -503,7 +503,7 @@ public class AudioRecordView {
                         imageViewAttachment.setVisibility(View.VISIBLE);
                         imageViewAttachment.animate().scaleX(1f).scaleY(1f).setDuration(100).setInterpolator(new LinearInterpolator()).start();
                     }
-
+                    getCallView().setVisibility(View.VISIBLE);
                 } else {
                     if (imageViewSend.getVisibility() != View.VISIBLE && !isLocked) {
                         imageViewSend.setVisibility(View.VISIBLE);

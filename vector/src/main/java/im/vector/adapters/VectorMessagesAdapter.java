@@ -1677,16 +1677,16 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             manageSubView(position, convertView, fileLayout, ROW_TYPE_FILE);
 
 //            if (Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype)) {
-                imageTypeView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                         if (null != mVectorMessagesAdapterEventsListener) {
-                    if (position < getCount()) {
-                        mVectorMessagesAdapterEventsListener.onContentClick(position);
+            imageTypeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mVectorMessagesAdapterEventsListener) {
+                        if (position < getCount()) {
+                            mVectorMessagesAdapterEventsListener.onContentClick(position);
+                        }
                     }
                 }
-                    }
-                });
+            });
 
 //            }
 
@@ -2181,8 +2181,16 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
         contentView.setOnTouchListener(new OnSwipeTouchListener(vectorRoomActivity) {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                runAnimation(convertView);
-                reply(position, convertView, contentView, msgType);
+                try {
+                    if (getItem(position).getText(null, null).toString().contains("http://") ||
+                            getItem(position).getText(null, null).toString().contains("https://")) {
+
+                    } else {
+                        runAnimation(convertView);
+                        reply(position, convertView, contentView, msgType);
+                    }
+                } catch (Exception e) {
+                }
                 return super.onTouch(view, motionEvent);
             }
 

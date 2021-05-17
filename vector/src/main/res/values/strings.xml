@@ -1831,5 +1831,6 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="pix_last_month">Last Month</string>
     <string name="pix_last_week">Last Week</string>
     <string name="cannot_click_image_pix">Can not add more than %s images</string>
+    <string name="location">Location</string>
 
 </resources>

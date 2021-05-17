@@ -126,7 +126,8 @@ public class HomeModel {
 
     public static ArrayList<HomeModel> getFirstHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
-        Integer[] iconList = {
+
+        Integer[] iconList1 = {
                 R.drawable.status,
                 R.drawable.invite_friends,
                 R.drawable.settings,
@@ -134,8 +135,19 @@ public class HomeModel {
                 R.drawable.buy_credit,
                 R.drawable.voucher,
                 R.drawable.mobile_topup,
-                R.drawable.balance_transfer,
+                R.drawable.transfer_credit,
                 R.drawable.transfer_history,
+        };
+        Integer[] iconList = {
+                R.drawable.status,
+                R.drawable.invite_friends,
+                R.drawable.my_number,
+                R.drawable.settings,
+                R.drawable.mybalance,
+                R.drawable.buy_credit,
+                R.drawable.voucher,
+                R.drawable.mobile_topup,
+                R.drawable.transfer_credit,
         };
         String[] colorList = {
                 VectorApp.getInstance().getString(R.string.first_color),
@@ -159,13 +171,13 @@ public class HomeModel {
         String[] titles = {
                 C.Companion.getStatus(),
                 C.Companion.getInviteFriends(),
+                C.Companion.getMyNumber(),
                 C.Companion.getSettings(),
                 C.Companion.getMyBalance(),
                 C.Companion.getBuyCredit(),
                 C.Companion.getVoucherRecharge(),
                 C.Companion.getMobileTopup(),
                 C.Companion.getMobileTransfer(),
-                C.Companion.getTrnasferHistory(),
 //                C.Companion.getTOPB(),
                 C.Companion.getInviteFriends(),
                 C.Companion.getInviteFriends(),
@@ -311,15 +323,33 @@ public class HomeModel {
         return list;
 
     }
+
+//    Transfer History - web
+//    Data Bundles Topup - web
+//    Electricity Bills Payment - web
+//    Television Bills Payment- web
+//    Update profile - app
+//    Why Wills Smart VoIP- app
     public static ArrayList<HomeModel> getSecHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
-        Integer[] iconList = {
+        Integer[] iconList1 = {
+                R.drawable.transfer_history,
                 R.drawable.data_bundle,
                 R.drawable.electricity,
                 R.drawable.tv_recharge,
-                R.drawable.transer_to_mobile_money,
-                R.drawable.send_msg_ic,
+                R.drawable.transfer_funds,
+                R.drawable.sms,
                 R.drawable.my_number,
+                R.drawable.profile,
+                R.drawable.why};
+        Integer[] iconList = {
+                R.drawable.transfer_history,
+                R.drawable.data_bundle,
+                R.drawable.electricity,
+                R.drawable.tv_recharge,
+//                R.drawable.transfer_funds,
+//                R.drawable.sms,
+//                R.drawable.my_number,
                 R.drawable.profile,
                 R.drawable.why};
         String[] colorList = {
@@ -342,12 +372,13 @@ public class HomeModel {
         };
 
         String[] titles = {
+                C.Companion.getTrnasferHistory(),
                 C.Companion.getDataBundle(),
                 C.Companion.getElectric(),
                 C.Companion.getTV(),
-                C.Companion.getMONEYTRANSFER(),
-                C.Companion.getSMS(),
-                C.Companion.getMyNumber(),
+//                C.Companion.getMONEYTRANSFER(),
+//                C.Companion.getSMS(),
+//                C.Companion.getMyNumber(),
                 C.Companion.getUpdateProfile(),
                 C.Companion.getWhyWill()
         };

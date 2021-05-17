@@ -29,17 +29,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ClickableSpan;
+import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,14 +70,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.chatapp.ChatMainActivity;
-import com.chatapp.Settings;
 import com.chatapp.VideoMinuteService;
 import com.chatapp.audio_record_view.AttachmentOption;
 import com.chatapp.audio_record_view.AttachmentOptionsListener;
 import com.chatapp.audio_record_view.AudioRecordView;
+import com.chatapp.util.FilePathUtils;
+import com.chatapp.util.Locationtil;
+import com.chatapp.util.Utils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
@@ -103,7 +122,9 @@ import org.matrix.androidsdk.rest.model.StateEvent;
 import org.matrix.androidsdk.rest.model.User;
 import org.matrix.androidsdk.rest.model.message.Message;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,14 +185,15 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         VectorMessageListFragment.VectorMessageListFragmentListener,
         VectorReadReceiptsDialogFragment.VectorReadReceiptsDialogFragmentListener {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     private AudioRecordView audioRecordView;
     private static final String AUDIO_RECORDER_FILE_EXT_3GP = ".3gp";
     private static final String AUDIO_RECORDER_FILE_EXT_MP4 = ".mp4";
     private static final String AUDIO_RECORDER_FOLDER = "AudioFiles";
     private MediaRecorder recorder = null;
     private int currentFormat = 0;
-    private int output_formats[] = { MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.OutputFormat.THREE_GPP };
-    private String file_exts[] = { AUDIO_RECORDER_FILE_EXT_MP4, AUDIO_RECORDER_FILE_EXT_3GP };
+    private int output_formats[] = {MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.OutputFormat.THREE_GPP};
+    private String file_exts[] = {AUDIO_RECORDER_FILE_EXT_MP4, AUDIO_RECORDER_FILE_EXT_3GP};
     private File currentAudioFile = null;
 
 
@@ -209,7 +231,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     private static final int TYPING_TIMEOUT_MS = 10000;
 
     private static final String FIRST_VISIBLE_ROW = "FIRST_VISIBLE_ROW";
-
+    String lat = "";
+    String lon = "";
     // activity result request code
     private static final int REQUEST_FILES_REQUEST_CODE = 0;
     private static final int TAKE_IMAGE_REQUEST_CODE = 1;
@@ -655,7 +678,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @Override
     public void initUiAndData() {
         audioRecordView = new AudioRecordView();
-        audioRecordView.initView((FrameLayout) findViewById(R.id.send_msg_view_main),this);
+        audioRecordView.initView((FrameLayout) findViewById(R.id.send_msg_view_main), this);
         audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), new AttachmentOptionsListener() {
             @Override
             public void onClick(AttachmentOption attachmentOption) {
@@ -668,6 +691,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             @Override
             public void onClick(View view) {
                 sendTextMessage();
+                audioRecordView.getCallView().setVisibility(View.VISIBLE);
             }
         });
 
@@ -1152,6 +1176,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         findViewById(R.id.room_sending_message_layout).setVisibility(View.GONE);
 
         Log.d(LOG_TAG, "End of create");
+        shareOutSide();
     }
 
     private void checkIfUserHasBeenKicked() {
@@ -1366,6 +1391,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
         if (mReadMarkerManager != null) {
             mReadMarkerManager.onResume();
+        }
+
+        if (lat.equals("") || lon.equals("")) {
+            setupLocation();
         }
 
         Log.d(LOG_TAG, "-- Resume the activity");
@@ -1583,6 +1612,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         MenuItem deleteUnsentMenuItem = menu.findItem(R.id.ic_action_room_delete_unsent);
         MenuItem settingsMenuItem = menu.findItem(R.id.ic_action_room_settings);
         MenuItem leaveRoomMenuItem = menu.findItem(R.id.ic_action_room_leave);
+        MenuItem locationMenu = menu.findItem(R.id.ic_location);
 
         // the application is in a weird state
         // GA : mSession is null, mRoom is null
@@ -1666,6 +1696,9 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.ic_location:
+                shareLocation();
+                return true;
             case R.id.ic_action_matrix_apps:
                 openIntegrationManagerActivity(null);
                 return true;
@@ -2105,6 +2138,37 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         });
     }
 
+    public void sendLocation() {
+        if (TextUtils.isEmpty(lat) || TextUtils.isEmpty(lon)) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            boolean gps_enabled = false;
+            boolean network_enabled = false;
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            Location net_loc = null, gps_loc = null, finalLoc = null;
+            if (network_enabled)
+                finalLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (gps_enabled)
+                finalLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (finalLoc != null) {
+                lat = finalLoc.getLatitude() + "";
+                lon = finalLoc.getLongitude() + "";
+            }
+            return;
+        }
+        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lon;
+        SpannableString ss = new SpannableString(geoUri);
+        Drawable d = ContextCompat.getDrawable(this, R.drawable.did);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+        ss.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        audioRecordView.getMessageView().setText(ss);
+        shareMapIcon();
+        sendTextMessage();
+    }
+
     /**
      * Send a text message with its formatted format
      *
@@ -2515,68 +2579,80 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (0 == permissions.length) {
-            Log.d(LOG_TAG, "## onRequestPermissionsResult(): cancelled " + requestCode);
-        } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA
-                || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA
-                || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA) {
-            boolean isCameraPermissionGranted = false;
-            boolean isWritePermissionGranted = false;
-
-            for (int i = 0; i < permissions.length; i++) {
-                Log.d(LOG_TAG, "## onRequestPermissionsResult(): " + permissions[i] + "=" + grantResults[i]);
-
-                if (Manifest.permission.CAMERA.equals(permissions[i])) {
-                    if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission granted");
-                        isCameraPermissionGranted = true;
-                    } else {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission not granted");
-                    }
-                }
-
-                if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[i])) {
-                    if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): WRITE_EXTERNAL_STORAGE permission granted");
-                        isWritePermissionGranted = true;
-                    } else {
-                        Log.d(LOG_TAG, "## onRequestPermissionsResult(): WRITE_EXTERNAL_STORAGE permission not granted");
-                    }
-                }
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults != null && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (Locationtil.INSTANCE.isLocationEnabled(this))
+                    setUpLocationListener();
+                else
+                    Locationtil.INSTANCE.showGPSNotEnabledDialog(this);
+            } else {
+                Toast.makeText(this, "No location permission", Toast.LENGTH_LONG).show();
             }
 
-            // Because external storage permission is not mandatory to launch the camera,
-            // external storage permission is not tested.
-            if (isCameraPermissionGranted) {
-                if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA) {
-                    launchCamera();
-                } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA) {
-                    if (isWritePermissionGranted) {
-                        launchNativeCamera();
-                    } else {
-                        Toast.makeText(this, getString(R.string.missing_permissions_error), Toast.LENGTH_SHORT).show();
+        } else {
+            if (0 == permissions.length) {
+                Log.d(LOG_TAG, "## onRequestPermissionsResult(): cancelled " + requestCode);
+            } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA
+                    || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA
+                    || requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA) {
+                boolean isCameraPermissionGranted = false;
+                boolean isWritePermissionGranted = false;
+
+                for (int i = 0; i < permissions.length; i++) {
+                    Log.d(LOG_TAG, "## onRequestPermissionsResult(): " + permissions[i] + "=" + grantResults[i]);
+
+                    if (Manifest.permission.CAMERA.equals(permissions[i])) {
+                        if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
+                            Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission granted");
+                            isCameraPermissionGranted = true;
+                        } else {
+                            Log.d(LOG_TAG, "## onRequestPermissionsResult(): CAMERA permission not granted");
+                        }
                     }
-                } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA) {
-                    if (isWritePermissionGranted) {
-                        launchNativeVideoRecorder();
-                    } else {
-                        Toast.makeText(this, getString(R.string.missing_permissions_error), Toast.LENGTH_SHORT).show();
+
+                    if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[i])) {
+                        if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
+                            Log.d(LOG_TAG, "## onRequestPermissionsResult(): WRITE_EXTERNAL_STORAGE permission granted");
+                            isWritePermissionGranted = true;
+                        } else {
+                            Log.d(LOG_TAG, "## onRequestPermissionsResult(): WRITE_EXTERNAL_STORAGE permission not granted");
+                        }
                     }
+                }
+
+                // Because external storage permission is not mandatory to launch the camera,
+                // external storage permission is not tested.
+                if (isCameraPermissionGranted) {
+                    if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_CAMERA) {
+                        launchCamera();
+                    } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_CAMERA) {
+                        if (isWritePermissionGranted) {
+                            launchNativeCamera();
+                        } else {
+                            Toast.makeText(this, getString(R.string.missing_permissions_error), Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_LAUNCH_NATIVE_VIDEO_CAMERA) {
+                        if (isWritePermissionGranted) {
+                            launchNativeVideoRecorder();
+                        } else {
+                            Toast.makeText(this, getString(R.string.missing_permissions_error), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, getString(R.string.missing_permissions_warning), Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_AUDIO_CALL) {
+                if (PermissionsToolsKt.onPermissionResultAudioIpCall(this, grantResults)) {
+                    startIpCall(PreferencesManager.useJitsiConfCall(this), false);
+                }
+            } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL) {
+                if (PermissionsToolsKt.onPermissionResultVideoIpCall(this, grantResults)) {
+                    startIpCall(PreferencesManager.useJitsiConfCall(this), true);
                 }
             } else {
-                Toast.makeText(this, getString(R.string.missing_permissions_warning), Toast.LENGTH_SHORT).show();
+                // Transmit to Fragment
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
-        } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_AUDIO_CALL) {
-            if (PermissionsToolsKt.onPermissionResultAudioIpCall(this, grantResults)) {
-                startIpCall(PreferencesManager.useJitsiConfCall(this), false);
-            }
-        } else if (requestCode == PermissionsToolsKt.PERMISSION_REQUEST_CODE_VIDEO_CALL) {
-            if (PermissionsToolsKt.onPermissionResultVideoIpCall(this, grantResults)) {
-                startIpCall(PreferencesManager.useJitsiConfCall(this), true);
-            }
-        } else {
-            // Transmit to Fragment
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -3014,6 +3090,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             }
         }
     }
+
 
     @OnClick(R.id.header_texts_container)
     void onTextsContainerClick() {
@@ -4249,12 +4326,13 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             mSendImageView.performClick();
         }
     }
-    private void getFilename(){
+
+    private void getFilename() {
         String filepath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File file = new File(filepath,getString(R.string.riot_app_name) + "/" + AUDIO_RECORDER_FOLDER);
+        File file = new File(filepath, getString(R.string.riot_app_name) + "/" + AUDIO_RECORDER_FOLDER);
         try {
             file.mkdirs();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         /*
@@ -4262,7 +4340,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             file.mkdirs();
         }
          */
-        currentAudioFile = new File(file, "AUD-"+
+        currentAudioFile = new File(file, "AUD-" +
                 android.text.format.DateFormat.format("yyyyMMdd", new java.util.Date()).toString() +
                 "-" + System.currentTimeMillis() + file_exts[currentFormat]);
 
@@ -4272,7 +4350,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
  */
     }
-    private void startRecording(){
+
+    private void startRecording() {
         getFilename();
 //        currentAudioFile = getFilename();
         recorder = new MediaRecorder();
@@ -4307,16 +4386,19 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
     };
 
-    private void stopRecording(){
-        try{
-        if(null != recorder){
-            recorder.stop();
-            recorder.reset();
-            recorder.release();
-            recorder = null;
-        }}catch (Exception e){}
+    private void stopRecording() {
+        try {
+            if (null != recorder) {
+                recorder.stop();
+                recorder.reset();
+                recorder.release();
+                recorder = null;
+            }
+        } catch (Exception e) {
+        }
     }
-    private void deleteRecording(){
+
+    private void deleteRecording() {
         if (null != currentAudioFile) {
             /*File file = new File(currentAudioFile);
             if (file.exists()) {
@@ -4327,7 +4409,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
         currentAudioFile = null;
     }
-    private void sendAudio(){
+
+    private void sendAudio() {
         List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
         if (null != currentAudioFile) {
             if (0 == sharedDataItems.size()) {
@@ -4338,7 +4421,139 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         currentAudioFile = null;
     }
 
+    private void shareLocation() {
+        sendLocation();
+    }
 
+    private void shareOutSide() {
+        if (Utils.shareIntent != null) {
+            String path = FilePathUtils.getPath(this, Utils.shareIntent.getClipData().getItemAt(0).getUri());
+            Uri u = Utils.shareIntent.getClipData().getItemAt(0).getUri();
+            startStickerPickerActivity();
+        } else {
+//            shareMapIcon();
+        }
+    }
+
+    private void shareMapIcon() {
+        List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
+        if (0 == sharedDataItems.size()) {
+//            sharedDataItems.add(new RoomMediaMessage(getUriFromDrawable()));
+            sharedDataItems.add(new RoomMediaMessage(getUriFromDrawable(), ""));
+        }
+        mVectorRoomMediasSender.sendMedias(sharedDataItems);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setupLocation();
+
+    }
+
+    private void setupLocation() {
+        try {
+            FusedLocationProviderClient fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(this);
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                lon = String.valueOf(location.getLongitude());
+                                lat = String.valueOf(location.getLatitude());
+
+                            }
+                        }
+                    });
+
+            if (Locationtil.INSTANCE.isAccessFineLocationGranted(this)) {
+                if (Locationtil.INSTANCE.isLocationEnabled(this)) {
+                    setUpLocationListener();
+                } else {
+
+                    Locationtil.INSTANCE.showGPSNotEnabledDialog(this);
+                }
+            } else {
+                Locationtil.INSTANCE.
+                        requestAccessFineLocationPermission(this, LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private Activity activity = this;
+
+
+    private void setUpLocationListener() {
+        FusedLocationProviderClient FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // for getting the current location update after every 2 seconds with high accuracy
+
+        FusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        if (location != null) {
+                            lat = String.valueOf(location.getLatitude());
+                            lon = String.valueOf(location.getLongitude());
+//                            Toast.makeText(activity, "" + location.getLongitude(), Toast.LENGTH_LONG).show();
+                            Log.i("MainActivity ", "" + location.getLongitude());
+                        }
+                    }
+                });
+        FusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationClient.requestLocationUpdates(requestLocation(),
+                new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        for (Location location : locationResult.getLocations()) {
+//                            Toast.makeText(activity, "" + location.getLongitude(), Toast.LENGTH_LONG).show();
+//                            Log.i("MainActivity ", "" + location.getLongitude());
+                            //not getting current location updates every 2 minutes
+                        }
+                    }
+
+                }, null);
+
+    }
+
+    private LocationRequest requestLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        return locationRequest;
+    }
+
+
+//    bitmap.setHasAlpha(true); bitmap.compress(Bitmap.CompressFormat.PNG, quality, out);
+
+
+    private Uri getUriFromDrawable() {
+        File f = new File(getCacheDir(), "location.jpg");
+        try {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_attachment_location);
+            Bitmap outB = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            Canvas canvas = new Canvas(outB);
+            canvas.drawColor(Color.parseColor("#169D58"));
+//            canvas.drawColor(Color.GREEN);
+            canvas.drawBitmap(bitmap, 0, 0, null);
+            f.createNewFile();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+            outB.compress(Bitmap.CompressFormat.JPEG, 100/*ignored for PNG*/, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+        }
+        return Uri.fromFile(f);
+
+    }
 
 
 }

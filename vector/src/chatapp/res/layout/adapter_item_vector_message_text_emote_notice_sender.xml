@@ -106,6 +106,7 @@
                                 android:textSize="15sp"
                                 android:textColor="@color/black"
                                 android:gravity="end"
+                                android:textColorLink="@color/riotx_links"
                                 android:fontFamily="sans-serif-medium"
                                 tools:text="A body www.example.org" />
 

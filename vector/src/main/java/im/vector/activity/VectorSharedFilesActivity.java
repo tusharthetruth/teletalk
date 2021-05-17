@@ -19,6 +19,8 @@ package im.vector.activity;
 
 import android.content.Intent;
 
+import com.chatapp.util.Utils;
+
 import org.matrix.androidsdk.MXSession;
 import org.matrix.androidsdk.core.FileContentUtils;
 import org.matrix.androidsdk.core.Log;
@@ -147,9 +149,9 @@ public class VectorSharedFilesActivity extends VectorAppCompatActivity {
 
             // files to share
             activityIntent.putExtra(VectorHomeActivity.EXTRA_SHARED_INTENT_PARAMS, shareIntent);
-            activityIntent.putExtra("data",getIntent());
+            activityIntent.putExtra("data", getIntent());
         }
-
+        Utils.shareIntent = getIntent();
         startActivity(activityIntent);
     }
 }
