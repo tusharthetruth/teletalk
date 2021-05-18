@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -123,7 +124,11 @@ public class AudioRecordView {
 
     private boolean showCameraIcon = true, showAttachmentIcon = true, showEmojiIcon = false;
     private boolean removeAttachmentOptionAnimation;
+    private EmojiEditText emojiEditText;
 
+    public EditText getEmojiEdit(){
+        return emojiEditText;
+    }
     public void initView(ViewGroup view, Activity activity) {
 
         if (view == null) {
@@ -133,6 +138,8 @@ public class AudioRecordView {
 
         context = view.getContext();
         mActivity = activity;
+//        final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(view).build(emojiEditText);
+//        emojiPopup.toggle();
 
         view.removeAllViews();
         view.addView(LayoutInflater.from(view.getContext()).inflate(R.layout.record_view, null));
@@ -147,6 +154,7 @@ public class AudioRecordView {
 
         viewContainer = view.findViewById(R.id.layoutContainer);
         layoutAttachmentOptions = view.findViewById(R.id.layoutAttachmentOptions);
+        emojiEditText=view.findViewById(R.id.emojiEditText);
 
         imageViewAttachment = view.findViewById(R.id.imageViewAttachment);
         imageViewCamera = view.findViewById(R.id.imageViewCamera);
@@ -359,7 +367,7 @@ public class AudioRecordView {
                             }
                         });
                         anim.start();
-                    }else {
+                    } else {
                         layoutAttachment.setVisibility(View.GONE);
                     }
 
@@ -406,7 +414,7 @@ public class AudioRecordView {
                         anim.setDuration(500);
                         layoutAttachment.setVisibility(View.VISIBLE);
                         anim.start();
-                    }else {
+                    } else {
                         layoutAttachment.setVisibility(View.VISIBLE);
                     }
 
@@ -546,15 +554,16 @@ public class AudioRecordView {
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        if(ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                             mActivity.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_MICROPHONE);
-                        }else {
-                            if(ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                        } else {
+                            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                                 mActivity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_STORAGE);
-                        }else {
+                            } else {
                                 startRecord();
                             }
-                    } else {
+                        }
+                    else {
                         startRecord();
                     }
 
@@ -715,7 +724,7 @@ public class AudioRecordView {
             layoutEffect2.setVisibility(View.GONE);
             layoutEffect1.setVisibility(View.GONE);
 
-            if (timerTask!=null)
+            if (timerTask != null)
                 timerTask.cancel();
             delete();
 
@@ -739,7 +748,7 @@ public class AudioRecordView {
             layoutEffect2.setVisibility(View.GONE);
             layoutEffect1.setVisibility(View.GONE);
 
-            if (timerTask!=null)
+            if (timerTask != null)
                 timerTask.cancel();
 
             if (recordingListener != null)

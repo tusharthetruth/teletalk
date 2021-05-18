@@ -98,13 +98,15 @@
                             android:layout_marginBottom="2dp"
                             android:padding="8dp"
                             android:src="@drawable/emoji_ic"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
 
                         <im.vector.view.VectorAutoCompleteTextView
                             android:id="@+id/editTextMessage"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginLeft="4dp"
                             android:layout_weight="1"
                             android:background="@null"
                             android:ems="10"
@@ -117,8 +119,28 @@
                             android:paddingEnd="4dp"
                             android:paddingRight="4dp"
                             android:paddingBottom="8dp"
+                            android:visibility="visible" />
+
+                        <com.vanniktech.emoji.EmojiEditText
+                            android:id="@+id/emojiEditText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="4dp"
-                            android:layout_marginLeft="4dp"/>
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:ems="10"
+                            android:imeOptions="actionSend"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:maxLines="3"
+                            android:paddingStart="4dp"
+                            android:paddingLeft="4dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingBottom="8dp"
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/imageViewAttachment"

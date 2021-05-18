@@ -88,6 +88,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.JsonParser;
+import com.vanniktech.emoji.EmojiPopup;
 
 import org.jetbrains.annotations.NotNull;
 import org.matrix.androidsdk.MXSession;
@@ -675,6 +676,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         return R.layout.activity_vector_room;
     }
 
+     EmojiPopup emojiPopup;
+
     @Override
     public void initUiAndData() {
         audioRecordView = new AudioRecordView();
@@ -683,6 +686,19 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             @Override
             public void onClick(AttachmentOption attachmentOption) {
 
+            }
+        });
+        audioRecordView.getEmojiView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (emojiPopup == null)
+                    emojiPopup = EmojiPopup.Builder.fromRootView(findViewById(R.id.root)).build(audioRecordView.getMessageView());
+
+                if (emojiPopup.isShowing()) {
+                    emojiPopup.dismiss();
+                } else {
+                    emojiPopup.toggle();
+                }
             }
         });
         audioRecordView.removeAttachmentOptionAnimation(false);
@@ -1236,167 +1252,171 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-
-        if (mReadMarkerManager != null) {
-            mReadMarkerManager.onPause();
-        }
-
-        // warn other member that the typing is ended
-        cancelTypingNotification();
-
-        if (null != mRoom) {
-            // listen for room name or topic changes
-            mRoom.removeEventListener(mRoomEventListener);
-        }
-
-        Matrix.getInstance(this).removeNetworkEventListener(mNetworkEventListener);
-
-        if (mSession.isAlive()) {
-            // GA reports a null dataHandler instance event if it seems impossible
-            if (null != mSession.getDataHandler()) {
-                mSession.getDataHandler().removeListener(mGlobalEventListener);
-                mSession.getDataHandler().removeListener(mResourceLimitEventListener);
+        try {
+            if (mReadMarkerManager != null) {
+                mReadMarkerManager.onPause();
             }
+
+            // warn other member that the typing is ended
+            cancelTypingNotification();
+
+            if (null != mRoom) {
+                // listen for room name or topic changes
+                mRoom.removeEventListener(mRoomEventListener);
+            }
+
+            Matrix.getInstance(this).removeNetworkEventListener(mNetworkEventListener);
+
+            if (mSession.isAlive()) {
+                // GA reports a null dataHandler instance event if it seems impossible
+                if (null != mSession.getDataHandler()) {
+                    mSession.getDataHandler().removeListener(mGlobalEventListener);
+                    mSession.getDataHandler().removeListener(mResourceLimitEventListener);
+                }
+            }
+
+            mVectorOngoingConferenceCallView.onActivityPause();
+            mActiveWidgetsBanner.onActivityPause();
+
+            // to have notifications for this room
+            VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(null);
+        } catch (Exception e) {
+
         }
-
-        mVectorOngoingConferenceCallView.onActivityPause();
-        mActiveWidgetsBanner.onActivityPause();
-
-        // to have notifications for this room
-        VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(null);
     }
 
     @Override
     protected void onResume() {
         Log.d(LOG_TAG, "++ Resume the activity");
         super.onResume();
-
-        if (null != mRoom) {
-            // check if the room has been left from another client.
-            if (mRoom.isReady()) {
-                if (!mRoom.isMember()) {
-                    Log.e(LOG_TAG, "## onResume() : the user is not anymore a member of the room.");
-                    finish();
-                    return;
-                }
-
-                if (!mSession.getDataHandler().doesRoomExist(mRoom.getRoomId())) {
-                    Log.e(LOG_TAG, "## onResume() : the user is not anymore a member of the room.");
-                    finish();
-                    return;
-                }
-
-                if (mRoom.isLeaving()) {
-                    Log.e(LOG_TAG, "## onResume() : the user is leaving the room.");
-                    finish();
-                    return;
-                }
-            }
-
-            // to do not trigger notifications for this room
-            // because it is displayed.
-            VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(mRoom.getRoomId());
-
-            // listen for room name or topic changes
-            mRoom.addEventListener(mRoomEventListener);
-
-            setEditTextHint(mVectorMessageListFragment.getCurrentSelectedEvent());
-
-            mSyncInProgressView.setVisibility(VectorApp.isSessionSyncing(mSession) ? View.VISIBLE : View.GONE);
-        } else {
-            mSyncInProgressView.setVisibility(View.GONE);
-        }
-
-        mSession.getDataHandler().addListener(mGlobalEventListener);
-        mSession.getDataHandler().addListener(mResourceLimitEventListener);
-
-        Matrix.getInstance(this).addNetworkEventListener(mNetworkEventListener);
-
-        // sanity checks
-        if ((null != mRoom) && (null != Matrix.getInstance(this).getDefaultLatestChatMessageCache())) {
-            String cachedText = Matrix.getInstance(this).getDefaultLatestChatMessageCache().getLatestText(this, mRoom.getRoomId());
-
-            if (!cachedText.equals(mEditText.getText().toString())) {
-                mIgnoreTextUpdate = true;
-                mEditText.setText("");
-                mEditText.append(cachedText);
-                mIgnoreTextUpdate = false;
-            }
-
-            boolean canSendEncryptedEvent = mRoom.isEncrypted() && mSession.isCryptoEnabled();
-            mE2eImageView.setImageResource(canSendEncryptedEvent ? R.drawable.e2e_verified : R.drawable.e2e_unencrypted);
-            mVectorMessageListFragment.setIsRoomEncrypted(mRoom.isEncrypted());
-        }
-
-        manageSendMoreButtons();
-
-        updateActionBarTitleAndTopic();
-
-        sendReadReceipt();
-
-        refreshCallButtons(true);
-
-        updateRoomHeaderMembersStatus();
-
-        checkSendEventStatus();
-
-        enableActionBarHeader(mIsHeaderViewDisplayed);
-
-        // refresh the UI : the timezone could have been updated
-        mVectorMessageListFragment.refresh();
-
-        // the list automatically scrolls down when its top moves down
-        if (null != mVectorMessageListFragment.mMessageListView) {
-            mVectorMessageListFragment.mMessageListView.lockSelectionOnResize();
-        }
-
-        // the device has been rotated
-        // so try to keep the same top/left item;
-        if (mScrollToIndex > 0) {
-            mVectorMessageListFragment.scrollToIndexWhenLoaded(mScrollToIndex);
-            mScrollToIndex = -1;
-        }
-
-        if (null != mCallId) {
-            IMXCall call = CallsManager.getSharedInstance().getActiveCall();
-
-            // can only manage one call instance.
-            // either there is no active call or resume the active one
-            if ((null == call) || call.getCallId().equals(mCallId)) {
-                final Intent intent = new Intent(this, VectorCallViewActivity.class);
-                intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
-                intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, mCallId);
-
-                enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(intent);
+        try {
+            if (null != mRoom) {
+                // check if the room has been left from another client.
+                if (mRoom.isReady()) {
+                    if (!mRoom.isMember()) {
+                        Log.e(LOG_TAG, "## onResume() : the user is not anymore a member of the room.");
+                        finish();
+                        return;
                     }
-                });
+
+                    if (!mSession.getDataHandler().doesRoomExist(mRoom.getRoomId())) {
+                        Log.e(LOG_TAG, "## onResume() : the user is not anymore a member of the room.");
+                        finish();
+                        return;
+                    }
+
+                    if (mRoom.isLeaving()) {
+                        Log.e(LOG_TAG, "## onResume() : the user is leaving the room.");
+                        finish();
+                        return;
+                    }
+                }
+
+                // to do not trigger notifications for this room
+                // because it is displayed.
+                VectorApp.getInstance().getNotificationDrawerManager().setCurrentRoom(mRoom.getRoomId());
+
+                // listen for room name or topic changes
+                mRoom.addEventListener(mRoomEventListener);
+
+                setEditTextHint(mVectorMessageListFragment.getCurrentSelectedEvent());
+
+                mSyncInProgressView.setVisibility(VectorApp.isSessionSyncing(mSession) ? View.VISIBLE : View.GONE);
+            } else {
+                mSyncInProgressView.setVisibility(View.GONE);
             }
 
-            mCallId = null;
+            mSession.getDataHandler().addListener(mGlobalEventListener);
+            mSession.getDataHandler().addListener(mResourceLimitEventListener);
+
+            Matrix.getInstance(this).addNetworkEventListener(mNetworkEventListener);
+
+            // sanity checks
+            if ((null != mRoom) && (null != Matrix.getInstance(this).getDefaultLatestChatMessageCache())) {
+                String cachedText = Matrix.getInstance(this).getDefaultLatestChatMessageCache().getLatestText(this, mRoom.getRoomId());
+
+                if (!cachedText.equals(mEditText.getText().toString())) {
+                    mIgnoreTextUpdate = true;
+                    mEditText.setText("");
+                    mEditText.append(cachedText);
+                    mIgnoreTextUpdate = false;
+                }
+
+                boolean canSendEncryptedEvent = mRoom.isEncrypted() && mSession.isCryptoEnabled();
+                mE2eImageView.setImageResource(canSendEncryptedEvent ? R.drawable.e2e_verified : R.drawable.e2e_unencrypted);
+                mVectorMessageListFragment.setIsRoomEncrypted(mRoom.isEncrypted());
+            }
+
+            manageSendMoreButtons();
+
+            updateActionBarTitleAndTopic();
+
+            sendReadReceipt();
+
+            refreshCallButtons(true);
+
+            updateRoomHeaderMembersStatus();
+
+            checkSendEventStatus();
+
+            enableActionBarHeader(mIsHeaderViewDisplayed);
+
+            // refresh the UI : the timezone could have been updated
+            mVectorMessageListFragment.refresh();
+
+            // the list automatically scrolls down when its top moves down
+            if (null != mVectorMessageListFragment.mMessageListView) {
+                mVectorMessageListFragment.mMessageListView.lockSelectionOnResize();
+            }
+
+            // the device has been rotated
+            // so try to keep the same top/left item;
+            if (mScrollToIndex > 0) {
+                mVectorMessageListFragment.scrollToIndexWhenLoaded(mScrollToIndex);
+                mScrollToIndex = -1;
+            }
+
+            if (null != mCallId) {
+                IMXCall call = CallsManager.getSharedInstance().getActiveCall();
+
+                // can only manage one call instance.
+                // either there is no active call or resume the active one
+                if ((null == call) || call.getCallId().equals(mCallId)) {
+                    final Intent intent = new Intent(this, VectorCallViewActivity.class);
+                    intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+                    intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, mCallId);
+
+                    enableActionBarHeader(HIDE_ACTION_BAR_HEADER);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(intent);
+                        }
+                    });
+                }
+
+                mCallId = null;
+            }
+
+            // the pending call view is only displayed with "active " room
+            if ((null == sRoomPreviewData) && (null == mEventId)) {
+                mVectorPendingCallView.checkPendingCall();
+                mVectorOngoingConferenceCallView.onActivityResume();
+                mActiveWidgetsBanner.onActivityResume();
+            }
+
+            // init the auto-completion list from the room members
+            mEditText.initAutoCompletions(mSession, mRoom);
+
+            if (mReadMarkerManager != null) {
+                mReadMarkerManager.onResume();
+            }
+
+            if (lat.equals("") || lon.equals("")) {
+                setupLocation();
+            }
+        } catch (Exception e) {
         }
-
-        // the pending call view is only displayed with "active " room
-        if ((null == sRoomPreviewData) && (null == mEventId)) {
-            mVectorPendingCallView.checkPendingCall();
-            mVectorOngoingConferenceCallView.onActivityResume();
-            mActiveWidgetsBanner.onActivityResume();
-        }
-
-        // init the auto-completion list from the room members
-        mEditText.initAutoCompletions(mSession, mRoom);
-
-        if (mReadMarkerManager != null) {
-            mReadMarkerManager.onResume();
-        }
-
-        if (lat.equals("") || lon.equals("")) {
-            setupLocation();
-        }
-
         Log.d(LOG_TAG, "-- Resume the activity");
     }
 
