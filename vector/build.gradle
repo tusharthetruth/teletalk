@@ -325,7 +325,6 @@ dependencies {
     chatappImplementation 'at.wirecube:additive_animations:1.8.0'
     chatappImplementation 'com.github.bumptech.glide:glide:4.11.0'
     chatappImplementation 'com.vanniktech:emoji-google:0.7.0'
-    chatappImplementation 'com.kevalpatel2106:emoticongifkeyboard:1.1'
 
     api 'com.vanniktech:emoji-google:0.7.0'
 

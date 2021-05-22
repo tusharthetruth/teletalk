@@ -78,6 +78,7 @@ import com.chatapp.VideoMinuteService;
 import com.chatapp.audio_record_view.AttachmentOption;
 import com.chatapp.audio_record_view.AttachmentOptionsListener;
 import com.chatapp.audio_record_view.AudioRecordView;
+import com.chatapp.util.ChatPathUtils;
 import com.chatapp.util.FilePathUtils;
 import com.chatapp.util.Locationtil;
 import com.chatapp.util.Utils;
@@ -676,7 +677,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         return R.layout.activity_vector_room;
     }
 
-     EmojiPopup emojiPopup;
+    EmojiPopup emojiPopup;
 
     @Override
     public void initUiAndData() {
@@ -4447,11 +4448,16 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     private void shareOutSide() {
         if (Utils.shareIntent != null) {
-            String path = FilePathUtils.getPath(this, Utils.shareIntent.getClipData().getItemAt(0).getUri());
-            Uri u = Utils.shareIntent.getClipData().getItemAt(0).getUri();
-            startStickerPickerActivity();
-        } else {
-//            shareMapIcon();
+            Utils.shareIntent = null;
+            List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
+            if (0 == sharedDataItems.size()) {
+//                Uri uri=Utils.shareIntent.getClipData().getItemAt(0).getUri();
+                File shared = new File(getCacheDir(), "VectorShared");
+                File[] f = shared.listFiles();
+                Uri uri = Uri.fromFile(f[0]);
+                sharedDataItems.add(new RoomMediaMessage(uri, ""));
+            }
+            mVectorRoomMediasSender.sendMedias(sharedDataItems);
         }
     }
 

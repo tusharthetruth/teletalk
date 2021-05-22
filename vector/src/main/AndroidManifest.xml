@@ -102,6 +102,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="false"
@@ -128,6 +129,7 @@
 
     <!-- New when targeting API 28 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission,MANAGE_EXTERNAL_STORAGE " />
 
     <application
         android:name=".VectorApp"
@@ -136,10 +138,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/riot_app_name"
         android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme.Light"
         tools:replace="allowBackup,label">
 
@@ -148,7 +150,7 @@
             android:name="android.max_aspect"
             android:value="9.9" />
 
-        <activity android:name="com.chatapp.pixly.pix.Pix"/>
+        <activity android:name="com.chatapp.pixly.pix.Pix" />
         <!-- activities list starts here -->
         <activity
             android:name=".activity.VectorLauncherActivity"
@@ -345,22 +347,22 @@
             android:theme="@style/GroupAppTheme.Light"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activity.VectorUniversalLinkActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.VIEW" />-->
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-<!--                <data android:scheme="http" />-->
-<!--                <data android:scheme="https" />-->
-<!--                <data android:host="vector.im" />-->
-<!--                <data android:pathPrefix="/app/" />-->
-<!--                <data android:pathPrefix="/beta/" />-->
-<!--                <data android:pathPrefix="/develop/" />-->
-<!--                <data android:pathPrefix="/staging/" />-->
-<!--                &lt;!&ndash; mail validation &ndash;&gt;-->
-<!--                <data android:pathPrefix="/_matrix/" />-->
-<!--            </intent-filter>-->
+            <!--                <data android:scheme="http" />-->
+            <!--                <data android:scheme="https" />-->
+            <!--                <data android:host="vector.im" />-->
+            <!--                <data android:pathPrefix="/app/" />-->
+            <!--                <data android:pathPrefix="/beta/" />-->
+            <!--                <data android:pathPrefix="/develop/" />-->
+            <!--                <data android:pathPrefix="/staging/" />-->
+            <!--                &lt;!&ndash; mail validation &ndash;&gt;-->
+            <!--                <data android:pathPrefix="/_matrix/" />-->
+            <!--            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -533,16 +535,12 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
@@ -554,7 +552,7 @@
         <service
             android:name=".services.CallService"
             android:exported="false" />
-    
+
     </application>
 
 </manifest>
