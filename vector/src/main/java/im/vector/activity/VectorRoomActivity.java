@@ -4447,24 +4447,31 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     }
 
     private void shareOutSide() {
-        if (Utils.shareIntent != null) {
-            Utils.shareIntent = null;
-            List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
-            if (0 == sharedDataItems.size()) {
-//                Uri uri=Utils.shareIntent.getClipData().getItemAt(0).getUri();
-                File shared = new File(getCacheDir(), "VectorShared");
-                File[] f = shared.listFiles();
-                Uri uri = Uri.fromFile(f[0]);
-                sharedDataItems.add(new RoomMediaMessage(uri, ""));
+        try {
+            if (Utils.shareIntent != null) {
+                Utils.shareIntent = null;
+                List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
+                if (0 == sharedDataItems.size()) {
+                    File shared = new File(getCacheDir(), "VectorShared");
+                    File[] f = shared.listFiles();
+                    if (f[0].getPath().contains(".mp4")) {
+                        Uri uri = Uri.fromFile(f[0]);
+                        sharedDataItems.add(new RoomMediaMessage(uri, f[0].getName()));
+                    } else {
+                        Uri uri = Uri.fromFile(f[0]);
+                        sharedDataItems.add(new RoomMediaMessage(uri, f[0].getName()));
+                    }
+                }
+                mVectorRoomMediasSender.sendMedias(sharedDataItems);
             }
-            mVectorRoomMediasSender.sendMedias(sharedDataItems);
+        } catch (Exception e) {
+            Log.e("msg", e.getMessage());
         }
     }
 
     private void shareMapIcon() {
         List<RoomMediaMessage> sharedDataItems = new ArrayList<>();
         if (0 == sharedDataItems.size()) {
-//            sharedDataItems.add(new RoomMediaMessage(getUriFromDrawable()));
             sharedDataItems.add(new RoomMediaMessage(getUriFromDrawable(), ""));
         }
         mVectorRoomMediasSender.sendMedias(sharedDataItems);
