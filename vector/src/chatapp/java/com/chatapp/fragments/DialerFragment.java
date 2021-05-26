@@ -207,9 +207,9 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String countryZipCode = Utils.getCountryZipCode(getActivity());
-        txtDialNumber.setText(countryZipCode);
-        txtDialNumber.setSelection(countryZipCode.length());
-        Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
+//        txtDialNumber.setText(countryZipCode);
+//        txtDialNumber.setSelection(countryZipCode.length());
+//        Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
         txtDialNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -223,10 +223,10 @@ public class DialerFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().startsWith(countryZipCode)){
-                    txtDialNumber.setText(countryZipCode);
-                    Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
-                }
+//                if(!s.toString().startsWith(countryZipCode)){
+//                    txtDialNumber.setText(countryZipCode);
+//                    Selection.setSelection(txtDialNumber.getText(), txtDialNumber.getText().length());
+//                }
             }
         });
     }
