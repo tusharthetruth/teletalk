@@ -619,7 +619,7 @@ object NotificationUtils {
                                      noisy: Boolean,
                                      lastMessageTimestamp: Long): Notification? {
         val accentColor = ContextCompat.getColor(context, R.color.notification_accent_color)
-        val smallIcon = if (noisy) R.drawable.icon_notif_important else R.drawable.icon_notif_important
+        val smallIcon = if (noisy) R.drawable.splash else R.drawable.splash
 
         return NotificationCompat.Builder(context, if (noisy) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID)
                 // used in compat < N, after summary is built based on child notifications

@@ -176,13 +176,20 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
 
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
-        progDailog.show();
+        try {
+            progDailog.show();
+        }catch (Exception e){
 
+        }
     }
 
     @Override
     public void onPageFinished(String url) {
-        progDailog.dismiss();
+        try {
+            progDailog.dismiss();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
