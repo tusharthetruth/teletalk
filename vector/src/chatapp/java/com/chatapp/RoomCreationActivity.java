@@ -52,6 +52,8 @@ import java.util.Objects;
 
 import im.vector.Matrix;
 import im.vector.R;
+import im.vector.activity.MXCActionBarActivity;
+import im.vector.activity.VectorRoomActivity;
 
 /**
  * Created by Arun on 11-11-2017.
@@ -73,12 +75,10 @@ public class RoomCreationActivity extends AppCompatActivity implements SearchVie
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //TODO
-                    /*
-                    Intent intent = new Intent(RoomCreationActivity.this, MessageActivity.class);
-                    intent.putExtra(MessageActivity.EXTRA_ROOM_ID, roomId);
+                    Intent intent = new Intent(RoomCreationActivity.this, VectorRoomActivity.class);
+                    intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+                    intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
                     startActivity(intent);
-                    */
                     pDialog.dismiss();
                     finish();
                 }
@@ -389,12 +389,10 @@ public class RoomCreationActivity extends AppCompatActivity implements SearchVie
         List<Room> rooms = ChatUtils.findOneToOneRoomList(mSession, userId);
         if (rooms.size() > 0) {
             Room room = rooms.get(0);
-            //TODO
-            /*
-            Intent intent = new Intent(RoomCreationActivity.this, MessageActivity.class);
-            intent.putExtra(MessageActivity.EXTRA_ROOM_ID, room.getRoomId());
+            Intent intent = new Intent(RoomCreationActivity.this, VectorRoomActivity.class);
+            intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, room.getRoomId());
+            intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
             startActivity(intent);
-             */
             RoomCreationActivity.this.finish();
         } else {
             pDialog = new ProgressDialog(this);

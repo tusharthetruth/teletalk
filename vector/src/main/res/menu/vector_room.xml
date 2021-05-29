@@ -15,6 +15,13 @@
         android:icon="@drawable/ic_material_search_white"
         android:title="@string/room_menu_search"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/add_user"
+        android:icon="@drawable/ic_add_white"
+        android:title="@string/room_menu_search"
+        android:iconTint="@color/white"
+        android:iconTintMode="src_over"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/ic_action_matrix_apps"

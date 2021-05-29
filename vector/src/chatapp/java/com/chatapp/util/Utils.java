@@ -112,4 +112,6 @@ public class Utils {
 
     public static Intent shareIntent=null;
     public static Intent shareURI=null;
+    public static String ContactId=null;
+
 }

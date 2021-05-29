@@ -23,12 +23,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -42,6 +44,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -74,11 +77,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.chatapp.ChatMainActivity;
+import com.chatapp.ContactsDetailsActivity;
+import com.chatapp.RoomCreationActivity;
 import com.chatapp.VideoMinuteService;
+import com.chatapp.activity.ContactChooserActivity;
 import com.chatapp.audio_record_view.AttachmentOption;
 import com.chatapp.audio_record_view.AttachmentOptionsListener;
 import com.chatapp.audio_record_view.AudioRecordView;
 import com.chatapp.util.ChatPathUtils;
+import com.chatapp.util.ChatUtils;
 import com.chatapp.util.FilePathUtils;
 import com.chatapp.util.Locationtil;
 import com.chatapp.util.Utils;
@@ -1290,6 +1297,8 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     protected void onResume() {
         Log.d(LOG_TAG, "++ Resume the activity");
         super.onResume();
+        if (!TextUtils.isEmpty(Utils.ContactId))
+            addInMessage();
         try {
             if (null != mRoom) {
                 // check if the room has been left from another client.
@@ -1720,6 +1729,9 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             case R.id.ic_location:
                 shareLocation();
                 return true;
+            case R.id.add_user:
+                chooseUser();
+                return true;
             case R.id.ic_action_matrix_apps:
                 openIntegrationManagerActivity(null);
                 return true;
@@ -1799,6 +1811,146 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void chooseUser() {
+        startActivity(new Intent(this, ContactChooserActivity.class));
+    }
+
+    private void addInMessage() {
+        String contactId = Utils.ContactId;
+        Utils.ContactId = null;
+        String no = "";
+        ArrayList<ContactsDetailsActivity.ContactInfoItem> ContactInfoItems = new ArrayList<ContactsDetailsActivity.ContactInfoItem>();
+        Cursor datacursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{contactId + ""}, null);
+        if (datacursor.getCount() >= 1) {
+            while (datacursor.moveToNext()) {
+                // store the numbers in an array
+                no = datacursor.getString(datacursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER));
+                if (no == null)
+                    no = datacursor.getString(datacursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            }
+        }
+        if (!TextUtils.isEmpty(no)) {
+            ArrayList<String> contactList = new ArrayList<>();
+            String s=no.replace("+","");
+            contactList.add(s);
+//            InviteOrGotoUserChat("@" +no + ":"+getString(R.string.chatDomain));
+            inviteParticipants(mRoom, contactList, 0);
+        }
+    }
+
+    private void InviteOrGotoUserChat(String userId) {
+        List<Room> rooms = ChatUtils.findOneToOneRoomList(mSession, userId);
+        if (rooms.size() > 0) {
+            Room room = rooms.get(0);
+            Intent intent = new Intent(this, VectorRoomActivity.class);
+            intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, room.getRoomId());
+            intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
+            startActivity(intent);
+        } else {
+            mSession.createDirectMessageRoom(userId,mCreateDirectMessageCallBack);
+        }
+    }
+    private final SimpleApiCallback<String> mCreateDirectMessageCallBack = new SimpleApiCallback<String>() {
+        @Override
+        public void onSuccess(final String roomId) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(VectorRoomActivity.this, VectorRoomActivity.class);
+                    intent.putExtra(VectorRoomActivity.EXTRA_ROOM_ID, roomId);
+                    intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
+                    startActivity(intent);
+//                    pDialog.dismiss();
+                    finish();
+                }
+            });
+
+        }
+
+        private void onError(final String message) {
+            new Runnable() {
+                @Override
+                public void run() {
+                    if (null != message) {
+                        Toast.makeText(VectorRoomActivity.this, message, Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+        }
+
+        @Override
+        public void onNetworkError(Exception e) {
+            onError(e.getLocalizedMessage());
+        }
+
+        @Override
+        public void onMatrixError(final MatrixError e) {
+            onError(e.getLocalizedMessage());
+        }
+
+        @Override
+        public void onUnexpectedError(final Exception e) {
+            onError(e.getLocalizedMessage());
+        }
+    };
+
+
+    private void inviteParticipants(final Room room, final List<String> participants, final int index) {
+        final SimpleApiCallback<Void> callback = new SimpleApiCallback<Void>() {
+            @Override
+            public void onSuccess(Void info) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //TODO
+                        /*
+                        Intent intent = new Intent(RoomCreationActivity.this, MessageActivity.class);
+                        intent.putExtra(MessageActivity.EXTRA_ROOM_ID, room.getRoomId());
+                        startActivity(intent);
+                         */
+                        Toast.makeText(VectorRoomActivity.this, "success", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            public void onError(final String errorMessage) {
+                runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(VectorRoomActivity.this, "error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+
+            @Override
+            public void onNetworkError(Exception e) {
+                onError(e.getLocalizedMessage());
+            }
+
+            @Override
+            public void onMatrixError(MatrixError e) {
+                onError(e.getLocalizedMessage());
+            }
+
+            @Override
+            public void onUnexpectedError(Exception e) {
+                onError(e.getLocalizedMessage());
+            }
+        };
+
+        ArrayList<String> userIDs = new ArrayList<>();
+        for (int i = 0; i < participants.size(); i++) {
+            String userId = "@" + participants.get(i) + ":" + getString(R.string.chatDomain);
+            userIDs.add(userId);
+        }
+
+        room.invite(mSession, userIDs, callback);
+    }
+
 
     /**
      * Open Integration Manager activity

@@ -6,12 +6,16 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.activity.StatusActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.chatapp.activity.SelfStatusActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.chatapp.activity.SelfStatusActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name="com.chatapp.activity.ContactChooserActivity"></activity>
+        <activity
+            android:name="com.chatapp.activity.StatusActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.SelfStatusActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.chatapp.activity.SelfStatusActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.chatapp.share.UserStatusActivity"
             android:screenOrientation="portrait" />
