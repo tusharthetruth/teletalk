@@ -1723,10 +1723,13 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         return true;
     }
 
+    private Boolean isLoactionShareClicked = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ic_location:
+                isLoactionShareClicked = true;
                 shareLocation();
                 return true;
             case R.id.add_user:
@@ -1834,7 +1837,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
         }
         if (!TextUtils.isEmpty(no)) {
             ArrayList<String> contactList = new ArrayList<>();
-            String s=no.replace("+","");
+            String s = no.replace("+", "");
             contactList.add(s);
 //            InviteOrGotoUserChat("@" +no + ":"+getString(R.string.chatDomain));
             inviteParticipants(mRoom, contactList, 0);
@@ -1850,9 +1853,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
             intent.putExtra(MXCActionBarActivity.EXTRA_MATRIX_ID, mSession.getMyUserId());
             startActivity(intent);
         } else {
-            mSession.createDirectMessageRoom(userId,mCreateDirectMessageCallBack);
+            mSession.createDirectMessageRoom(userId, mCreateDirectMessageCallBack);
         }
     }
+
     private final SimpleApiCallback<String> mCreateDirectMessageCallBack = new SimpleApiCallback<String>() {
         @Override
         public void onSuccess(final String roomId) {
@@ -4657,8 +4661,10 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                 if (Locationtil.INSTANCE.isLocationEnabled(this)) {
                     setUpLocationListener();
                 } else {
-
-                    Locationtil.INSTANCE.showGPSNotEnabledDialog(this);
+                    if (isLoactionShareClicked) {
+                        isLoactionShareClicked=false; 
+                        Locationtil.INSTANCE.showGPSNotEnabledDialog(this);
+                    }
                 }
             } else {
                 Locationtil.INSTANCE.

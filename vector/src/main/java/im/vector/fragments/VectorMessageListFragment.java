@@ -220,7 +220,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
         });
 
         //v.setBackgroundColor(ThemeUtils.INSTANCE.getColor(getActivity(), android.R.attr.colorBackground));
-        v.setBackground(getResources().getDrawable(R.drawable.chat_background));
+        v.setBackground(getResources().getDrawable(R.drawable.chat_bg));
 
         return v;
     }

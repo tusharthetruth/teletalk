@@ -106,11 +106,11 @@ public class SplashActivity extends AppCompatActivity {
         txtTerms.setClickable(true);
         txtTerms.setMovementMethod(LinkMovementMethod.getInstance());
         String privacy = "https://willssmartvoip.com/privacy-policy/";
-        String text1 = "Agree to your <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color=#ffffffff>Privacy</font></a> and <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color='#ffffffff'>Terms Conditions</font></a>";
+        String text1 = "Agree to your <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color=#000000>Privacy</font></a> and <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color='#000000'>Terms Conditions</font></a>";
         String text = "Agree to your Privacy and Terms Conditions";
         SpannableStringBuilder s = new SpannableStringBuilder(text);
-        s.setSpan(new ForegroundColorSpan(Color.WHITE), 14, 21, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        s.setSpan(new ForegroundColorSpan(Color.WHITE), 32, 42, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(Color.GREEN), 14, 21, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(Color.GREEN), 32, 42, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 //        s.setSpan(new ClickableSpan() {
 //            @Override
 //            public void onClick(@NonNull View widget) {

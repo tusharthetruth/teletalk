@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcome_screen">
+    android:background="@drawable/welcome_screen_2">
 
     <ImageView
         android:id="@+id/loginSplashLogo"
@@ -13,7 +13,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:tintMode="screen"
         android:scaleType="centerCrop"
-        android:src="@drawable/welcome_screen"
+        android:src="@drawable/welcome_screen_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
