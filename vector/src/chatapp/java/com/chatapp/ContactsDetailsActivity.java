@@ -61,6 +61,8 @@ import im.vector.Matrix;
 import im.vector.R;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.activity.MXCActionBarActivity;
+import im.vector.activity.VectorCallViewActivity;
+import im.vector.activity.VectorMemberDetailsActivity;
 import im.vector.activity.VectorRoomActivity;
 import im.vector.util.VectorUtils;
 
@@ -204,7 +206,7 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
 
                     LinearLayout outcall_Layout = (LinearLayout) findViewById(R.id.contact_info_call_out_layout_zangi);
                     outcall_Layout.setOnClickListener(OutCallListener);
-
+                    ((TextView)findViewById(R.id.mobileNoTEXT)).setText(LocalPhone);
                 } else {
                     LocalChatOnlyView.setVisibility(View.VISIBLE);
                     LinearLayout invite_Layout = (LinearLayout) findViewById(R.id.short_number_invite_chat);
@@ -274,7 +276,7 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
 
         contactNo.setText(ContactInfoItems.get(0).PhoneNo);
         contactNoT.setText(ContactInfoItems.get(0).PhoneNo);
-        contactNo.setVisibility(View.VISIBLE);
+//        contactNo.setVisibility(View.VISIBLE);
         ContactInfoAdapter mAdapter = new ContactInfoAdapter(this, R.layout.contact_number_info_item, ContactInfoItems);
         ListView listView = (ListView) findViewById(R.id.contact_numbers_list_info);
         listView.setAdapter(mAdapter);
@@ -283,7 +285,7 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
         rateContainer.setOnClickListener(this);
         contactNo.setText(ContactInfoItems.get(0).PhoneNo);
         if (TextUtils.isEmpty(ContactInfoItems.get(0).PhoneNo)) {
-            contactNo.setText("Mobile Number No Available");
+            contactNo.setText(R.string.mobile_no_not_available);
         }
         phoneNo = ContactInfoItems.get(0).PhoneNo;
         pDialog = new ProgressDialog(this, AlertDialog.THEME_HOLO_LIGHT);
@@ -291,19 +293,31 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         contactNo.setText(ContactInfoItems.get(0).PhoneNo);
-        contactNo.setVisibility(View.VISIBLE);
+//        contactNo.setVisibility(View.VISIBLE);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                contactNo.setText(ContactInfoItems.get(0).PhoneNo);
+//                contactNoT.setText(ContactInfoItems.get(0).PhoneNo);
+//                contactNo.setVisibility(View.VISIBLE);
+//                contactNoT.setVisibility(View.VISIBLE);
+//                if(TextUtils.isEmpty(contactNo.getText().toString().trim())){
+//                    contactNo.setText(LocalPhone);
+//                }
+//                if(TextUtils.isEmpty(contactNoT.getText().toString().trim())){
+//                    contactNoT.setText(LocalPhone);
+//                }
+//            }
+//        }, 200);
 
-                contactNo.setText(ContactInfoItems.get(0).PhoneNo);
-                contactNoT.setText(ContactInfoItems.get(0).PhoneNo);
-                contactNo.setVisibility(View.VISIBLE);
-                contactNoT.setVisibility(View.VISIBLE);
-            }
-        }, 200);
-
+        if(TextUtils.isEmpty(contactNo.getText().toString().trim())){
+            contactNo.setText(LocalPhone);
+        }
+        if(TextUtils.isEmpty(contactNoT.getText().toString().trim())){
+            contactNoT.setText(LocalPhone);
+        }
     }
 
     @Override
@@ -383,6 +397,17 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
                     @Override
                     public void run() {
                         call.setIsVideo(isVideo);
+                        final Intent intent = new Intent(ContactsDetailsActivity.this, VectorCallViewActivity.class);
+
+                        intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+                        intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        });
                         //call.setIsIncoming(false);
 //TODO
                         /*

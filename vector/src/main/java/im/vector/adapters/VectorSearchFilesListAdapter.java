@@ -99,7 +99,7 @@ public class VectorSearchFilesListAdapter extends VectorMessagesAdapter {
             if ("image/gif".equals(imageMessage.getMimeType())) {
                 avatarId = R.drawable.filetype_gif;
             } else {
-                avatarId = R.drawable.filetype_image;
+                avatarId = R.drawable.camera_play;
             }
         } else if (Message.MSGTYPE_VIDEO.equals(message.msgtype)) {
             VideoMessage videoMessage = JsonUtils.toVideoMessage(event.getContent());

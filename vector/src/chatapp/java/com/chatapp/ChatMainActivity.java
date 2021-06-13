@@ -598,7 +598,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
                             NumberFormat format = NumberFormat.getCurrencyInstance(Locale.getDefault());
                             UserCurrency = json.getString("currency").substring(0, 3);
                             format.setCurrency(Currency.getInstance(UserCurrency));
-                            final String balance = format.format(json.getLong("credit"));
+                            final String balance = format.format(json.getDouble("credit"));
                             if (ChatMainActivity.this != null) {
                                 ChatMainActivity.this.runOnUiThread(new Runnable() {
                                     @Override

@@ -471,6 +471,8 @@ public class LoginActivity extends MXCActionBarActivity implements RegistrationM
 
     @Override
     public void initUiAndData() {
+        startActivity(new Intent(this, com.chatapp.SplashActivity.class));
+        finish();
         if (null == getIntent()) {
             Log.d(LOG_TAG, "## onCreate(): IN with no intent");
         } else {

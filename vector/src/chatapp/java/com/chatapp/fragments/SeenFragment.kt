@@ -80,12 +80,17 @@ class SeenFragment : BottomSheetDialogFragment() {
     }
 
     private fun hidePg() {
-        pg.visibility = View.GONE
+        try {
+            pg.visibility = View.GONE
+        } catch (e: Exception) {
+        }
     }
 
     private fun showPg() {
-        pg.visibility = View.VISIBLE
-
+        try {
+            pg.visibility = View.VISIBLE
+        } catch (e: Exception) {
+        }
     }
 
     private fun setData(s: JSONObject) {
@@ -144,17 +149,18 @@ class SeenFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         callResume()
     }
+
     private fun GetContactsName(ContactID: String): String {
         var displayName = ""
         val lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, Uri.encode(ContactID))
         val c = activity!!.contentResolver.query(lookupUri, arrayOf(ContactsContract.Contacts.DISPLAY_NAME), null, null, null)
         try {
-            c.moveToFirst()
-            displayName = c.getString(0)
+            c?.moveToFirst()
+            displayName = c?.getString(0)?:""
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         } finally {
-            c.close()
+            c?.close()
         }
         return displayName
     }

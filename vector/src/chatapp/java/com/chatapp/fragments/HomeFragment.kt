@@ -54,7 +54,6 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
         prev_page.setOnClickListener(this)
         next_page.setOnClickListener(this)
         mSession = Matrix.getInstance(activity).defaultSession
-        GetBalance()
 
 //        rv.setLayoutManager(GridLayoutManager(activity, 3))
 //        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getHomeList(), this)
@@ -186,6 +185,7 @@ class HomeFragment : Fragment(), HomeAdapter.iHomClick, View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        GetBalance()
         (activity as ChatMainActivity).hideItem();
         mSession = Matrix.getInstance(requireActivity()).defaultSession
 //        VectorUtils.loadUserAvatar(activity, mSession, settings_avatar, mSession.myUser)

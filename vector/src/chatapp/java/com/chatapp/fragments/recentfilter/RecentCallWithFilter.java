@@ -3,6 +3,7 @@ package com.chatapp.fragments.recentfilter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -39,6 +40,8 @@ import java.util.List;
 
 import im.vector.Matrix;
 import im.vector.R;
+import im.vector.activity.VectorCallViewActivity;
+import im.vector.activity.VectorMemberDetailsActivity;
 import im.vector.util.PermissionsToolsKt;
 
 /**
@@ -291,6 +294,17 @@ public class RecentCallWithFilter extends ListFragment {
                     @Override
                     public void run() {
                         call.setIsVideo(isVideo);
+                        final Intent intent = new Intent(getActivity(), VectorCallViewActivity.class);
+
+                        intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+                        intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        });
                         //TODO
                         /*
                         final Intent intent = new Intent(getActivity(), VectorCallViewActivity.class);

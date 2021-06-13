@@ -870,6 +870,14 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                 .show();
     }
 
+
+    boolean isAudioMedia(String mediaMimeType) {
+        if (mediaMimeType.contains("audio")||mediaMimeType.contains("Audio")) {
+            return true;
+        }
+        return false;
+    }
+
     /***
      * Manage save / share / forward actions on a media file
      *
@@ -878,6 +886,7 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
      * @param mediaMimeType the mime type
      * @param filename      the filename
      */
+
     void onMediaAction(final int menuAction,
                        final String mediaUrl,
                        final String mediaMimeType,
@@ -887,7 +896,11 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
         final String trimmedFileName = new File(filename).getName();
         File f = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + trimmedFileName);
         if (f.exists()) {
-            AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), f.getAbsolutePath()   , 0);
+            if (isAudioMedia(mediaMimeType)) {
+                AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), f.getAbsolutePath(), 0);
+                return;
+            }
+            ExternalApplicationsUtilKt.openMedia(getActivity(), f.getPath(), mediaMimeType);
             return;
         }
         final MXMediaCache mediasCache = Matrix.getInstance(getActivity()).getMediaCache();
@@ -911,8 +924,11 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
                                         if (menuAction == ACTION_VECTOR_SAVE) {
                                             Toast.makeText(getActivity(), getText(R.string.media_slider_saved), Toast.LENGTH_LONG).show();
                                         } else {
-                                            AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), savedMediaPath, 0);
-//                                            ExternalApplicationsUtilKt.openMedia(getActivity(), savedMediaPath, mediaMimeType);
+                                            if (isAudioMedia(mediaMimeType)) {
+                                                AudioPlayer player2 = new AudioPlayer(getActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", getActivity().isFinishing(), getActivity().getSupportFragmentManager(), savedMediaPath, 0);
+                                            } else {
+                                                ExternalApplicationsUtilKt.openMedia(getActivity(), savedMediaPath, mediaMimeType);
+                                            }
                                         }
                                     }
                                 }
@@ -1094,7 +1110,8 @@ public class VectorMessageListFragment extends MatrixMessageListFragment<VectorM
      * @param mediaMessage      the imageMessage
      * @return the imageMessage position. -1 if not found.
      */
-    int getMediaMessagePosition(List<SlidableMediaInfo> mediaMessagesList, Message mediaMessage) {
+    int getMediaMessagePosition(List<SlidableMediaInfo> mediaMessagesList, Message
+            mediaMessage) {
         String url = null;
 
         if (mediaMessage instanceof ImageMessage) {

@@ -112,7 +112,7 @@ public class VectorImageGetter implements Html.ImageGetter {
         }
 
         if (null == mPlaceHolder) {
-            mPlaceHolder = ResourcesCompat.getDrawable(VectorApp.getInstance().getResources(), R.drawable.filetype_image, null);
+            mPlaceHolder = ResourcesCompat.getDrawable(VectorApp.getInstance().getResources(), R.drawable.camera_play, null);
             mPlaceHolder.setBounds(0, 0, mPlaceHolder.getIntrinsicWidth(), mPlaceHolder.getIntrinsicHeight());
         }
 

@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package im.vector;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.webkit.WebView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ProcessLifecycleOwner;
@@ -192,12 +193,15 @@ public class VectorApp extends MultiDexApplication {
             }
         }
     };
+    private static final String PROCESS = "com.wills.app";
 
     @Override
     public void onCreate() {
         Log.d(LOG_TAG, "onCreate");
         super.onCreate();
         try {
+            initPieWebView();
+
             EmojiManager.install(new GoogleEmojiProvider());
             mLifeCycleListener = new VectorLifeCycleObserver();
             ProcessLifecycleOwner.get().getLifecycle().addObserver(mLifeCycleListener);
@@ -894,5 +898,31 @@ public class VectorApp extends MultiDexApplication {
         mDecryptionFailureTracker.dispatch();
         mAppAnalytics.forceDispatch();
         mNotificationDrawerManager.persistInfo();
+    }
+    private void initPieWebView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String processName = getProcessName(this);
+            if (!PROCESS.equals(processName)) {
+                WebView.setDataDirectorySuffix(getString(processName, "sunzn"));
+            }
+        }
+    }
+    public String getProcessName(Context context) {
+        if (context == null) return null;
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
+            if (processInfo.pid == android.os.Process.myPid()) {
+                return processInfo.processName;
+            }
+        }
+        return null;
+    }
+
+    public String getString(String s, String defValue) {
+        return isEmpty(s) ? defValue : s;
+    }
+
+    public boolean isEmpty(String s) {
+        return s == null || s.trim().length() == 0;
     }
 }

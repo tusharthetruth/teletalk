@@ -58,6 +58,8 @@ import java.util.List;
 
 import im.vector.Matrix;
 import im.vector.R;
+import im.vector.activity.VectorCallViewActivity;
+import im.vector.activity.VectorMemberDetailsActivity;
 import im.vector.util.PermissionsToolsKt;
 
 public class RecentFragment extends ListFragment {
@@ -399,6 +401,17 @@ public class RecentFragment extends ListFragment {
                     @Override
                     public void run() {
                         call.setIsVideo(isVideo);
+                        final Intent intent = new Intent(getActivity(), VectorCallViewActivity.class);
+
+                        intent.putExtra(VectorCallViewActivity.EXTRA_MATRIX_ID, mSession.getCredentials().userId);
+                        intent.putExtra(VectorCallViewActivity.EXTRA_CALL_ID, call.getCallId());
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        });
                         //TODO
                         /*
                         final Intent intent = new Intent(getActivity(), VectorCallViewActivity.class);

@@ -1666,7 +1666,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             final ImageView imageTypeView = convertView.findViewById(R.id.messagesAdapter_image_type);
 
             if (null != imageTypeView) {
-                imageTypeView.setImageResource(Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype) ? R.drawable.filetype_audio : R.drawable.camera_play);
+                imageTypeView.setImageResource(Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype) ? R.drawable.camera_play : R.drawable.camera_play);
             }
             imageTypeView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -2205,8 +2205,9 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 
                     if (!mIsSearchMode) {
                         onMessageClick(event, getEventText(contentView, event, msgType), convertView.findViewById(R.id.messagesAdapter_action_anchor));
+                        runAnimation(convertView);
 
-                        onEventTap(event);
+//                        onEventTap(event);
                     }
                 }
 //

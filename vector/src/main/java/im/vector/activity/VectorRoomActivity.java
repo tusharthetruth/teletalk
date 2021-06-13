@@ -197,7 +197,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     private AudioRecordView audioRecordView;
     private static final String AUDIO_RECORDER_FILE_EXT_3GP = ".3gp";
-    private static final String AUDIO_RECORDER_FILE_EXT_MP4 = ".mp4";
+    private static final String AUDIO_RECORDER_FILE_EXT_MP4 = ".mp3";
     private static final String AUDIO_RECORDER_FOLDER = "AudioFiles";
     private MediaRecorder recorder = null;
     private int currentFormat = 0;

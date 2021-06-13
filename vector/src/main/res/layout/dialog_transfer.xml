@@ -36,7 +36,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/txtTransferAccount"
         android:layout_marginLeft="10dp"
-        android:text="USD"
+        android:text=""
         android:textSize="18sp" />
 
     <EditText

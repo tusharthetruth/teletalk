@@ -149,21 +149,20 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mobileNo"
-                android:layout_width="match_parent"
+                android:id="@+id/mobileNoTEXT"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:gravity="left"
-                android:text=""
+                android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"

@@ -109,7 +109,7 @@
                                 android:layout_height="@dimen/chat_avatar_size"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginLeft="4dp"
-                                android:src="@drawable/filetype_image" />
+                                android:src="@drawable/camera_play" />
 
                             <!-- the media -->
                             <TextView
