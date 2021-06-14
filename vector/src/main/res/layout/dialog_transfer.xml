@@ -25,6 +25,7 @@
         android:layout_toEndOf="@+id/txtTransferCurrency"
         android:layout_toRightOf="@+id/txtTransferCurrency"
         android:ems="10"
+        android:paddingStart="@dimen/_30sdp"
         android:hint="Phone Number"
         android:inputType="phone" />
 

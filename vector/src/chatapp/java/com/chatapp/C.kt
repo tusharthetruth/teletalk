@@ -36,6 +36,7 @@ class C {
         var TV = "Television Bill"
         var MONEYTRANSFER = "Money Transfer"
         var SMS = "Send Sms"
+        var TransferCash = "Transfer Cash"
 
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()

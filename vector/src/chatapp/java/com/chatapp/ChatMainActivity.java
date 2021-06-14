@@ -1382,7 +1382,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     private void showOkDialog(String msg) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 
-        dialogBuilder.setTitle("Wills Smart Voip");
+        dialogBuilder.setTitle("Wills Smart");
         dialogBuilder.setMessage(msg);
         dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {

@@ -132,7 +132,7 @@ public class HomeModel {
                 R.drawable.invite_friends,
                 R.drawable.settings,
                 R.drawable.mybalance,
-                R.drawable.buy_credit,
+                R.drawable.buy_credit_wallet,
                 R.drawable.voucher,
                 R.drawable.mobile_topup,
                 R.drawable.transfer_credit,
@@ -334,6 +334,7 @@ public class HomeModel {
         ArrayList<HomeModel> list = new ArrayList<>();
         Integer[] iconList1 = {
                 R.drawable.transfer_history,
+                R.drawable.transfer_history,
                 R.drawable.data_bundle,
                 R.drawable.electricity,
                 R.drawable.tv_recharge,
@@ -343,6 +344,7 @@ public class HomeModel {
                 R.drawable.profile,
                 R.drawable.why};
         Integer[] iconList = {
+                R.drawable.transfer_cash,
                 R.drawable.transfer_history,
                 R.drawable.data_bundle,
                 R.drawable.electricity,
@@ -372,6 +374,7 @@ public class HomeModel {
         };
 
         String[] titles = {
+                C.Companion.getTransferCash(),
                 C.Companion.getTrnasferHistory(),
                 C.Companion.getDataBundle(),
                 C.Companion.getElectric(),

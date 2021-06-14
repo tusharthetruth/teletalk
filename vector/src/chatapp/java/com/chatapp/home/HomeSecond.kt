@@ -74,6 +74,16 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
                 (activity as ChatMainActivity).GetBalance()
 
             }
+            C.TransferCash -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", C.TransferCash)
+                startActivity(myIntent)
+            }
+            C.BuyCredit -> {
+                val myIntent = Intent(context, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "Credit")
+                startActivity(myIntent)
+            }
             C.BuyCredit -> {
                 val myIntent = Intent(context, ExtendedWebview::class.java)
                 myIntent.putExtra("Bundle", "Credit")
