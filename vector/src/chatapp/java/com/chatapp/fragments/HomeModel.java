@@ -144,7 +144,7 @@ public class HomeModel {
                 R.drawable.my_number,
                 R.drawable.settings,
                 R.drawable.mybalance,
-                R.drawable.buy_credit,
+                R.drawable.buy_credit_wallet,
                 R.drawable.voucher,
                 R.drawable.mobile_topup,
                 R.drawable.transfer_credit,
