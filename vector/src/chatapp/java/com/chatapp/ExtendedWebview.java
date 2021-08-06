@@ -1,8 +1,5 @@
 package com.chatapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -14,6 +11,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import im.vector.BuildConfig;
 import im.vector.R;
 
 public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView.Listener {
@@ -22,6 +23,8 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
 
     private AdvanceWebView webView;
     SharedPreferences settings;
+
+
     Activity activity;
     private ProgressDialog progDailog;
 
@@ -40,7 +43,10 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         setUrl();
         activity = this;
         progDailog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
-        progDailog.setCancelable(false);
+        if (BuildConfig.DEBUG)
+            progDailog.setCancelable(true);
+        else
+            progDailog.setCancelable(false);
         webView = findViewById(R.id.webView);
         webView.setListener(this, this);
         webView.setGeolocationEnabled(false);
@@ -78,17 +84,18 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
     private void setUrl() {
         Bundle b = getIntent().getExtras();
         url = b.getString("Bundle");
+        String baseUrl = "https://billing.teletalkapps.com/billing/customer/";
         if (url.equalsIgnoreCase("Why")) {
-            url = "http://willssmartvoip.com/";
-            setTitle("Why Wills Smart ?");
-        } else if (url.equalsIgnoreCase("MyNumber")) {
+            url = "https://onemobileapp.co.za/";
+            setTitle("Why OneMobile ?");
+        } else if (url.equalsIgnoreCase("Wallet")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/callerid.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Caller Id");
+            url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            setTitle("Mobile Wallet");
         } else if (url.equalsIgnoreCase("meeting")) {
             url = "https://e-meeting.willssmartvoip.com/";
-            setTitle("Wills Smart Meeting");
+            setTitle("Wills Meeting");
         } else if (url.equalsIgnoreCase("Education")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
@@ -109,52 +116,48 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/admin/config.php";
             setTitle("Cloud PBX Features");
-        } else if (url.equalsIgnoreCase("Credit")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getBuyCredit())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            https:
+            url = baseUrl + "mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Buy Credit");
-        } else if (url.equalsIgnoreCase("TopupA")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getMobileTopup())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = baseUrl + "billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Mobile Topup");
         } else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
             setTitle("International Mobile Airtime Topup B");
-        } else if (url.equalsIgnoreCase("data")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getDataBundle())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = baseUrl + "billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             ;
             setTitle("Data Bundle Topup");
-        } else if (url.equalsIgnoreCase("electric")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getElectric())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_electricity_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = baseUrl + "billing_electricity_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Electricity Bill's Payment");
-        } else if (url.equalsIgnoreCase("tv")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getTV())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_television_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            url = baseUrl + "billing_television_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Television Bill's Payment");
-        } else if (url.equalsIgnoreCase("moneytransfer")) {
+        } else if (url.equalsIgnoreCase("payment")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("Money Transfer");
-        } else if (url.equalsIgnoreCase("sms")) {
+            url = baseUrl + "mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            setTitle("Mobile Payment");
+        } else if (url.equalsIgnoreCase("transfer")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/sendsms.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("SMS");
-        }else if (url.equalsIgnoreCase(C.Companion.getTransferCash())) {
-            String userName = settings.getString("Username", "");
-            String password = settings.getString("Password", "");
-            url = "https://billingsystem.willssmartvoip.com/crm/customer/billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle(C.Companion.getTransferCash());
+            url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            setTitle("Transfer Credit");
         }
     }
 
@@ -180,22 +183,13 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
 
     @Override
     public void onPageStarted(String url, Bitmap favicon) {
-        try {
-            if (progDailog != null && !progDailog.isShowing())
-                progDailog.show();
-        } catch (Exception e) {
+        progDailog.show();
 
-        }
     }
 
     @Override
     public void onPageFinished(String url) {
-        try {
-            if (progDailog != null)
-                progDailog.dismiss();
-        } catch (Exception e) {
-
-        }
+        progDailog.dismiss();
     }
 
     @Override

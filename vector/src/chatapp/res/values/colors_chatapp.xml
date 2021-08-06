@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#169D58</color>
-    <color name="colorPrimaryDark">#084F2C</color>
-    <color name="colorAccent">#169D58</color>
-    <color name="textPrimary">#FFFFFF</color>
-    <color name="colorGray">#03A9F4</color>
-    <color name="riotx_accent">#169D58</color>
-    <color name="riotx_links">#ffffff  </color>
+    <color name="colorPrimary">#31bdfa</color>
+    <color name="colorPrimaryDark">#27b5f3</color>
+    <color name="riotx_accent">#27b5f3</color>
+    <color name="riotx_links">#FFFFFF</color>
     <color name="splash_bg_color">#ffffff</color>
-    <color name="splash_button_color">#ffffff</color>
+    <color name="splash_button_color">#31bdfa</color>
     <color name="splash_button_text_color">#000000</color>
-    <color name="primary_color_dark">#ff0054a5</color>
+    <color name="primary_color_dark">#32bcf9</color>
     <color name="button_enabled_text_color">#fff</color>
     <color name="button_disabled_text_color">#fff</color>
     <color name="home_bg_color">#fffcf9</color>
     <color name="black_overlay">#66000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="text_color">@color/colorPrimary</color>
-    <color name="wills_login_bg_color">#288C22</color>
+    <color name="text_color">#000000</color>
+    <color name="colorAccent">#31bdfa</color>
+    <color name="wills_login_bg_color">@color/colorPrimary</color>
 
     <color name="chat_background_color">#fef9f6</color>
 
@@ -324,7 +322,7 @@
     <string name="first_color">#0B5D93</string>
     <string name="second_color">#9AD8F2</string>
     <color name="cb_bg_color">#E7EAEE</color>
-    <color name="cb_bg_value">#C5E1A5</color>
+    <color name="cb_bg_value">@color/light_blue_200</color>
     <color name="dialer_color">#DCEDC8</color>
     <color name="linkColor">#FF6D00</color>
 

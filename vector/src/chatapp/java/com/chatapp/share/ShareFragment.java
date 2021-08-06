@@ -144,7 +144,7 @@ public class ShareFragment extends Fragment implements View.OnClickListener, Vol
             object.put("phonenos", otherContacts);
             Log.d("contacts", otherContacts.toString());
             showPg();
-            String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_list.php";
+            String url = Settings.STATUS_LIST;
 
             String finalOtherContacts = otherContacts;
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {

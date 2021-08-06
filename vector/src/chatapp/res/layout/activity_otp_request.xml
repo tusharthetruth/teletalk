@@ -11,10 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
-        android:src="@drawable/wills_splash"
+        android:src="@drawable/splash"
         app:layout_constraintVertical_bias=".05"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/icon"
+        android:tint="@color/white"
+        android:backgroundTint="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

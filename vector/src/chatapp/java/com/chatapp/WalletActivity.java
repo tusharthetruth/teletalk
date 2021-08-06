@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -37,7 +36,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import im.vector.R;
-import im.vector.util.VectorUtils;
 import im.vector.view.VectorCircularImageView;
 import im.vector.view.VectorPendingCallView;
 

@@ -105,8 +105,8 @@ public class SplashActivity extends AppCompatActivity {
         txtTerms = (TextView) findViewById(R.id.txtPrivacy_Terms);
         txtTerms.setClickable(true);
         txtTerms.setMovementMethod(LinkMovementMethod.getInstance());
-        String privacy = "https://willssmartvoip.com/privacy-policy/";
-        String text1 = "Agree to your <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color=#000000>Privacy</font></a> and <a href=\"https://willssmartvoip.com/privacy-policy/\"><font color='#000000'>Terms Conditions</font></a>";
+        String privacy = "https://www.teletalkapps.com/privacy-policy/";
+        String text1 = "Agree to your <a href=\"https://www.teletalkapps.com/privacy-policy/\"><font color=#000000>Privacy</font></a> and <a href=\"https://www.teletalkapps.com/privacy-policy/\"><font color='#000000'>Terms Conditions</font></a>";
         String text = "Agree to your Privacy and Terms Conditions";
         SpannableStringBuilder s = new SpannableStringBuilder(text);
         s.setSpan(new ForegroundColorSpan(Color.GREEN), 14, 21, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);

@@ -193,7 +193,7 @@ public class VectorApp extends MultiDexApplication {
             }
         }
     };
-    private static final String PROCESS = "com.wills.app";
+    private static final String PROCESS = "com.teletalkapps";
 
     @Override
     public void onCreate() {

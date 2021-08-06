@@ -29,10 +29,10 @@ public class Settings {
     public static boolean useJitsiConfCall = true;
     public static boolean useBatteryOptimisation = true;
 
-    public static String SIPDomain = "";
+    public static String SIPDomain = "billing.teletalkapps.com";
 
-    public static final String SIPServer = "209.126.68.132";
-    public static final String host = "https://billingsystem.willssmartvoip.com/crm/wills_api/";
+    public static final String SIPServer = "billing.teletalkapps.com";
+    public static final String host = "https://billing.teletalkapps.com/billing/teletalk_api/";
 
     public static final String OTP_REQUEST_API = host + "billing_auto_register/otp_send.php";
     public static final String OTP_VERIFY_API = host + "billing_auto_register/otp_secure.php";
@@ -46,6 +46,9 @@ public class Settings {
     public static final String BALANCE_TRANSFER_HISTORY = host + "billing_balance_transfer_balance/balance_transfer_report.php";
     public static final String VOUCHER_RECHARGE = host + "billing_voucher_recharge/refill_dialer_voucher.php";
     public static final String GET_USER_LIST = host + "status/status_list.php";
+    public static final String UPDATE_STATUS = host + "status/status_views.php";
+    public static final String STATUS_LIST = host + "status/status_list.php";
+    public static final String STATUS_VIEW = host + "status_views.php";
 
     final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
@@ -54,9 +57,9 @@ public class Settings {
     public static final String VIDEO_CHARGE = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/video_charges.php";
     public static final String VIDEO_CALL_TIME = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_balance/video_minutes.php";
     public static final String VIDEO_POPUP = "https://billing.adoreinfotech.co.in/crm/GOIP2Call_api/billing_auto_register/video_popup.php";
-    public static final String ENC_KEY = "hrm@rm#7$#ueqdst";
-    public static final String DEFAULT_PUSHER_APP_ID = "com.wills";
-    public static final String DEFAULT_PUSHER_URL = "http://209.126.68.132:5000/_matrix/push/v1/notify";
+    public static final String ENC_KEY = "h5r@mg7upu@ch$#u";
+    public static final String DEFAULT_PUSHER_APP_ID = "com.teletalkapps";
+    public static final String DEFAULT_PUSHER_URL = "http://billing.teletalkapps.com:5000/_matrix/push/v1/notify";
 
 
     public static String encrypt(String input, String key) {

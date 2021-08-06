@@ -116,7 +116,7 @@ public class ContactsDetailsActivity extends AppCompatActivity implements View.O
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + DefaultPhone));
-            intent.putExtra("sms_body", "Join me on Wills, this free video chat and messaging app is amazing. I like it! www.cerilog.net");
+            intent.putExtra("sms_body", "Join me on Teletalk, this free video chat and messaging app is amazing. I like it! www.cerilog.net");
             startActivity(intent);
 
         }

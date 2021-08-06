@@ -76,7 +76,7 @@ class Home_first : Fragment(), HomeAdapter.iHomClick  {
             }
             C.BuyCredit -> {
                 val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "Credit")
+                myIntent.putExtra("Bundle", C.AddMoneyToWallet)
                 startActivity(myIntent)
             }
             C.Meeting -> {
@@ -90,7 +90,7 @@ class Home_first : Fragment(), HomeAdapter.iHomClick  {
             }
             C.MobileTopup -> {
                 val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "TopupA")
+                myIntent.putExtra("Bundle", C.LocalMobileTopup)
                 startActivity(myIntent)
             }
             C.MobileTransfer -> {

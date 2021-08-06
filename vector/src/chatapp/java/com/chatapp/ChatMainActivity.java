@@ -97,6 +97,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import im.vector.BuildConfig;
 import im.vector.Matrix;
 import im.vector.MyPresenceManager;
 import im.vector.R;
@@ -190,7 +191,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         if (CommonActivityUtils.isGoingToSplash(this)) {
             return;
         }
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !BuildConfig.DEBUG) {
             if (!android.provider.Settings.canDrawOverlays(this)) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -1265,10 +1266,10 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     }
 
     public void invite() {
-        String shareBody = "Join me on Wills Smart Voip, this free video chat and messaging app is amazing. I like it! http://play.google.com/store/apps/details?id=com.wills\n";
+        String shareBody = "Join me on Teletalk, this free video chat and messaging app is amazing. I like it! http://play.google.com/store/apps/details?id=com.teletalkapps\n";
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Wills Invite");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Teletalk Invite");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Invite Using"));
     }
@@ -1382,7 +1383,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     private void showOkDialog(String msg) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
 
-        dialogBuilder.setTitle("Wills Smart");
+        dialogBuilder.setTitle("Teletalk");
         dialogBuilder.setMessage(msg);
         dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {

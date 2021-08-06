@@ -18,13 +18,13 @@ import retrofit2.http.Path;
 
 public interface StatusApi {
     @Multipart
-    @POST("/crm/wills_api/status/status.php")
+    @POST("status/status.php")
     Call<FileUploadResponse> upload(
             @Part("username") String userName,
              @Part MultipartBody.Part image
     );
     @Multipart
-    @POST("/crm/wills_api/status/status.php")
+    @POST("status/status.php")
     Call<FileUploadResponse> upload1(
             @Part("username") RequestBody description,
              @Part MultipartBody.Part image

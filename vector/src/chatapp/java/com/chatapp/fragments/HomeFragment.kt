@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -22,11 +21,9 @@ import com.chatapp.adapters.HomeAdapter
 import com.chatapp.home.HomeSecond
 import com.chatapp.home.Home_first
 import com.chatapp.share.UserStatusActivity
-import com.chatapp.status_module.StatusActivity
 import im.vector.Matrix
 import im.vector.R
 import im.vector.activity.VectorSettingsActivity
-import im.vector.util.VectorUtils
 import kotlinx.android.synthetic.chatapp.fragment_home2.*
 import org.json.JSONObject
 import org.matrix.androidsdk.MXSession

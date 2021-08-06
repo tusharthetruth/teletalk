@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "544682826593",
-    "firebase_url": "https://wills-72467.firebaseio.com",
-    "project_id": "wills-72467",
-    "storage_bucket": "wills-72467.appspot.com"
+    "project_number": "58987242691",
+    "firebase_url": "https://teletalk-6be33.firebaseio.com",
+    "project_id": "teletalk-6be33",
+    "storage_bucket": "teletalk-6be33.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:544682826593:android:3623ffa364e573a6854320",
+        "mobilesdk_app_id": "1:58987242691:android:7d9f7e570d31aad91dae76",
         "android_client_info": {
-          "package_name": "com.wills"
+          "package_name": "com.teletalkapps"
         }
       },
       "oauth_client": [
         {
-          "client_id": "544682826593-n1dpmkc9em3o19803bp00shkgfe9egab.apps.googleusercontent.com",
+          "client_id": "58987242691-7hltm6cp8uc9i5vv92bqulkbo06t6nvj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQ5VzqL1653-SI1tkxOcnYRhPHSj72v1w"
+          "current_key": "AIzaSyAdE9MCMSGwV5aOlSfwRmJyiKs8ppO9Zjo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "544682826593-n1dpmkc9em3o19803bp00shkgfe9egab.apps.googleusercontent.com",
+              "client_id": "58987242691-7hltm6cp8uc9i5vv92bqulkbo06t6nvj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

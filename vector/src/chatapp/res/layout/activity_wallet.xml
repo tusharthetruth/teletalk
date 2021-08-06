@@ -92,6 +92,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="48dp">
 
                 <ImageView
@@ -142,6 +143,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="@color/colorPrimary" />
 
             <RelativeLayout
@@ -236,12 +238,14 @@
                 android:id="@+id/dividerview2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="@color/colorAccent" />
 
             <RelativeLayout
                 android:id="@+id/transfer_history"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:visibility="gone"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:background="@drawable/list_item_or_button_click_riple_hover"
@@ -285,6 +289,7 @@
                 android:id="@+id/dividerview4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="@color/colorAccent" />
 
             <LinearLayout
@@ -293,6 +298,7 @@
                 android:layout_height="48dp"
                 android:background="@drawable/list_item_or_button_click_riple_hover"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView

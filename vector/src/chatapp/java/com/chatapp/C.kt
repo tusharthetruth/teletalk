@@ -38,6 +38,28 @@ class C {
         var SMS = "Send Sms"
         var TransferCash = "Transfer Cash"
 
+        var AddMoneyToWallet = "Add Money To Wallet"
+        var TransferCredit = "Transfer Credit"
+        var MyWallet = "My Wallet"
+        var WalletBalance = "Wallet Balance"
+        var AddFundsToWallet = "Add Funds to wallet"
+        var TransferMobileMoney = "Transfer Mobile Money"
+        var LocalMobileTopup = "Local Mobile Topup"
+        var InterMobileTopup = "International Mobile Topup"
+        var Electricity = "Electricity"
+        var LocalElectricity = "LocalElectricity Bill Pay"
+        var InterElectricity = "International Electricity Bill Pay"
+        var LocalDataBundle = "LocalElectricity Data Bundle"
+        var InterDataBundle = "International Data Bundle"
+        var TvRecharge = "TV Recharge"
+        var LocalTv = "LocalElectricity TV Recharge"
+        var InterTv = "International TV Recharge"
+        var SendSMS = "Send SMS"
+        var CallDetailsReport = "Call Details Report"
+        var CallRates = "Call Rates"
+        var ELearning = "E-Learning"
+
+
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
         }

@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/welcome_screen" />
+        app:srcCompat="@drawable/welcome_screen_2" />
 
     <TextView
         android:id="@+id/txtPhoneNo"

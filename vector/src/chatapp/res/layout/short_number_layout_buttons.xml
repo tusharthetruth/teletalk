@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minLines="2"
-                android:text="Wills Call"
+                android:text="Teletalk Call"
                 android:textColor="#ffcccccc"
                 android:textSize="12.0sp" />
         </LinearLayout>
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minLines="2"
-                android:text="Wills Out"
+                android:text="Teletalk Out"
                 android:textColor="#ffcccccc"
                 android:textSize="12.0sp" />
         </LinearLayout>

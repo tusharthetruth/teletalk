@@ -12,6 +12,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.chatapp.C
 import com.chatapp.SeenPeopleModel
+import com.chatapp.Settings
 import com.chatapp.adapters.SeenPeopleAdapter
 import com.chatapp.network.VolleyApi
 import com.chatapp.share.ShareFragment
@@ -56,7 +57,7 @@ class SeenFragment : BottomSheetDialogFragment() {
     }
 
     private fun getList() {
-        val url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_views.php"
+        val url = Settings.STATUS_VIEW
         showPg()
         val stringRequest: StringRequest = object : StringRequest(Method.POST, url, Response.Listener { s ->
             hidePg()

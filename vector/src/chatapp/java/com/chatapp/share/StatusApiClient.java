@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class StatusApiClient {
 
-    private static String BASE_URL = "https://billingsystem.willssmartvoip.com/";
+    private static String BASE_URL = "https://billing.teletalkapps.com/billing/teletalk_api/";
 
     static Retrofit getRetrofit() {
         Gson gson = new GsonBuilder()

@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.chatapp.C;
 import com.chatapp.CR;
+import com.chatapp.Settings;
 import com.chatapp.network.VolleyApi;
 import com.chatapp.share.RecentModel;
 import com.chatapp.sip.utils.Log;
@@ -153,7 +154,7 @@ String u="";
     }
 
     private void updateStatus() {
-        String url = "https://billingsystem.willssmartvoip.com/crm/wills_api/status/status_views.php";
+        String url = Settings.UPDATE_STATUS;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
             @Override

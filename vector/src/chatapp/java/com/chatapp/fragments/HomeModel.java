@@ -43,8 +43,8 @@ public class HomeModel {
                 {
                         R.drawable.status_button,
                         R.drawable.invite_friends,
-                        R.drawable.settings,
-                        R.drawable.my_balance,
+                        R.drawable.setting,
+                        R.drawable.mybalance,
                         R.drawable.buy_credit,
                         R.drawable.voucher_recharge,
                         R.drawable.mobile_topup,
@@ -127,22 +127,11 @@ public class HomeModel {
     public static ArrayList<HomeModel> getFirstHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
 
-        Integer[] iconList1 = {
-                R.drawable.status,
-                R.drawable.invite_friends,
-                R.drawable.settings,
-                R.drawable.mybalance,
-                R.drawable.buy_credit_wallet,
-                R.drawable.voucher,
-                R.drawable.mobile_topup,
-                R.drawable.transfer_credit,
-                R.drawable.transfer_history,
-        };
         Integer[] iconList = {
                 R.drawable.status,
                 R.drawable.invite_friends,
                 R.drawable.my_number,
-                R.drawable.settings,
+                R.drawable.setting,
                 R.drawable.mybalance,
                 R.drawable.buy_credit_wallet,
                 R.drawable.voucher,
@@ -333,7 +322,7 @@ public class HomeModel {
     public static ArrayList<HomeModel> getSecHomeList() {
         ArrayList<HomeModel> list = new ArrayList<>();
         Integer[] iconList1 = {
-                R.drawable.transfer_history,
+                R.drawable.mobile_money_wallet_transfer,
                 R.drawable.transfer_history,
                 R.drawable.data_bundle,
                 R.drawable.electricity,
