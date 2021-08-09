@@ -31,7 +31,7 @@ public class Settings {
 
     public static String SIPDomain = "billing.teletalkapps.com";
 
-    public static final String SIPServer = "billing.teletalkapps.com";
+    public static final String SIPServer = "billing.teletalkapps.com:5060";
     public static final String host = "https://billing.teletalkapps.com/billing/teletalk_api/";
 
     public static final String OTP_REQUEST_API = host + "billing_auto_register/otp_send.php";
@@ -49,7 +49,8 @@ public class Settings {
     public static final String UPDATE_STATUS = host + "status/status_views.php";
     public static final String STATUS_LIST = host + "status/status_list.php";
     public static final String STATUS_VIEW = host + "status_views.php";
-
+    public static final String GET_CALL_RATES = host + "billing_rates/get_rates_new.php";
+    public static final String GET_CALL_DETAILS = host + "billing_cdr/cust_cdrs.php";
     final String CHECK_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/check_device.php";
     public static final String UPDATE_DEVICE_API = "http://192.95.33.62/vibgyor_okay/billing_auto_register/update_device.php";
     public static final String TRACK_GET_DEVICELIST_API = "https://billing.adoreinfotech.co.in/crm/videos_im/billing_auto_register/get_device_list.php";

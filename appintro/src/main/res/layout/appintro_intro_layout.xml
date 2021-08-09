@@ -71,10 +71,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:minWidth="100dp"
-                app:srcCompat="@drawable/ic_appintro_navigate_next_white"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginRight="-10dp"
+                app:srcCompat="@drawable/next"
                 tools:ignore="ContentDescription" />
 
             <Button
@@ -83,10 +83,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:minWidth="100dp"
                 android:labelFor="@string/app_intro_done_button"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginRight="-10dp"
                 android:text="@string/app_intro_done_button"
                 android:textColor="@android:color/white"
                 android:visibility="gone" />

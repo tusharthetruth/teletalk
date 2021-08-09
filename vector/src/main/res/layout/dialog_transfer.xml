@@ -26,7 +26,7 @@
         android:layout_toRightOf="@+id/txtTransferCurrency"
         android:ems="10"
         android:paddingStart="@dimen/_30sdp"
-        android:hint="Phone Number"
+        android:hint="Account Number"
         android:inputType="phone" />
 
     <TextView

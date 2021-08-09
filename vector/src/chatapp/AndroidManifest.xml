@@ -6,7 +6,9 @@
     tools:ignore="LockedOrientationActivity">
 
     <application>
-        <activity android:name="com.chatapp.activity.ContactChooserActivity"></activity>
+        <activity android:name="com.chatapp.activity.CallDetailsHistoryActivity"></activity>
+        <activity android:name="com.chatapp.activity.CallRatesActivity" />
+        <activity android:name="com.chatapp.activity.ContactChooserActivity" />
         <activity
             android:name="com.chatapp.activity.StatusActivity2"
             android:screenOrientation="portrait" />

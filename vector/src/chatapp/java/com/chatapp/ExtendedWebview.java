@@ -14,6 +14,8 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.chatapp.sip.utils.Log;
+
 import im.vector.BuildConfig;
 import im.vector.R;
 
@@ -78,6 +80,7 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
 
         });
         webView.addHttpHeader("X-Requested-With", "");
+        Log.d("url", url);
         webView.loadUrl(url);
     }
 
@@ -86,42 +89,18 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         url = b.getString("Bundle");
         String baseUrl = "https://billing.teletalkapps.com/billing/customer/";
         if (url.equalsIgnoreCase("Why")) {
-            url = "https://onemobileapp.co.za/";
-            setTitle("Why OneMobile ?");
+            url = "https://teletalkapps.com/";
+            setTitle("Why Teletalk ?");
         } else if (url.equalsIgnoreCase("Wallet")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Mobile Wallet");
-        } else if (url.equalsIgnoreCase("meeting")) {
-            url = "https://e-meeting.willssmartvoip.com/";
-            setTitle("Wills Meeting");
-        } else if (url.equalsIgnoreCase("Education")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getAddMoneyToWallet())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "http://e-school.willssmartvoip.com/e-school";
-            setTitle(C.Companion.getWillEducation());
-        } else if (url.equalsIgnoreCase("interswitchBuy")) {
-            String userName = settings.getString("Username", "");
-            String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/checkout_payment_interswitch_app.php";
-            setTitle("Interswitch Buy");
-        } else if (url.equalsIgnoreCase("videoplan")) {
-            String userName = settings.getString("Username", "");
-            String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/admin/Public/videorate.php ";
-            setTitle("Video Tariff");
-        } else if (url.equalsIgnoreCase("ippbx")) {
-            String userName = settings.getString("Username", "");
-            String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/admin/config.php";
-            setTitle("Cloud PBX Features");
-        } else if (url.equalsIgnoreCase(C.Companion.getBuyCredit())) {
-            String userName = settings.getString("Username", "");
-            String password = settings.getString("Password", "");
-            https:
             url = baseUrl + "mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Buy Credit");
+            setTitle("Add Money To Wallet ");
         } else if (url.equalsIgnoreCase(C.Companion.getMobileTopup())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
@@ -130,13 +109,12 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
         } else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = "https://billing.adoreinfotech.co.in/crm/customer/billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
-            setTitle("International Mobile Airtime Topup B");
+            url = baseUrl + "billing_mobile_topup_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobile_done=submit_log";
+            setTitle("Topup");
         } else if (url.equalsIgnoreCase(C.Companion.getDataBundle())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = baseUrl + "billing_mobile_data_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            ;
             setTitle("Data Bundle Topup");
         } else if (url.equalsIgnoreCase(C.Companion.getElectric())) {
             String userName = settings.getString("Username", "");
@@ -153,7 +131,7 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
             String password = settings.getString("Password", "");
             url = baseUrl + "mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Mobile Payment");
-        } else if (url.equalsIgnoreCase("transfer")) {
+        } else if (url.equalsIgnoreCase(C.Companion.getTransferCash())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
@@ -163,8 +141,11 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
 
     public void setTitle(String title) {
         try {
+            Log.d("url", url);
+            System.out.println("url "+url.toString() );
             getSupportActionBar().setTitle(title);
         } catch (Exception e) {
+            Log.d("error", url);
         }
 
     }

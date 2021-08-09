@@ -64,6 +64,7 @@ import im.vector.R;
 import im.vector.VectorApp;
 import im.vector.activity.CommonActivityUtils;
 import im.vector.util.PermissionsToolsKt;
+import im.vector.util.PreferencesManager;
 
 public class ContactsListFragment extends ListFragment implements
         AdapterView.OnItemClickListener, SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -278,6 +279,8 @@ public class ContactsListFragment extends ListFragment implements
         try {
             ((ChatMainActivity) getActivity()).hideItem();
         }catch (Exception e){}
+        sync();
+
     }
 
     @Override
@@ -1032,6 +1035,49 @@ public class ContactsListFragment extends ListFragment implements
             c.close();
         }
         return displayName;
+    }
+    private void sync() {
+        try {
+            if (getActivity() != null) {
+                if (PreferencesManager.getContactSync(getActivity())) {
+                    if (PermissionsToolsKt.checkPermissions(PermissionsToolsKt.PERMISSIONS_FOR_MEMBERS_SEARCH, this, PermissionsToolsKt.PERMISSION_REQUEST_CODE)) {
+                        final ProgressDialog pDialog;
+                        pDialog = new ProgressDialog(getContext(), android.app.AlertDialog.THEME_HOLO_LIGHT);
+                        pDialog.setMessage("Please wait...");
+                        pDialog.setIndeterminate(false);
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                ContactsSync contactsSync = new ContactsSync(getActivity());
+                                contactsSync.SyncContacts(true);
+                                localContactItemList = new LocalContactsHandler(getContext()).GetLocalContacts();
+
+                                for (int i = 0; i < localContactItemList.size(); i++) {
+                                    String DisplayName = GetContactsName(localContactItemList.get(i).ContactID);
+                                    if (!DisplayName.equals(""))
+                                        localContactItemList.get(i).Name = DisplayName;
+                                    else
+                                        localContactItemList.get(i).Name = localContactItemList.get(i).Phone;
+                                }
+                                mContactInviteAdapterAdapter = new ContactInviteAdapter(getActivity(), R.layout.contact_list_item, localContactItemList);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pDialog.dismiss();
+                                        mContactInviteAdapterAdapter.notifyDataSetChanged();
+
+                                    }
+                                });
+                                return null;
+                            }
+                        }.execute();
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
 }

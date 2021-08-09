@@ -40,8 +40,6 @@ class HomeFragmentThird : Fragment(),HomeAdapter.iHomClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv.layoutManager = GridLayoutManager(activity, 3)
-        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getThirdHomeList(), this)
-        rv.adapter = adapter
 
 
     }

@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -73,6 +74,7 @@ import com.chatapp.sip.api.SipProfile;
 import com.chatapp.sip.db.DBProvider;
 import com.chatapp.sip.models.Filter;
 import com.chatapp.sip.service.SipService;
+import com.chatapp.sip.utils.Log;
 import com.chatapp.sip.utils.PreferencesWrapper;
 import com.chatapp.sip.wizards.WizardIface;
 import com.chatapp.sip.wizards.impl.Basic;
@@ -136,6 +138,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
     String UserCurrency;
     TextView txtDisplayName;
     VectorCircularImageView profileImge;
+    static ChatMainActivity insntance;
 
     VectorPendingCallView mVectorPendingCallView;
     private static ChatMainActivity sharedInstance = null;
@@ -1398,6 +1401,25 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
 //        });
         AlertDialog b = dialogBuilder.create();
         b.show();
+    }
+    ChatMainActivity getInsntance() {
+        return insntance;
+    }
+
+    public static boolean isSyncNeed = false;
+
+    private class MyContentObserver extends ContentObserver {
+        public MyContentObserver() {
+            super(null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            isSyncNeed = true;
+            onSyncListener();
+            Log.d(this.getClass().getSimpleName(), "-----A change has happened");
+        }
     }
 
 }

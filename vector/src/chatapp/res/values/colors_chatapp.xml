@@ -323,7 +323,7 @@
     <string name="second_color">#9AD8F2</string>
     <color name="cb_bg_color">#E7EAEE</color>
     <color name="cb_bg_value">@color/light_blue_200</color>
-    <color name="dialer_color">#DCEDC8</color>
+    <color name="dialer_color">@color/light_blue_200</color>
     <color name="linkColor">#FF6D00</color>
 
 </resources>

@@ -521,7 +521,7 @@ public class AudioRecordView {
                     if (showCameraIcon) {
                         if (imageViewCamera.getVisibility() != View.GONE) {
                             imageViewCamera.setVisibility(View.GONE);
-                            imageViewCamera.animate().scaleX(0f).scaleY(0f).setDuration(100).setInterpolator(new LinearInterpolator()).start();
+//                            imageViewCamera.animate().scaleX(0f).scaleY(0f).setDuration(100).setInterpolator(new LinearInterpolator()).start();
                         }
                     }
                     if (imageViewAttachment.getVisibility() != View.GONE) {

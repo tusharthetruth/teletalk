@@ -36,7 +36,6 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,170 +47,16 @@ class HomeSecond : Fragment(),HomeAdapter.iHomClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv.layoutManager = GridLayoutManager(activity, 3)
-        val adapter: HomeAdapter = HomeAdapter(context, HomeModel.getSecHomeList(), this)
+        val adapter = HomeAdapter(context, HomeModel.getSecHomeList(), this)
         rv.adapter = adapter
-
-
     }
 
 
 
     override fun onHomeClick(title: String?) {
-        when (title) {
-            C.Status -> {
-                startActivity(Intent(requireActivity(), UserStatusActivity::class.java))
-
-            }
-            C.InviteFriends -> {
-                (activity as ChatMainActivity).invite()
-
-            }
-            C.Settings -> {
-                startActivity(Intent(activity, VectorSettingsActivity::class.java))
-
-            }
-            C.MyBalance -> {
-                (activity as ChatMainActivity).GetBalance()
-
-            }
-            C.TransferCash -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", C.TransferCash)
-                startActivity(myIntent)
-            }
-            C.BuyCredit -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "Credit")
-                startActivity(myIntent)
-            }
-            C.BuyCredit -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "Credit")
-                startActivity(myIntent)
-            }
-            C.Meeting -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "meeting")
-                startActivity(myIntent)
-            }
-            C.VoucherRecharge -> {
-                (activity as ChatMainActivity).voucherTransfer()
-
-            }
-            C.MobileTopup -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "TopupA")
-                startActivity(myIntent)
-            }
-            C.MobileTransfer -> {
-                (activity as ChatMainActivity).voucherRegcharge()
-            }
-            C.TrnasferHistory -> {
-                startActivity(Intent(requireActivity(), TransferHistoryAcitivty::class.java))
-
-            }
-            C.ContactBackup -> {
-                showErr()
-
-            }
-            C.Tracking -> {
-                C.showErr()
-//                startActivity(Intent(activity, TrackingActivity::class.java))
-            }
-            C.Did -> {
-                showErr()
-
-            }
-            C.UpdateProfile -> {
-                startActivity(Intent(activity, VectorSettingsActivity::class.java))
-
-            }
-            C.Qr -> {
-                startActivity(Intent(activity, QrActivity::class.java))
-
-            }
-            C.Ticketing -> {
-                startActivity(Intent(activity, TicketingActivity::class.java))
-
-            }
-            C.Courier -> {
-                startActivity(Intent(activity, CourierActivity::class.java))
-
-            }
-            C.WillEducation -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "Education")
-                startActivity(myIntent)
-            }
-            C.Medical -> {
-                showErr()
-
-            }
-            C.DataBundle -> {
-                val myIntent1 = Intent(context, ExtendedWebview::class.java)
-                myIntent1.putExtra("Bundle", C.Companion.DataBundle)
-                startActivity(myIntent1)
-            }
-            C.TV -> {
-                val myIntent2 = Intent(context, ExtendedWebview::class.java)
-                myIntent2.putExtra("Bundle", C.TV)
-                startActivity(myIntent2)
-
-            }
-            C.Electric -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", C.Electric)
-                startActivity(myIntent)
-            }
-            C.Electric -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", C.Electric)
-                startActivity(myIntent)
-            }
-            C.SMS -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "sms")
-                startActivity(myIntent)
-            }
-            C.MONEYTRANSFER -> {
-                val myIntent = Intent(context, ExtendedWebview::class.java)
-                myIntent.putExtra("Bundle", "moneytransfer")
-                startActivity(myIntent)
-            }
-            C.Law -> {
-                startActivity(Intent(activity, LawActivity::class.java))
-
-            }
-            C.smartAgro -> {
-                showErr()
-            }
-            C.SmartCityGuide -> {
-                showErr()
-            }
-            C.WhyWill -> {
-                try {
-                    val myIntent = Intent(activity, ExtendedWebview::class.java)
-                    myIntent.putExtra("Bundle", "Why")
-                    startActivity(myIntent)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(activity, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
-            }
-
-            C.Logout -> {
-                (activity as ChatMainActivity).logout()
-            }
-            C.MyNumber -> {
-                try {
-                    val myIntent = Intent(activity, ExtendedWebview::class.java)
-                    myIntent.putExtra("Bundle", "MyNumber")
-                    startActivity(myIntent)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(activity, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
-                    e.printStackTrace()
-                }
-            }
+        val c= activity?.let { C(it) }
+        if (title != null) {
+            c?.onHomeItemClick(title)
         }
     }
 

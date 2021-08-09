@@ -1,10 +1,26 @@
 package com.chatapp
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import android.preference.PreferenceManager
 import android.widget.Toast
+import com.chatapp.activity.CourierActivity
+import com.chatapp.activity.LawActivity
+import com.chatapp.activity.QrActivity
+import com.chatapp.activity.TicketingActivity
+import com.chatapp.share.UserStatusActivity
 import im.vector.VectorApp
+import im.vector.activity.VectorSettingsActivity
 
 class C {
+    var c: Context? = null
+
+    constructor (context: Activity) {
+        c = context
+    }
+
     companion object {
         var Status = "Status"
         var InviteFriends = "InviteFriends"
@@ -25,6 +41,8 @@ class C {
         var WillEducation = "Will Education"
         var Medical = "Medical"
         var Law = "Law"
+        var bookId = "Book Id"
+        var callerId = "Caller Id"
         var smartAgro = "smartAgro"
         var SmartCityGuide = "SmartCityGuide"
         var WhyWill = "WhyWill"
@@ -37,6 +55,7 @@ class C {
         var MONEYTRANSFER = "Money Transfer"
         var SMS = "Send Sms"
         var TransferCash = "Transfer Cash"
+        var services = "Services"
 
         var AddMoneyToWallet = "Add Money To Wallet"
         var TransferCredit = "Transfer Credit"
@@ -63,11 +82,197 @@ class C {
         public fun showErr() {
             Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
         }
-        fun getUserName():String{
+
+        fun getUserName(): String {
             var userName = ""
             var settings = PreferenceManager.getDefaultSharedPreferences(VectorApp.getInstance())
             userName = settings?.getString("Username", "").toString()
             return userName
+        }
+
+
+    }
+
+    fun status() {
+        c?.startActivity(Intent(c, UserStatusActivity::class.java))
+    }
+
+    fun invite() {
+        (c as ChatMainActivity).invite()
+
+    }
+
+    fun setting() {
+        c?.startActivity(Intent(c, VectorSettingsActivity::class.java))
+    }
+
+    fun myBalance() {
+        (c as ChatMainActivity).GetBalance()
+    }
+
+    fun buyCredit() {
+        val myIntent = Intent(c, ExtendedWebview::class.java)
+        myIntent.putExtra("Bundle", C.AddMoneyToWallet)
+        c?.startActivity(myIntent)
+    }
+
+    fun myNumber() {
+        try {
+            val myIntent = Intent(c, ExtendedWebview::class.java)
+            myIntent.putExtra("Bundle", "MyNumber")
+            c?.startActivity(myIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(c, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
+    }
+
+    fun logout() {
+        (c as ChatMainActivity).logout()
+    }
+
+
+    fun onHomeItemClick(title: String) {
+        when (title) {
+            Status -> {
+                status()
+            }
+            InviteFriends -> {
+                invite()
+            }
+            Settings -> {
+                setting()
+            }
+            MyBalance -> {
+                myBalance()
+            }
+            BuyCredit -> {
+                buyCredit()
+            }
+            Meeting -> {
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "meeting")
+                c?.startActivity(myIntent)
+            }
+            VoucherRecharge -> {
+                (c as ChatMainActivity).voucherTransfer()
+            }
+            MobileTopup -> {
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", MobileTopup)
+                c?.startActivity(myIntent)
+            }
+            MobileTransfer -> {
+                (c as ChatMainActivity).voucherRegcharge()
+            }
+            TrnasferHistory -> {
+                c?.startActivity(Intent(c, TransferHistoryAcitivty::class.java))
+
+            }
+            ContactBackup -> {
+                showErr()
+
+            }
+            Tracking -> {
+                showErr()
+            }
+            Did -> {
+                showErr()
+
+            }
+            UpdateProfile -> {
+                c?.startActivity(Intent(c, VectorSettingsActivity::class.java))
+
+            }
+            Qr -> {
+                c?.startActivity(Intent(c, QrActivity::class.java))
+
+            }
+            Ticketing -> {
+                c?.startActivity(Intent(c, TicketingActivity::class.java))
+
+            }
+            Courier -> {
+                c?.startActivity(Intent(c, CourierActivity::class.java))
+
+            }
+            WillEducation -> {
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", "Education")
+                c?.startActivity(myIntent)
+            }
+            Medical -> {
+                showErr()
+
+            }
+            Law -> {
+                c?.startActivity(Intent(c, LawActivity::class.java))
+
+            }
+            smartAgro -> {
+                showErr()
+            }
+            SmartCityGuide -> {
+                showErr()
+            }
+            WhyWill -> {
+                try {
+                    val myIntent = Intent(c, ExtendedWebview::class.java)
+                    myIntent.putExtra("Bundle", "Why")
+                    c?.startActivity(myIntent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(c, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
+            services -> {
+                try {
+                    val myIntent = Intent(c, SettingsWebActivity::class.java)
+                    c?.startActivity(myIntent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(c, "No application can handle this request. Please install a webbrowser", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
+                }
+            }
+
+            Logout -> {
+                logout()
+            }
+            MyNumber -> {
+                myNumber()
+            }
+            bookId -> {
+                showErr()
+            }
+            callerId -> {
+                showErr()
+             }
+            TransferCash->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", C.TransferCash)
+                c?.startActivity(myIntent)
+            }
+            DataBundle->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", DataBundle)
+                c?.startActivity(myIntent)
+            }
+            Electric->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", Electric)
+                c?.startActivity(myIntent)
+            }
+            TV->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", TV)
+                c?.startActivity(myIntent)
+            }
+            bookId->{
+                showErr()
+            }
+            callerId->{
+                showErr()
+            }
         }
     }
 }
