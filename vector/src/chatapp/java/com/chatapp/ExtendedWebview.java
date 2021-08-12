@@ -100,11 +100,11 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
             url = baseUrl + "mobile_payment.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
-            setTitle("Add Money To Wallet ");
+            setTitle("Buy Credit ");
         } else if (url.equalsIgnoreCase(C.Companion.getMobileTopup())) {
             String userName = settings.getString("Username", "");
             String password = settings.getString("Password", "");
-            url = baseUrl + "billing_mobile_app.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = baseUrl + "billing_airtime.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Mobile Topup");
         } else if (url.equalsIgnoreCase("TopupB")) {
             String userName = settings.getString("Username", "");
@@ -136,6 +136,18 @@ public class ExtendedWebview extends AppCompatActivity implements AdvanceWebView
             String password = settings.getString("Password", "");
             url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
             setTitle("Transfer Credit");
+        }else if (url.equalsIgnoreCase(C.Companion.getTeletakTV())) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+//            url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = " https://tv.multi-tenantpbx.com/";
+            setTitle(C.Companion.getTeletakTV());
+        }else if (url.equalsIgnoreCase(C.Companion.getTeletalkStore())) {
+            String userName = settings.getString("Username", "");
+            String password = settings.getString("Password", "");
+//            url = baseUrl + "billing_mobile_money.php?pr_login=" + userName + "&pr_password=" + password + "&mobiledone=submit_log";
+            url = "https://store.class5voipsoftswitch.com/";
+            setTitle(C.Companion.getTeletalkStore());
         }
     }
 

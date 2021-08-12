@@ -1046,7 +1046,7 @@ public class ContactsListFragment extends ListFragment implements
                         pDialog.setMessage("Please wait...");
                         pDialog.setIndeterminate(false);
                         pDialog.setCancelable(false);
-                        pDialog.show();
+//                        pDialog.show();
                         new AsyncTask<Void, Void, Void>() {
                             @Override
                             protected Void doInBackground(Void... voids) {
@@ -1065,7 +1065,7 @@ public class ContactsListFragment extends ListFragment implements
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        pDialog.dismiss();
+//                                        pDialog.dismiss();
                                         mContactInviteAdapterAdapter.notifyDataSetChanged();
 
                                     }

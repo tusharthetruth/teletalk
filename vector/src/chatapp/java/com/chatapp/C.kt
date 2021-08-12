@@ -6,11 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import android.widget.Toast
-import com.chatapp.activity.CourierActivity
-import com.chatapp.activity.LawActivity
-import com.chatapp.activity.QrActivity
-import com.chatapp.activity.TicketingActivity
+import com.chatapp.activity.*
 import com.chatapp.share.UserStatusActivity
+import im.vector.R
 import im.vector.VectorApp
 import im.vector.activity.VectorSettingsActivity
 
@@ -77,10 +75,12 @@ class C {
         var CallDetailsReport = "Call Details Report"
         var CallRates = "Call Rates"
         var ELearning = "E-Learning"
+        var TeletakTV = "Teletalk Tv"
+        var TeletalkStore = "Teletalk Store"
 
 
         public fun showErr() {
-            Toast.makeText(VectorApp.getInstance(), "Coming Soon", Toast.LENGTH_LONG).show()
+            Toast.makeText(VectorApp.getInstance(), "Available in Paid Version", Toast.LENGTH_LONG).show()
         }
 
         fun getUserName(): String {
@@ -267,12 +267,33 @@ class C {
                 myIntent.putExtra("Bundle", TV)
                 c?.startActivity(myIntent)
             }
+            TeletakTV->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", C.TeletakTV)
+                c?.startActivity(myIntent)
+            }
+            TeletalkStore->{
+                val myIntent = Intent(c, ExtendedWebview::class.java)
+                myIntent.putExtra("Bundle", C.TeletalkStore)
+                c?.startActivity(myIntent)
+            }
             bookId->{
                 showErr()
             }
             callerId->{
                 showErr()
             }
+            CallRates -> {
+                c?.startActivity(Intent(c, CallRatesActivity::class.java))
+            }
+            CallDetailsReport -> {
+                c?.startActivity(Intent(c, CallDetailsHistoryActivity::class.java))
+
+            }
+            else->{
+                showErr()
+            }
+
         }
     }
 }

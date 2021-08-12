@@ -1,10 +1,13 @@
 package com.chatapp.fragments
 
 import android.app.Activity
+import com.chatapp.C
 import com.chatapp.C.Companion.BuyCredit
+import com.chatapp.C.Companion.ContactBackup
 import com.chatapp.C.Companion.Courier
 import com.chatapp.C.Companion.DataBundle
 import com.chatapp.C.Companion.Did
+import com.chatapp.C.Companion.ELearning
 import com.chatapp.C.Companion.Electric
 import com.chatapp.C.Companion.InviteFriends
 import com.chatapp.C.Companion.Law
@@ -53,7 +56,7 @@ class HomeModel {
                         R.drawable.setting,
                         R.drawable.mybalance,
                         R.drawable.did,
-                        R.drawable.buy_credit_wallet,
+                        R.drawable.buy_credit,
                         R.drawable.voucher,
                         R.drawable.mobile_topup,
                         R.drawable.transfer_credit)
@@ -77,12 +80,46 @@ class HomeModel {
                 return list
             }
 
+        val thirdHomeList: ArrayList<HomeModel>
+            get() {
+                val list = ArrayList<HomeModel>()
+                val iconList = arrayOf(
+                        R.drawable.e_learning,
+                        R.drawable.book_ticket,
+                        R.drawable.courier,
+                        R.drawable.contact_backup,
+                        R.drawable.tracking,
+                        R.drawable.call_details_report,
+                        R.drawable.call_rates,
+                        R.drawable.teletalk_tv,
+                        R.drawable.teletalk_store
+                        )
+                val titles = arrayOf(
+                        ELearning,
+                        bookId,
+                        Courier,
+                        ContactBackup,
+                        C.Tracking,
+                        C.CallDetailsReport,
+                        C.CallRates,
+                        C.TeletakTV,
+                        C.TeletalkStore
+                )
+                for (i in iconList.indices) {
+                    val model = HomeModel()
+                    model.name = titles[i]
+                    model.icon = iconList[i]
+                    list.add(model)
+                }
+                return list
+            }
+
 
 
         fun getSecHomeList(): ArrayList<HomeModel> {
             val list = ArrayList<HomeModel>()
             val iconList = arrayOf(
-                    R.drawable.mobile_money_wallet_transfer,
+                    R.drawable.mobile_waltet,
                     R.drawable.transfer_history,
                     R.drawable.data_bundle,
                     R.drawable.electricity,
@@ -100,7 +137,7 @@ class HomeModel {
                     UpdateProfile,
                     bookId,
                     callerId,
-                    services
+                    Settings
             )
             for (i in iconList.indices) {
                 val model = HomeModel()
