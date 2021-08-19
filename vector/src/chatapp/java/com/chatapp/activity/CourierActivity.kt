@@ -21,6 +21,7 @@ class CourierActivity : AppCompatActivity(),View.OnClickListener {
         aramex.setOnClickListener(this)
         gig.setOnClickListener(this)
         ups.setOnClickListener(this)
+        bd.setOnClickListener(this)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Courier"

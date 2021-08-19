@@ -242,7 +242,7 @@ class C {
                 myNumber()
             }
             bookId -> {
-                showErr()
+                c?.startActivity(Intent(c, TicketingActivity::class.java))
             }
             callerId -> {
                 showErr()

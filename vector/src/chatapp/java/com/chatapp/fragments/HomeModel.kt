@@ -3,6 +3,8 @@ package com.chatapp.fragments
 import android.app.Activity
 import com.chatapp.C
 import com.chatapp.C.Companion.BuyCredit
+import com.chatapp.C.Companion.CallDetailsReport
+import com.chatapp.C.Companion.CallRates
 import com.chatapp.C.Companion.ContactBackup
 import com.chatapp.C.Companion.Courier
 import com.chatapp.C.Companion.DataBundle
@@ -53,23 +55,24 @@ class HomeModel {
                 val iconList = arrayOf(
                         R.drawable.status,
                         R.drawable.invite_friends,
-                        R.drawable.setting,
+                        R.drawable.caller_id,
+                        R.drawable.profile,
                         R.drawable.mybalance,
                         R.drawable.did,
+                        R.drawable.send_sms,
                         R.drawable.buy_credit,
-                        R.drawable.voucher,
-                        R.drawable.mobile_topup,
-                        R.drawable.transfer_credit)
+                        R.drawable.voucher
+                )
                 val titles = arrayOf(
                         Status,
                         InviteFriends,
-                        Settings,
+                        callerId,
+                        UpdateProfile,
                         MyBalance,
                         Did,
+                        C.SendSMS,
                         BuyCredit,
-                        VoucherRecharge,
-                        MobileTopup,
-                        MobileTransfer
+                        VoucherRecharge
                 )
                 for (i in iconList.indices) {
                     val model = HomeModel()
@@ -89,21 +92,19 @@ class HomeModel {
                         R.drawable.courier,
                         R.drawable.contact_backup,
                         R.drawable.tracking,
-                        R.drawable.call_details_report,
-                        R.drawable.call_rates,
                         R.drawable.teletalk_tv,
-                        R.drawable.teletalk_store
-                        )
+                        R.drawable.teletalk_store,
+                        R.drawable.setting
+                )
                 val titles = arrayOf(
                         ELearning,
-                        bookId,
+                        C.Ticketing,
                         Courier,
                         ContactBackup,
                         C.Tracking,
-                        C.CallDetailsReport,
-                        C.CallRates,
                         C.TeletakTV,
-                        C.TeletalkStore
+                        C.TeletalkStore,
+                        C.Settings
                 )
                 for (i in iconList.indices) {
                     val model = HomeModel()
@@ -120,24 +121,26 @@ class HomeModel {
             val list = ArrayList<HomeModel>()
             val iconList = arrayOf(
                     R.drawable.mobile_waltet,
+                    R.drawable.transfer_credit,
                     R.drawable.transfer_history,
+                    R.drawable.mobile_topup,
                     R.drawable.data_bundle,
                     R.drawable.electricity,
                     R.drawable.tv_recharge,
-                    R.drawable.profile,
-                    R.drawable.book_ticket,
-                    R.drawable.caller_id,
-                    R.drawable.setting)
+                    R.drawable.call_details_report,
+                    R.drawable.call_rates
+                    )
             val titles = arrayOf(
                     TransferCash,
+                    MobileTransfer,
                     TrnasferHistory,
+                    MobileTopup,
                     DataBundle,
                     Electric,
                     TV,
-                    UpdateProfile,
-                    bookId,
-                    callerId,
-                    Settings
+                    CallDetailsReport,
+                    CallRates,
+                    ELearning
             )
             for (i in iconList.indices) {
                 val model = HomeModel()

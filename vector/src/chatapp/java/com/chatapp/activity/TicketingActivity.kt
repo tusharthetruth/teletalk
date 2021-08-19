@@ -20,11 +20,11 @@ class TicketingActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_ticketing)
         train.setOnClickListener(this)
         taxi.setOnClickListener(this)
-        smartcab.setOnClickListener(this)
+//        smartcab.setOnClickListener(this)
         bus.setOnClickListener(this)
         fligt.setOnClickListener(this)
         hotels.setOnClickListener(this)
-        bike.setOnClickListener(this)
+//        bike.setOnClickListener(this)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Ticketing"

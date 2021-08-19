@@ -93,6 +93,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         android:background="@drawable/home_item_bg"
         android:minHeight="44dp"
         android:orientation="horizontal"
@@ -117,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:visibility="gone"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/home_item_bg"
@@ -143,6 +145,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:visibility="gone"
+
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/home_item_bg"
@@ -165,6 +169,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/aramex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -187,6 +192,31 @@
             android:layout_gravity="center"
             android:paddingLeft="10dp"
             android:text="Aramex"
+            android:textSize="@dimen/global_ts" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/home_item_bg"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/global_icon_size"
+            android:layout_height="@dimen/global_icon_size"
+            android:src="@drawable/bd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:text="Blue Dart"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 

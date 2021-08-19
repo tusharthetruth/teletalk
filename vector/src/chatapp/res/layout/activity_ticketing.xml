@@ -34,7 +34,7 @@
         tools:src="@tools:sample/avatars" />
 
     <LinearLayout
-        android:id="@+id/train"
+        android:id="@+id/fligt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -48,17 +48,16 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/train_booking" />
+            android:src="@drawable/flight" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Train Booking"
+            android:text="Flight Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/taxi"
         android:layout_width="match_parent"
@@ -74,7 +73,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/taxi_booking" />
+            android:src="@drawable/taxi" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -84,32 +83,6 @@
             android:text="Taxi Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/smartcab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/home_item_bg"
-        android:minHeight="44dp"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/global_icon_size"
-            android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/wills_smart_cab" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:text="Smartcab"
-            android:textSize="@dimen/global_ts" />
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/bus"
         android:layout_width="match_parent"
@@ -125,7 +98,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/bus_booking" />
+            android:src="@drawable/bus" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -135,9 +108,8 @@
             android:text="Bus Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
-
     <LinearLayout
-        android:id="@+id/fligt"
+        android:id="@+id/train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -151,17 +123,16 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/flight_booking" />
+            android:src="@drawable/train" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="10dp"
-            android:text="Flight Booking"
+            android:text="Train Booking"
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
-
     <LinearLayout
         android:id="@+id/hotels"
         android:layout_width="match_parent"
@@ -177,7 +148,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/global_icon_size"
             android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/hotel_booking" />
+            android:src="@drawable/hotels" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -188,31 +159,56 @@
             android:textSize="@dimen/global_ts" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/bike"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/home_item_bg"
-        android:minHeight="44dp"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/smartcab"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:background="@drawable/home_item_bg"-->
+<!--        android:minHeight="44dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingLeft="8dp">-->
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/global_icon_size"
-            android:layout_height="@dimen/global_icon_size"
-            android:src="@drawable/bike_booking" />
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:layout_width="@dimen/global_icon_size"-->
+<!--            android:layout_height="@dimen/global_icon_size"-->
+<!--            android:src="@drawable/wills_smart_cab" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:text="Bike Booking"
-            android:textSize="@dimen/global_ts" />
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:text="Smartcab"-->
+<!--            android:textSize="@dimen/global_ts" />-->
+<!--    </LinearLayout>-->
+<!--    <LinearLayout-->
+<!--        android:id="@+id/bike"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:background="@drawable/home_item_bg"-->
+<!--        android:minHeight="44dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingLeft="8dp">-->
+
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:layout_width="@dimen/global_icon_size"-->
+<!--            android:layout_height="@dimen/global_icon_size"-->
+<!--            android:src="@drawable/bike_booking" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:text="Bike Booking"-->
+<!--            android:textSize="@dimen/global_ts" />-->
+<!--    </LinearLayout>-->
 
 
 </LinearLayout>

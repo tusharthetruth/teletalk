@@ -286,7 +286,8 @@ dependencies {
     //implementation project(':matrix-sdk-core')
 
     /************* jitsi **************/
-    implementation('org.jitsi.react:jitsi-meet-sdk:2.2.2')
+    implementation('org.jitsi.react:jitsi-meet-sdk:2.9.0') { transitive = true }
+
 
     /************* analytics **************/
     // another tracking than GA
