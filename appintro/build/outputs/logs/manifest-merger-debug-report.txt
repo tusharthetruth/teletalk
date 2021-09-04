@@ -1,39 +1,39 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
+ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
 	package
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:2:5-46
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:2:5-46
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
 	android:versionCode
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:1:1-4:12
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:1:1-4:12
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
 application
-ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml:3:5-20
+ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/appintro/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\appintro\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\appintro\src\main\AndroidManifest.xml

@@ -29,7 +29,7 @@ import im.vector.R
 import im.vector.activity.VectorAppCompatActivity
 import im.vector.activity.VectorWebViewActivity
 import im.vector.ui.themes.ThemeUtils
-import im.vector.webview.WebViewMode
+//import im.vector.webview.WebViewMode
 import org.matrix.androidsdk.rest.model.login.LocalizedFlowDataLoginTerms
 
 /**
@@ -60,7 +60,7 @@ class AccountCreationTermsActivity : VectorAppCompatActivity(),
         val list = ArrayList<LocalizedFlowDataLoginTermsChecked>()
 
         intent.getParcelableArrayListExtra<LocalizedFlowDataLoginTerms>(DATA)
-                .forEach {
+                ?.forEach {
                     list.add(LocalizedFlowDataLoginTermsChecked(it))
                 }
 
@@ -99,12 +99,12 @@ class AccountCreationTermsActivity : VectorAppCompatActivity(),
     }
 
     override fun openPolicy(localizedFlowDataLoginTerms: LocalizedFlowDataLoginTerms) {
-        val intent = VectorWebViewActivity.getIntent(this,
-                localizedFlowDataLoginTerms.localizedUrl!!,
-                localizedFlowDataLoginTerms.localizedName!!,
-                WebViewMode.DEFAULT)
-
-        startActivity(intent)
+//        val intent = VectorWebViewActivity.getIntent(this,
+//                localizedFlowDataLoginTerms.localizedUrl!!,
+//                localizedFlowDataLoginTerms.localizedName!!,
+//                WebViewMode.DEFAULT)
+//
+//        startActivity(intent)
     }
 
     @OnClick(R.id.account_creation_policy_button_accept)

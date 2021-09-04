@@ -24,7 +24,7 @@ import android.webkit.WebView
 import butterknife.BindView
 import im.vector.R
 import im.vector.webview.VectorWebViewClient
-import im.vector.webview.WebViewMode
+//import im.vector.webview.WebViewMode
 
 /**
  * This class is responsible for managing a WebView
@@ -77,22 +77,22 @@ class VectorWebViewActivity : VectorAppCompatActivity() {
             cookieManager.setAcceptThirdPartyCookies(webView, true)
         }
 
-        val url = intent.extras.getString(EXTRA_URL)
-        val title = intent.extras.getString(EXTRA_TITLE, USE_TITLE_FROM_WEB_PAGE)
+        val url = intent.extras?.getString(EXTRA_URL)
+        val title = intent.extras?.getString(EXTRA_TITLE, USE_TITLE_FROM_WEB_PAGE)
         if (title != USE_TITLE_FROM_WEB_PAGE) {
             setTitle(title)
         }
 
-        val webViewMode = intent.extras.getSerializable(EXTRA_MODE) as WebViewMode
-        val eventListener = webViewMode.eventListener(this)
-        webView.webViewClient = VectorWebViewClient(eventListener)
-        webView.webChromeClient = object : WebChromeClient() {
-            override fun onReceivedTitle(view: WebView, title: String) {
-                if (title == USE_TITLE_FROM_WEB_PAGE) {
-                    setTitle(title)
-                }
-            }
-        }
+//        val webViewMode = intent.extras?.getSerializable(EXTRA_MODE) as? WebViewMode
+//        val eventListener = webViewMode?.eventListener(this)
+//        webView.webViewClient = eventListener?.let { VectorWebViewClient(it) }
+//        webView.webChromeClient = object : WebChromeClient() {
+//            override fun onReceivedTitle(view: WebView, title: String) {
+//                if (title == USE_TITLE_FROM_WEB_PAGE) {
+//                    setTitle(title)
+//                }
+//            }
+//        }
         webView.loadUrl(url)
     }
 
@@ -119,17 +119,17 @@ class VectorWebViewActivity : VectorAppCompatActivity() {
 
         private const val USE_TITLE_FROM_WEB_PAGE = ""
 
-        fun getIntent(context: Context,
-                      url: String,
-                      title: String = USE_TITLE_FROM_WEB_PAGE,
-                      mode: WebViewMode = WebViewMode.DEFAULT): Intent {
-            return Intent(context, VectorWebViewActivity::class.java)
-                    .apply {
-                        putExtra(EXTRA_URL, url)
-                        putExtra(EXTRA_TITLE, title)
-                        putExtra(EXTRA_MODE, mode)
-                    }
-        }
+//        fun getIntent(context: Context,
+//                      url: String,
+//                      title: String = USE_TITLE_FROM_WEB_PAGE,
+//                      mode: WebViewMode = WebViewMode.DEFAULT): Intent {
+//            return Intent(context, VectorWebViewActivity::class.java)
+//                    .apply {
+//                        putExtra(EXTRA_URL, url)
+//                        putExtra(EXTRA_TITLE, title)
+//                        putExtra(EXTRA_MODE, mode)
+//                    }
+//        }
     }
 }
 

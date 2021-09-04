@@ -21,17 +21,17 @@ import im.vector.activity.VectorAppCompatActivity
 /**
  * This enum indicates the WebView mode. It's responsible for creating a WebViewEventListener
  */
-enum class WebViewMode : WebViewEventListenerFactory {
-
-    DEFAULT {
-        override fun eventListener(activity: VectorAppCompatActivity): WebViewEventListener {
-            return DefaultWebViewEventListener()
-        }
-    },
-    CONSENT {
-        override fun eventListener(activity: VectorAppCompatActivity): WebViewEventListener {
-            return ConsentWebViewEventListener(activity, DefaultWebViewEventListener())
-        }
-    };
-
-}
+//enum class WebViewMode : WebViewEventListenerFactory {
+//
+//    DEFAULT {
+//        override fun eventListener(activity: VectorAppCompatActivity): WebViewEventListener {
+//            return DefaultWebViewEventListener()
+//        }
+//    },
+//    CONSENT {
+//        override fun eventListener(activity: VectorAppCompatActivity): WebViewEventListener {
+//            return ConsentWebViewEventListener(activity, DefaultWebViewEventListener())
+//        }
+//    };
+//
+//}

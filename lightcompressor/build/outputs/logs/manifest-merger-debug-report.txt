@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
+ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 	package
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:11-61
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:11-61
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 	android:versionCode
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml:1:1-64
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
 uses-sdk
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		ADDED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
-		INJECTED from /Users/Tushar/Documents/adore/riot2/riot2/lightcompressor/src/main/AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml

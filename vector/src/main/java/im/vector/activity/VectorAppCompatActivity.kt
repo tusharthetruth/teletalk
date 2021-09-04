@@ -17,6 +17,7 @@
 
 package im.vector.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -88,6 +89,7 @@ abstract class VectorAppCompatActivity : BaseMvRxActivity() {
         super.attachBaseContext(VectorApp.getLocalisedContext(base))
     }
 
+    @SuppressLint("MissingSuperCall")
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
@@ -334,6 +336,7 @@ abstract class VectorAppCompatActivity : BaseMvRxActivity() {
     // Set of restorable object
     private val restorables = HashSet<Restorable>()
 
+    @SuppressLint("MissingSuperCall")
     @CallSuper
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
