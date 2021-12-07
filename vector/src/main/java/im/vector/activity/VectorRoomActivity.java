@@ -72,6 +72,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -1725,12 +1726,17 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     private Boolean isLoactionShareClicked = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ic_location:
-                isLoactionShareClicked = true;
-                shareLocation();
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    isLoactionShareClicked = true;
+                    shareLocation();
+                }else{
+                    Toast.makeText(this,"Please check your location permission",Toast.LENGTH_LONG).show();
+                }
                 return true;
             case R.id.add_user:
                 chooseUser();
@@ -4640,6 +4646,7 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupLocation() {
         try {
             FusedLocationProviderClient fusedLocationClient =
@@ -4662,13 +4669,14 @@ public class VectorRoomActivity extends MXCActionBarActivity implements
                     setUpLocationListener();
                 } else {
                     if (isLoactionShareClicked) {
-                        isLoactionShareClicked=false; 
+                        isLoactionShareClicked = false;
                         Locationtil.INSTANCE.showGPSNotEnabledDialog(this);
                     }
                 }
             } else {
-                Locationtil.INSTANCE.
-                        requestAccessFineLocationPermission(this, LOCATION_PERMISSION_REQUEST_CODE);
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+                    Locationtil.INSTANCE.
+                            requestAccessFineLocationPermission(this, LOCATION_PERMISSION_REQUEST_CODE);
             }
         } catch (Exception e) {
 

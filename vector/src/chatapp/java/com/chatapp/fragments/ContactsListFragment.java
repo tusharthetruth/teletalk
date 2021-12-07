@@ -1036,6 +1036,7 @@ public class ContactsListFragment extends ListFragment implements
         }
         return displayName;
     }
+
     private void sync() {
         try {
             if (getActivity() != null) {
