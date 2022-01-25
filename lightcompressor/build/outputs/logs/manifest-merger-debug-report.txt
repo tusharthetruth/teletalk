@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 	package
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:11-61
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:11-61
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
 	android:versionCode
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml:1:1-64
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml:1:1-64
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
 uses-sdk
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		ADDED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
-		INJECTED from D:\Riot\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		ADDED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
+		INJECTED from D:\riot2\lightcompressor\src\main\AndroidManifest.xml
