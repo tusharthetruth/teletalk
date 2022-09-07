@@ -40,6 +40,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import im.vector.R;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.chatapp.Settings;
 import com.chatapp.sip.api.SipCallSession;
 import com.chatapp.sip.api.SipManager;
 import com.chatapp.sip.api.SipMessage;
@@ -85,45 +95,45 @@ public class SipNotifications {
 		}
 
 		if( ! Compatibility.isCompatible(9) ) {
-		    searchNotificationPrimaryText(aContext);
+			searchNotificationPrimaryText(aContext);
 		}
 	}
 
-    private Integer notificationPrimaryTextColor = null;
+	private Integer notificationPrimaryTextColor = null;
 
-    private static String TO_SEARCH = "Search";
+	private static String TO_SEARCH = "Search";
 	// Retrieve notification textColor with android < 2.3
 	@SuppressWarnings("deprecation")
-    private void searchNotificationPrimaryText(Context aContext) {
-	    try {
-	        Notification ntf = new Notification();
-	    //    ntf.setLatestEventInfo(aContext, TO_SEARCH, "", null);
-	        LinearLayout group = new LinearLayout(aContext);
-	        ViewGroup event = (ViewGroup) ntf.contentView.apply(aContext, group);
-	        recurseSearchNotificationPrimaryText(event);
-	        group.removeAllViews();
-	    } catch (Exception e) {
-	        Log.e(THIS_FILE, "Can't retrieve the color", e);
-	    }
+	private void searchNotificationPrimaryText(Context aContext) {
+		try {
+			Notification ntf = new Notification();
+			//    ntf.setLatestEventInfo(aContext, TO_SEARCH, "", null);
+			LinearLayout group = new LinearLayout(aContext);
+			ViewGroup event = (ViewGroup) ntf.contentView.apply(aContext, group);
+			recurseSearchNotificationPrimaryText(event);
+			group.removeAllViews();
+		} catch (Exception e) {
+			Log.e(THIS_FILE, "Can't retrieve the color", e);
+		}
 	}
 
 	private boolean recurseSearchNotificationPrimaryText(ViewGroup gp) {
-	    final int count = gp.getChildCount();
-	    for (int i = 0; i < count; ++i) {
-	        if (gp.getChildAt(i) instanceof TextView){
-	            final TextView text = (TextView) gp.getChildAt(i);
-	            final String szText = text.getText().toString();
-	            if (TO_SEARCH.equals(szText)) {
-	                notificationPrimaryTextColor = text.getTextColors().getDefaultColor();
-	                return true;
-	            }
-	        } else if (gp.getChildAt(i) instanceof ViewGroup) {
-	            if(recurseSearchNotificationPrimaryText((ViewGroup) gp.getChildAt(i))) {
-	                return true;
-	            }
-	        }
-	    }
-	    return false;
+		final int count = gp.getChildCount();
+		for (int i = 0; i < count; ++i) {
+			if (gp.getChildAt(i) instanceof TextView){
+				final TextView text = (TextView) gp.getChildAt(i);
+				final String szText = text.getText().toString();
+				if (TO_SEARCH.equals(szText)) {
+					notificationPrimaryTextColor = text.getTextColors().getDefaultColor();
+					return true;
+				}
+			} else if (gp.getChildAt(i) instanceof ViewGroup) {
+				if(recurseSearchNotificationPrimaryText((ViewGroup) gp.getChildAt(i))) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 
@@ -225,6 +235,34 @@ public class SipNotifications {
 			Log.e(THIS_FILE, "Trying to create a service notification from outside the service");
 			return;
 		}
+
+		if(!Settings.PushMsgID.equals("")){
+			try {
+
+				String url = String.format("%s?msgid=%s",
+						Settings.SIP_PUSH_ACK_API,
+						Settings.PushMsgID.replace("%","%25"));
+				RequestQueue requestQueue = Volley.newRequestQueue(context);
+				StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+					@Override
+					public void onResponse(String s) {
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError volleyError) {
+						volleyError.printStackTrace();
+					}
+				});
+				int socketTimeout = 30000;
+				RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+				stringRequest.setRetryPolicy(policy);
+				requestQueue.add(stringRequest);
+				Settings.PushMsgID="";
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+
 		/*
 		int icon = R.drawable.ic_stat_sipok;
 		CharSequence tickerText = context.getString(R.string.service_ticker_registered_text);
@@ -267,31 +305,31 @@ public class SipNotifications {
 
 
 	private String formatRemoteContactString(String remoteContact) {
-        String formattedRemoteContact = remoteContact;
-        if(resolveContacts) {
-            CallerInfo callerInfo = CallerInfo.getCallerInfoFromSipUri(context, formattedRemoteContact);
-            if (callerInfo != null && callerInfo.contactExists) {
-                StringBuilder remoteInfo = new StringBuilder();
-                remoteInfo.append(callerInfo.name);
-                remoteInfo.append(" <");
-                remoteInfo.append(SipUri.getCanonicalSipContact(remoteContact));
-                remoteInfo.append(">");
-                formattedRemoteContact = remoteInfo.toString();
-            }
-        }
-        return formattedRemoteContact;
+		String formattedRemoteContact = remoteContact;
+		if(resolveContacts) {
+			CallerInfo callerInfo = CallerInfo.getCallerInfoFromSipUri(context, formattedRemoteContact);
+			if (callerInfo != null && callerInfo.contactExists) {
+				StringBuilder remoteInfo = new StringBuilder();
+				remoteInfo.append(callerInfo.name);
+				remoteInfo.append(" <");
+				remoteInfo.append(SipUri.getCanonicalSipContact(remoteContact));
+				remoteInfo.append(">");
+				formattedRemoteContact = remoteInfo.toString();
+			}
+		}
+		return formattedRemoteContact;
 	}
 
 
 	private String formatNotificationTitle(int title, long accId) {
-        StringBuilder notifTitle = new StringBuilder(context.getText(title));
-        SipProfile acc = SipProfile.getProfileFromDbId(context, accId,
-                new String[] {SipProfile.FIELD_DISPLAY_NAME});
-        if ((acc != null) && !TextUtils.isEmpty(acc.display_name)) {
-            notifTitle.append(" - ");
-            notifTitle.append(acc.display_name);
-        }
-        return notifTitle.toString();
+		StringBuilder notifTitle = new StringBuilder(context.getText(title));
+		SipProfile acc = SipProfile.getProfileFromDbId(context, accId,
+				new String[] {SipProfile.FIELD_DISPLAY_NAME});
+		if ((acc != null) && !TextUtils.isEmpty(acc.display_name)) {
+			notifTitle.append(" - ");
+			notifTitle.append(acc.display_name);
+		}
+		return notifTitle.toString();
 	}
 
 	// Calls
@@ -299,23 +337,23 @@ public class SipNotifications {
 		// This is the pending call notification
 		// int icon = R.drawable.ic_incall_ongoing;
 		@SuppressWarnings("deprecation")
-        int icon = android.R.drawable.stat_sys_phone_call;
+		int icon = android.R.drawable.stat_sys_phone_call;
 		CharSequence tickerText = context.getText(R.string.ongoing_call);
 		long when = System.currentTimeMillis();
 
 		if(inCallNotification == null) {
-		    inCallNotification = new NotificationCompat.Builder(context);
-		    inCallNotification.setSmallIcon(icon);
-		    inCallNotification.setTicker(tickerText);
-		    inCallNotification.setWhen(when);
-		    inCallNotification.setOngoing(true);
+			inCallNotification = new NotificationCompat.Builder(context);
+			inCallNotification.setSmallIcon(icon);
+			inCallNotification.setTicker(tickerText);
+			inCallNotification.setWhen(when);
+			inCallNotification.setOngoing(true);
 		}
 
 		Intent notificationIntent = SipService.buildCallUiIntent(context, callInfo);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        inCallNotification.setContentTitle(formatNotificationTitle(R.string.ongoing_call, callInfo.getAccId()));
-        inCallNotification.setContentText(formatRemoteContactString(callInfo.getRemoteContact()));
+		inCallNotification.setContentTitle(formatNotificationTitle(R.string.ongoing_call, callInfo.getAccId()));
+		inCallNotification.setContentText(formatRemoteContactString(callInfo.getRemoteContact()));
 		inCallNotification.setContentIntent(contentIntent);
 
 		Notification notification = inCallNotification.build();
@@ -329,13 +367,13 @@ public class SipNotifications {
 		long when = System.currentTimeMillis();
 
 		if (missedCallNotification == null) {
-	        missedCallNotification = new NotificationCompat.Builder(context);
-	        missedCallNotification.setSmallIcon(icon);
-	        missedCallNotification.setTicker(tickerText);
-	        missedCallNotification.setWhen(when);
-	        missedCallNotification.setOnlyAlertOnce(true);
-	        missedCallNotification.setAutoCancel(true);
-	        missedCallNotification.setDefaults(Notification.DEFAULT_ALL);
+			missedCallNotification = new NotificationCompat.Builder(context);
+			missedCallNotification.setSmallIcon(icon);
+			missedCallNotification.setTicker(tickerText);
+			missedCallNotification.setWhen(when);
+			missedCallNotification.setOnlyAlertOnce(true);
+			missedCallNotification.setAutoCancel(true);
+			missedCallNotification.setDefaults(Notification.DEFAULT_ALL);
 		}
 
 		Intent notificationIntent = new Intent(SipManager.ACTION_SIP_CALLLOG);
@@ -359,7 +397,7 @@ public class SipNotifications {
 		if (!msg.getFrom().equalsIgnoreCase(viewingRemoteFrom)) {
 			String from = formatRemoteContactString(msg.getFullFrom());
 			if(from.equalsIgnoreCase(msg.getFullFrom()) && !from.equals(msg.getDisplayName())) {
-			    from = msg.getDisplayName() + " " + from;
+				from = msg.getDisplayName() + " " + from;
 			}
 			CharSequence tickerText = buildTickerMessage(context, from, msg.getBody());
 
@@ -387,50 +425,50 @@ public class SipNotifications {
 		}
 	}
 
-    public void showNotificationForVoiceMail(SipProfile acc, int numberOfMessages) {
-        if (messageVoicemail == null) {
+	public void showNotificationForVoiceMail(SipProfile acc, int numberOfMessages) {
+		if (messageVoicemail == null) {
 
-            messageVoicemail = new NotificationCompat.Builder(context);
-            messageVoicemail.setSmallIcon(android.R.drawable.stat_notify_voicemail);
-            messageVoicemail.setTicker(context.getString(R.string.voice_mail));
-            messageVoicemail.setWhen(System.currentTimeMillis());
-            messageVoicemail.setDefaults(Notification.DEFAULT_ALL);
-            messageVoicemail.setAutoCancel(true);
-            messageVoicemail.setOnlyAlertOnce(true);
-        }
+			messageVoicemail = new NotificationCompat.Builder(context);
+			messageVoicemail.setSmallIcon(android.R.drawable.stat_notify_voicemail);
+			messageVoicemail.setTicker(context.getString(R.string.voice_mail));
+			messageVoicemail.setWhen(System.currentTimeMillis());
+			messageVoicemail.setDefaults(Notification.DEFAULT_ALL);
+			messageVoicemail.setAutoCancel(true);
+			messageVoicemail.setOnlyAlertOnce(true);
+		}
 
-        PendingIntent contentIntent = null;
-        Intent notificationIntent;
-        if (acc != null && !TextUtils.isEmpty(acc.vm_nbr) && acc.vm_nbr != "null") {
-            notificationIntent = new Intent(Intent.ACTION_CALL);
-            notificationIntent.setData(SipUri.forgeSipUri(SipManager.PROTOCOL_CSIP, acc.vm_nbr
-                    + "@" + acc.getDefaultDomain()));
-            notificationIntent.putExtra(SipProfile.FIELD_ACC_ID, acc.id);
-        } else {
-            notificationIntent = new Intent(SipManager.ACTION_SIP_DIALER);
-        }
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = null;
+		Intent notificationIntent;
+		if (acc != null && !TextUtils.isEmpty(acc.vm_nbr) && acc.vm_nbr != "null") {
+			notificationIntent = new Intent(Intent.ACTION_CALL);
+			notificationIntent.setData(SipUri.forgeSipUri(SipManager.PROTOCOL_CSIP, acc.vm_nbr
+					+ "@" + acc.getDefaultDomain()));
+			notificationIntent.putExtra(SipProfile.FIELD_ACC_ID, acc.id);
+		} else {
+			notificationIntent = new Intent(SipManager.ACTION_SIP_DIALER);
+		}
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
 
-        String messageText = "";
-        if (acc != null) {
-            messageText += acc.getProfileName();
-            if(numberOfMessages>0) {
-                messageText += " : ";
-            }
-        }
-        if(numberOfMessages > 0) {
-            messageText += Integer.toString(numberOfMessages);
-        }
+		String messageText = "";
+		if (acc != null) {
+			messageText += acc.getProfileName();
+			if(numberOfMessages>0) {
+				messageText += " : ";
+			}
+		}
+		if(numberOfMessages > 0) {
+			messageText += Integer.toString(numberOfMessages);
+		}
 
-        messageVoicemail.setContentTitle(context.getString(R.string.voice_mail));
-        messageVoicemail.setContentText(messageText);
-        if (contentIntent != null) {
-            messageVoicemail.setContentIntent(contentIntent);
-            notificationManager.notify(VOICEMAIL_NOTIF_ID, messageVoicemail.build());
-        }
-    }
+		messageVoicemail.setContentTitle(context.getString(R.string.voice_mail));
+		messageVoicemail.setContentText(messageText);
+		if (contentIntent != null) {
+			messageVoicemail.setContentIntent(contentIntent);
+			notificationManager.notify(VOICEMAIL_NOTIF_ID, messageVoicemail.build());
+		}
+	}
 
 	private static String viewingRemoteFrom = null;
 

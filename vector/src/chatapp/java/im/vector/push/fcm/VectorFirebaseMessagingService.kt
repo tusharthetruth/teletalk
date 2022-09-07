@@ -19,11 +19,8 @@
 
 package im.vector.push.fcm
 
-import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.PowerManager
 import android.text.TextUtils
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -32,7 +29,6 @@ import im.vector.BuildConfig
 import im.vector.Matrix
 import im.vector.R
 import im.vector.VectorApp
-import im.vector.fragments.roomwidgets.RoomWidgetPermissionViewModel.Companion.LOG_TAG
 import im.vector.notifications.NotifiableEventResolver
 import im.vector.notifications.NotifiableMessageEvent
 import im.vector.notifications.SimpleNotifiableEvent
@@ -43,7 +39,6 @@ import org.matrix.androidsdk.MXSession
 import org.matrix.androidsdk.core.Log
 import org.matrix.androidsdk.rest.model.Event
 import org.matrix.androidsdk.rest.model.bingrules.BingRule
-
 
 /**
  * Class extending FirebaseMessagingService.
@@ -67,19 +62,10 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
 
 //        if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
-            Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
-//            Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
+        Log.i(LOG_TAG, "## onMessageReceived()" + message.data.toString())
+        Log.i(LOG_TAG, "## onMessageReceived() from FCM with priority " + message.priority)
 //        }
-        try {
-            val pm: PowerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
-            val isScreenOn = if (Build.VERSION.SDK_INT >= 20) pm.isInteractive else pm.isScreenOn // check if screen is on
 
-            if (!isScreenOn) {
-                val wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock")
-                wl.acquire(3000) //set your time in milliseconds
-            }
-        } catch (e: java.lang.Exception) {
-        }
         //safe guard
         val pushManager = Matrix.getInstance(applicationContext).pushManager
         if (!pushManager.areDeviceNotificationsAllowed()) {
@@ -116,7 +102,7 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
     private fun onMessageReceivedInternal(data: Map<String, String>, pushManager: PushManager) {
         try {
 //            if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
-                Log.i(LOG_TAG, "## onMessageReceivedInternal() : $data")
+            Log.i(LOG_TAG, "## onMessageReceivedInternal() : $data")
 //            }
             // update the badge counter
             val unreadCount = data.get("unread")?.let { Integer.parseInt(it) } ?: 0
@@ -183,15 +169,15 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
         if (eventType == null) {
             //Just add a generic unknown event
             val simpleNotifiableEvent = SimpleNotifiableEvent(
-                    session.myUserId,
-                    eventId,
-                    true, //It's an issue in this case, all event will bing even if expected to be silent.
-                    title = getString(R.string.notification_unknown_new_event),
-                    description = "",
-                    type = null,
-                    timestamp = System.currentTimeMillis(),
-                    soundName = BingRule.ACTION_VALUE_DEFAULT,
-                    isPushGatewayEvent = true
+                session.myUserId,
+                eventId,
+                true, //It's an issue in this case, all event will bing even if expected to be silent.
+                title = getString(R.string.notification_unknown_new_event),
+                description = "",
+                type = null,
+                timestamp = System.currentTimeMillis(),
+                soundName = BingRule.ACTION_VALUE_DEFAULT,
+                isPushGatewayEvent = true
             )
             notificationDrawerManager.onNotifiableEventReceived(simpleNotifiableEvent)
             notificationDrawerManager.refreshNotificationDrawer(null)
@@ -211,15 +197,14 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
                 if (notifiableEvent == null) {
                     Log.e(LOG_TAG, "Unsupported notifiable event ${eventId}")
 //                    if (BuildConfig.LOW_PRIVACY_LOG_ENABLE) {
-                        Log.e(LOG_TAG, "--> ${event}")
+                    Log.e(LOG_TAG, "--> ${event}")
 //                    }
                 } else {
 
 
                     if (notifiableEvent is NotifiableMessageEvent) {
                         if (TextUtils.isEmpty(notifiableEvent.senderName)) {
-                            notifiableEvent.senderName = data["sender_display_name"]
-                                    ?: data["sender"] ?: ""
+                            notifiableEvent.senderName = data["sender_display_name"] ?: data["sender"] ?: ""
                         }
                         if (TextUtils.isEmpty(notifiableEvent.roomName)) {
                             notifiableEvent.roomName = findRoomNameBestEffort(data, session) ?: ""

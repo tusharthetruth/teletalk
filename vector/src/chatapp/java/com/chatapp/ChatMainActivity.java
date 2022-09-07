@@ -17,6 +17,7 @@
 package com.chatapp;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -62,9 +63,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -110,6 +113,7 @@ import im.vector.activity.VectorAppCompatActivity;
 import im.vector.activity.VectorCallViewActivity;
 import im.vector.activity.VectorSettingsActivity;
 import im.vector.push.PushManager;
+import im.vector.push.fcm.FcmHelper;
 import im.vector.util.CallsManager;
 import im.vector.util.PermissionsToolsKt;
 import im.vector.util.PreferencesManager;
@@ -194,6 +198,8 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         if (CommonActivityUtils.isGoingToSplash(this)) {
             return;
         }
+        SipUsername = sharedPreferences.getString("Username", "");
+        SipPassword = sharedPreferences.getString("Password", "");
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !BuildConfig.DEBUG) {
             if (!android.provider.Settings.canDrawOverlays(this)) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -299,6 +305,35 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             navView.setSelectedItemId(R.id.navigation_chat);
             MenuItem item = navView.getMenu().findItem(R.id.navigation_chat);
             item.setChecked(true);
+        }
+
+        if(!Settings.PushMsgID.equals("")){
+            try {
+                NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
+                String token = FcmHelper.getFcmToken(this);
+                String url = String.format("%s?msgid=%s",
+                        Settings.SIP_PUSH_ACK_API,
+                        Settings.PushMsgID.replace("%","%25"));
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        volleyError.printStackTrace();
+                    }
+                });
+                int socketTimeout = 30000;
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                stringRequest.setRetryPolicy(policy);
+                requestQueue.add(stringRequest);
+                Settings.PushMsgID="";
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -505,6 +540,29 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
             }
         };
         t.start();
+        try {
+            String token = FcmHelper.getFcmToken(this);
+            String url = String.format("%s?exten=%s&os=android&token=%s",
+                    Settings.SIP_PUSH_TOKEN_API,
+                    ChatMainActivity.SipUsername, token);
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    volleyError.printStackTrace();
+                }
+            });
+            int socketTimeout = 30000;
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            stringRequest.setRetryPolicy(policy);
+            requestQueue.add(stringRequest);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private boolean setWizardId() {
@@ -717,7 +775,7 @@ public class ChatMainActivity extends VectorAppCompatActivity implements View.On
         findViewById(R.id.goip_invited).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              invite();
+                invite();
             }
         });
 

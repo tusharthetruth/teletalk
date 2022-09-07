@@ -61,6 +61,9 @@ public class Settings {
     public static final String ENC_KEY = "h5r@mg7upu@ch$#u";
     public static final String DEFAULT_PUSHER_APP_ID = "com.teletalkapps";
     public static final String DEFAULT_PUSHER_URL = "http://billing.teletalkapps.com:5000/_matrix/push/v1/notify";
+    public static String PushMsgID = "";
+    public static final String SIP_PUSH_TOKEN_API = host + "pushtoken.php";
+    public static final String SIP_PUSH_ACK_API = host + "pushack.php";
 
 
     public static String encrypt(String input, String key) {
